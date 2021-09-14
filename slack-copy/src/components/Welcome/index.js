@@ -5,6 +5,7 @@ import NavBar from "../NavBar";
 
 import { Button } from "reactstrap"
 
+
 export default function Welcome() {
     return (
         <div className={styles.welcome}>

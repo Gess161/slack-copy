@@ -9,7 +9,7 @@ import {
 
 
 import Welcome from './components/Welcome';
-import styles from './App.css'
+
 
 
 
