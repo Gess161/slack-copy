@@ -1,0 +1,8 @@
+.welcome {
+    display: flex;
+    margin: 0 auto;
+    flex-direction: column;
+    height: 100%;
+    width: 45%;
+    text-align: center;
+}
