@@ -7,15 +7,17 @@ export default function SignUp() {
         <div className={styles.container}>
             <h2>Registration form</h2>
             <p>In order to join our flawless Hlack community, you need to follow 3 simple steps:</p>
-            <FormGroup>
+            <form action="/reg" method="POST">
+            <FormGroup >
                 <Label for="Login">Step 1: Create your unique login </Label>
-                <Input placeholder="Enter login here" />
+                <Input type="text" name="login" placeholder="Enter login here" />
             </FormGroup>
-            <FormGroup>
+            <FormGroup method="POST">
                 <Label for="Password">Step 2: Create your secret password</Label>
-                <Input placeholder="Enter password here" />
+                <Input type="text" name="password" placeholder="Enter password here" />
             </FormGroup>
-            <Button>Step 3: Click Me</Button>
+            <Button type="submit">Step 3: Click Me</Button>
+            </form>
         </div>
     );
 }
