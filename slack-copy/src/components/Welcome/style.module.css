@@ -1,8 +1,7 @@
 .welcome {
     display: flex;
-    margin: 0 auto;
+    margin: 25px auto;
     flex-direction: column;
-    height: 100%;
     width: 45%;
     text-align: center;
 }

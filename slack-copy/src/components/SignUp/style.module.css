@@ -1,8 +1,11 @@
 .container{
+    justify-content: space-between;
+    height: 30%;
     display: flex;
     width: 60%;
     flex-direction: column;
     margin: 0 auto;
+    padding: 10px;
     border: 1px grey solid;
-    justify-content: space-between;
+    border-radius: 15px;
 }

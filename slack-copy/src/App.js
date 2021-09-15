@@ -7,8 +7,8 @@ import {
 
 import NavBar from './components/NavBar';
 import Welcome from './components/Welcome';
-import LogIn from './components/LogIn'
-import SignUp from './components/SignUp';
+import SignUp from './components/SignUp'
+import LogIn from './components/LogIn';
 
 
 function App() {
@@ -20,10 +20,10 @@ function App() {
           component={Welcome}
           />
           <Route path="/reg"
-          component={LogIn}
+          component={SignUp}
                       />
           <Route path="/auth"
-          component={SignUp}
+          component={LogIn}
                       />
         </Switch>
       </div>
