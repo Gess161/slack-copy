@@ -7,32 +7,31 @@ import {
     Nav,
     NavItem,
     NavLink,
-  } from 'reactstrap';
-import {
-      BrowserRouter as Router,
-      Link
-  } from 'react-router-dom'
-import {LinkContainter} from 'react-router-bootstrap'  
+} from 'reactstrap';
+import { Link } from 'react-router-dom'
+
 
 export default function NavBar() {
     return (
         <nav>
-            <Router>
-                <Navbar light expand="md">  
+            <Navbar light expand="md">
                 <NavbarBrand href="/">Hlack</NavbarBrand>
-                    <NavbarToggler/>
-                    <Collapse  navbar>
-                        <Nav className="mr-auto" navbar>
-                            <NavItem>
-                                <NavLink as={Link} to='/reg'>Sign up</NavLink>
-                            </NavItem>
-                            <NavItem>
-                                <NavLink as={Link} to='/auth'>Log in</NavLink>
-                            </NavItem>
-                        </Nav>
-                    </Collapse>
-                </Navbar>
-            </Router>    
+                <NavbarToggler />
+                <Collapse navbar>
+                    <Nav className="mr-auto" navbar>
+                        <NavItem>
+                            <NavLink>
+                                <Link to='/reg'>Sign up</Link>
+                            </NavLink>
+                        </NavItem>
+                        <NavItem>
+                            <NavLink>
+                                <Link to='/auth'>Log in</Link>
+                            </NavLink>
+                        </NavItem>
+                    </Nav>
+                </Collapse>
+            </Navbar>
         </nav>
     )
 }
