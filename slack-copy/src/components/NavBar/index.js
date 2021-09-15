@@ -18,7 +18,7 @@ export default function NavBar() {
     return (
         <nav>
             <Router>
-                <Navbar light expand="md">
+                <Navbar light expand="md">  
                 <NavbarBrand href="/">Hlack</NavbarBrand>
                     <NavbarToggler/>
                     <Collapse  navbar>
