@@ -6,7 +6,7 @@ export default function SignUp() {
     return (
         <div className={styles.container}>
             <h2>Registration form</h2>
-            <p>In order to join our flawless Hlack community, you need to follow 3 simple steps:</p>
+            <p>In order to join our flawless Hlack community, you need to follow 3 simple steps: </p>
             <form action="/reg" method="POST">
             <FormGroup >
                 <Label for="Login">Step 1: Create your unique login </Label>
