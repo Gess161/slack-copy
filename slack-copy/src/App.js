@@ -13,20 +13,22 @@ import LogIn from './components/LogIn';
 
 function App() {
   return (
-      <div class="h-100 p-3 mb-2 bg-light text-dark">
-        <NavBar />
+    <div className="App">
+      <NavBar />
+      <div className="container d-flex align-items-center flex-column">
         <Switch>
           <Route exact path="/"
-          component={Welcome}
+            component={Welcome}
           />
           <Route path="/reg"
-          component={SignUp}
-                      />
+            component={SignUp}
+          />
           <Route path="/auth"
-          component={LogIn}
-                      />
+            component={LogIn}
+          />
         </Switch>
       </div>
+    </div>
   );
 }
 
