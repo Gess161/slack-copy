@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { Alert } from 'reactstrap';
 import './AlertComponent.css';
 function AlertComponent(props) {
     const [modalDisplay, toggleDisplay] = useState('none');

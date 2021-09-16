@@ -5,7 +5,7 @@ import {
   Route,
 } from 'react-router-dom'
 
-import NavBar from './components/NavBar';
+import Header from './components/Header';
 import Welcome from './components/Welcome';
 import SignUp from './components/SignUp'
 import LogIn from './components/LogIn';
@@ -14,7 +14,7 @@ import LogIn from './components/LogIn';
 function App() {
   return (
     <div className="App">
-      <NavBar />
+      <Header />
       <div className="container d-flex align-items-center flex-column">
         <Switch>
           <Route exact path="/"

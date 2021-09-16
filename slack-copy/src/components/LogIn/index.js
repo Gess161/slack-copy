@@ -1,19 +1,18 @@
 import React from 'react'
 import { InputGroup, InputGroupAddon, InputGroupText, Input } from 'reactstrap';
 import { Button } from "reactstrap"
-import styles from './style.module.css'
 
 
 export default function SignUp() {
     return (
-        <div className={styles.container}>
-            <InputGroup className={styles.inputGroup}>
+        <div>
+            <InputGroup>
                 <InputGroupAddon addonType="prepend">
                     <InputGroupText>Login</InputGroupText>
                 </InputGroupAddon>
                 <Input placeholder="login..." />
             </InputGroup>
-            <InputGroup className={styles.inputGroup}>
+            <InputGroup>
                 <InputGroupAddon addonType="prepend">
                     <InputGroupText>Password</InputGroupText>
                 </InputGroupAddon>
