@@ -1,13 +1,16 @@
 import React, {useState} from 'react';
 import axios from 'axios'
+import {API_BASE_URL, ACCESS_TOKEN_NAME} from '../../constants';
+// import redirectToHome from '../../services/redirect/redirectToHome';
+// import redirectToLogin from '../../services/redirect/redirectToLogin'
+import { withRouter } from 'react-router';
 
-const API_BASE_URL = 'some url'
-const ACCESS_TOKEN_NAME = 'some name'
-
-export default function SignUp(props) {
+function SignUp(props) {
     const [state, setState] = useState({
         email: "",
         password: "",
+        confirmPassword: "",
+        successMessage: null
     })
 
     const handleChange = (e) => {
@@ -16,6 +19,14 @@ export default function SignUp(props) {
             ...prevState,
             [id] : value
         }))
+    }
+
+    console.log('props are :' ,props)
+    const redirectToHome = () => {
+        props.history.push('/home');
+    }
+    const redirectToLogin = () => {
+        props.history.push('/login'); 
     }
 
     const sendDetailsToServer = () => {
@@ -33,7 +44,7 @@ export default function SignUp(props) {
                             'successMessage': 'Registration successful. Redirecting to home page..'
                         }))
                         localStorage.setItem(ACCESS_TOKEN_NAME, response.data.token);
-                        // redirectToHome();
+                        redirectToHome();
                         props.showError(null)
                     } else {
                         props.showError("Some error ocurred");
@@ -87,10 +98,20 @@ export default function SignUp(props) {
                 <button 
                     type="submit" 
                     className="btn btn-primary"
+                    onClick={handleSubmit}
                 >
                     Click Me!
                 </button>
             </form>
+            <div className="alert alert-success mt-2" style={{display: state.successMessage ? 'block' : 'none' }} role="alert">
+                {state.successMessage}
+            </div>
+            <div className="mt-2">
+                <span>Already have an account? </span>
+                <span className="loginText" onClick={redirectToLogin}>Login here</span> 
+            </div>
         </div>
     );
 }
+
+export default withRouter(SignUp)
