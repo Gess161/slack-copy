@@ -1,6 +1,6 @@
 import React from 'react';
 import { Redirect, Route } from 'react-router';
-import { ACCES_TOKEN_NAME } from '../constants'
+import { ACCESS_TOKEN_NAME } from '../constants'
 function PrivateRoute({ children, ...rest}){
     return (
         <Route

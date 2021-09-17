@@ -6,7 +6,9 @@ import {
 } from 'react-router-dom'
 
 import Header from './components/Header';
-import SignUp from './components/SignUp'
+import SignUp from './components/SignUp';
+import LogIn from './components/LogIn'
+import PrivateRoute from './utils/PrivateRoute';
 
 
 
@@ -19,6 +21,12 @@ function App() {
           <Route exact path="/"
             component={SignUp}
           />
+          <Route exact path="/login"
+            component={LogIn}
+          />
+          <PrivateRoute path="/chat">
+              {/* <Chat /> */}
+          </PrivateRoute>
         </Switch>
       </div>
     </div>
