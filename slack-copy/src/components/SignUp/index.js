@@ -6,8 +6,8 @@ const ACCESS_TOKEN_NAME = 'some name'
 
 export default function SignUp(props) {
     const [state, setState] = useState({
-        login: '',
-        password: '',
+        email: "",
+        password: "",
     })
 
     const handleChange = (e) => {
@@ -25,7 +25,7 @@ export default function SignUp(props) {
                 "email": state.email,
                 "password": state.password,
             }
-            axios.post(API_BASE_URL + '/user/register', payload)
+            axios.post(API_BASE_URL + '/user/signup', payload)
                 .then(function (response) {
                     if (response.status === 200) {
                         setState(prevState => ({
@@ -55,14 +55,16 @@ export default function SignUp(props) {
         <div className="card col-12 col-lg-4 login-card mt-2 hv-center">
             <form>
                 <div className="form-group text-left">
-                <label htmlFor="exampleInputlogin1">Login</label>
-                <input type="login" 
+                <label htmlFor="exampleInputEmail1">Email address</label>
+                <input type="email" 
                        className="form-control" 
-                       id="login" 
-                       aria-describedby="loginHelp" 
-                       placeholder="Enter login"
+                       id="email" 
+                       aria-describedby="emailHelp" 
+                       placeholder="Enter email"
+                       value={state.email}
+                       onChange={handleChange}
                 />
-                <small id="loginHelp" className="form-text text-muted">We'll never share your login with anyone else.</small>
+                <small id="emailHelp" className="form-text text-muted">We'll never share your email with anyone else.</small>
                 </div>
                 <div className="form-group text-left">
                     <label htmlFor="exampleInputPassword1">Password</label>
@@ -70,6 +72,8 @@ export default function SignUp(props) {
                         className="form-control" 
                         id="password" 
                         placeholder="Password"
+                        value={state.password}
+                        onChange={handleChange}
                     />
                 </div>
                 <div className="form-group text-left">
@@ -84,7 +88,7 @@ export default function SignUp(props) {
                     type="submit" 
                     className="btn btn-primary"
                 >
-                    Register
+                    Click Me!
                 </button>
             </form>
         </div>
