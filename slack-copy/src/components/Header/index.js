@@ -17,7 +17,7 @@ function Header(props) {
         props.history.push('/login')
     }
     return (
-        <nav className="navbar display-flex col-lg-4 bg-primary navbar-dark">
+        <nav className="navbar display-flex col-lg-4 mt-2 bg-primary navbar-dark">
             <div className="row col-12 d-flex justify-content-center text-white">
                 <span className="h3">{props.title || 'Register'}</span>
                 {renderLogout()}

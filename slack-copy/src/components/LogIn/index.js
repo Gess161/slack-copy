@@ -61,7 +61,7 @@ function LogIn(props) {
         sendDetailsToServer()
     }
     return (
-        <div className="card col-12 col-lg-4 login-card hv-center">
+        <div className="card col-12 col-lg-4 login-card hv-center" >
             <form>
                 <div className="form-group text-left">
                     <label htmlFor="exampleInputEmail1">Email address</label>
