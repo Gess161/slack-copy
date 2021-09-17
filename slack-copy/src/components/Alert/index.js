@@ -10,20 +10,19 @@ function AlertComponent(props) {
         props.hideError(null)
     }
     useEffect(() => {
-        if (props.errorMessage !== null) {
-            openModal()
-        } else {
+        if (props.errorMessage === null) {
             closeModal()
+        } else {
+            openModal()
         }
     });
 
     return (
         <div
-
             className={'alert alert-danger alert-dismissable mt-4'}
             role="alert"
             id="alertPopUp"
-            sryle={{ display: modalDisplay }}
+            style={{ display: modalDisplay }}
         >
             <div className="d-flex alertMessage">
                 <span>{props.errorMessage}</span>

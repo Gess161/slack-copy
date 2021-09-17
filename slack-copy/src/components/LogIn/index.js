@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios'
 import { API_BASE_URL, ACCESS_TOKEN_NAME } from '../../constants';
 import { withRouter } from 'react-router';
+import './Login.css'
 
 
 function LogIn(props) {
@@ -19,22 +20,19 @@ function LogIn(props) {
             [id]: value
         }))
     }
-    // const redirectToChat = () => {
-    //     props.history.push('/chat');
-    // }
+
     const redirectToSignUp = () => {
+        props.updateTitle('Register')
         props.history.push('/');
     }
 
     const sendDetailsToServer = () => {
-        console.log('button works')
         if (state.email.length && state.password.length) {
             props.showError(null);
             const payload = {
                 "email": state.email,
                 "password": state.password,
             }
-            console.log('payload is', payload)
             axios.post(API_BASE_URL + '/user/login', payload)
                 .then(function (response) {
                     if (response.status === 200) {
@@ -43,11 +41,12 @@ function LogIn(props) {
                             'successMessage': 'Authentification succesful. Logging in...'
                         }))
                         localStorage.setItem(ACCESS_TOKEN_NAME, response.data.token);
-                        // redirectToChat !!!!();
-                        console.log('redirecting to chat')
+                        // !!!!!redirectToChat()
                         props.showError(null)
+                    } else if(response.code === 204){
+                        props.showError("Username or password does not match");
                     } else {
-                        props.showError("Some error ocurred");
+                        props.showErroe("Username does not exists")
                     }
                 })
                 .catch(function (error) {
@@ -62,7 +61,7 @@ function LogIn(props) {
         sendDetailsToServer()
     }
     return (
-        <div className="card col-12 col-lg-4 login-card mt-2 hv-center">
+        <div className="card col-12 col-lg-4 login-card hv-center">
             <form>
                 <div className="form-group text-left">
                     <label htmlFor="exampleInputEmail1">Email address</label>
@@ -88,7 +87,7 @@ function LogIn(props) {
                 </div>
                 <button
                     type="submit"
-                    className="btn btn-primary"
+                    className="m-2 btn btn-primary"
                     onClick={handleSubmit}
                 >
                     Click Me!
@@ -97,9 +96,9 @@ function LogIn(props) {
             <div className="alert alert-success mt-2" style={{ display: state.successMessage ? 'block' : 'none' }} role="alert">
                 {state.successMessage}
             </div>
-            <div className="mt-2">
+            <div className="registerMessage">
                 <span>Don't have an account? </span>
-                <span className="registerText" onClick={redirectToSignUp}>Register</span>
+                <span className="loginText" onClick={() => redirectToSignUp()}>Register</span>
             </div>
         </div>
     )

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios'
 import { API_BASE_URL, ACCESS_TOKEN_NAME } from '../../constants/index';
 import { withRouter } from 'react-router';
+import './Signup.css'
 
 function SignUp(props) {
     const [state, setState] = useState({
@@ -20,19 +21,21 @@ function SignUp(props) {
     }
 
     const redirectToHome = () => {
+        props.updateTitle('Home')
         props.history.push('/home');
     }
     const redirectToLogin = () => {
+        props.updateTitle('Login')
         props.history.push('/login');
     }
 
     const sendDetailsToServer = () => {
-        console.log(props)
         if (state.email.length && state.password.length) {
             const payload = {
                 "email": state.email,
                 "password": state.password,
             }
+            console.log(API_BASE_URL)
             axios.post(API_BASE_URL + '/user/signup', payload)
                 .then(function (response) {
                     if (response.status === 200) {
@@ -54,12 +57,16 @@ function SignUp(props) {
         }
     }
 
-    const handleSubmit = (e) => {
-        sendDetailsToServer()
+    const handleSubmit = () => {
+        if (state.password === state.confirmPassword) {
+            sendDetailsToServer()
+        } else {
+            props.showError('Password do not match')
+        };
     }
 
     return (
-        <div className="card col-12 col-lg-4 login-card mt-2 hv-center">
+        <div className="card col-12 col-lg-4 login-card hv-center">
             <form>
                 <div className="form-group text-left">
                     <label htmlFor="exampleInputEmail1">Email address</label>
@@ -95,7 +102,7 @@ function SignUp(props) {
                 </div>
                 <button
                     type="button"
-                    className="btn btn-primary"
+                    className="m-2 btn btn-primary"
                     onClick={handleSubmit}
                 >
                     Click Me!

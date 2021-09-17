@@ -1,7 +1,8 @@
 import React from 'react'
 import {ACCESS_TOKEN_NAME} from '../../constants'
+import { withRouter } from 'react-router'
 
-export default function Header(props) {
+function Header(props) {
     function renderLogout() {
         if (props.location.pathname === '/home') {
             return (
@@ -16,13 +17,12 @@ export default function Header(props) {
         props.history.push('/login')
     }
     return (
-        <nav className="navbar navbar-dark bg-primary">
-            <div className="row col-12  d-flex justify-content-center text-white">
-                <span className="h3">Register</span>
+        <nav className="navbar display-flex col-lg-4 bg-primary navbar-dark">
+            <div className="row col-12 d-flex justify-content-center text-white">
+                <span className="h3">{props.title || 'Register'}</span>
                 {renderLogout()}
             </div>
         </nav>
     )
 }
-
-// ard col-12 col-lg-4 login-card mt-2 hv-center"
+export default withRouter(Header)

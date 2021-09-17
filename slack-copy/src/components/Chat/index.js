@@ -1,7 +1,9 @@
 import axios from "axios";
 import { useEffect } from "react";
+import { withRouter } from "react-router";
+import { API_BASE_URL, ACCESS_TOKEN_NAME } from "../../constants";
 
-function Home (props) {
+function Chat (props) {
     useEffect(() => {
         axios.get(API_BASE_URL+"/user/me", { headers: { "token" : localStorage.get(ACCESS_TOKEN_NAME)}})
         .then(function (res) {
@@ -17,3 +19,5 @@ function Home (props) {
         props.history.push('/login')
     }
 }
+
+export default withRouter(Chat)
