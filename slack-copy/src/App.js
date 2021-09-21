@@ -11,28 +11,35 @@ import LogIn from './components/LogIn'
 import PrivateRoute from './utils/PrivateRoute';
 import Chat from './components/Chat'
 import AlertComponent from './components/Alert'
+import Page404 from './components/Page404';
+import {io} from "socket.io-client"
 
+const socket = io('http://localhost:4001/')
 
 function App() {
   const [title, updateTitle] = useState(null)
   const [errorMessage, updateErrorMessage] = useState(null)
   return (
     <div className="App">
-      <div className="container d-flex align-items-center flex-column">
-      <Header title={title}/>  
+      <div className="container d-flex h-100 align-items-center flex-column">  
+      <Header title={title}/>
         <Switch>
           <Route exact path="/">
             <SignUp showError={updateErrorMessage} updateTitle={updateTitle}/>
           </Route>
-          <Route exact path="/signup">
+          <Route path="/signup">
             <SignUp showError={updateErrorMessage} updateTitle={updateTitle}/>
           </Route>
-          <Route exact path="/login">
+          <Route path="/login">
             <LogIn showError={updateErrorMessage} updateTitle={updateTitle}/>
           </Route>
           <PrivateRoute path="/chat">
-              <Chat />
+              <Chat 
+                socket={socket} />
           </PrivateRoute>
+          <Route exact path="*">
+              <Page404 />
+          </Route>
         </Switch>
         <AlertComponent errorMessage={errorMessage} hideError={updateErrorMessage} />
       </div>

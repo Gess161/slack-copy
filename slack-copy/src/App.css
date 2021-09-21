@@ -1,5 +1,6 @@
 .App {
     text-align: center;
+    height: 100%;
   }
   
 .hv-center {
@@ -7,3 +8,45 @@
     justify-content: center;
     align-items: center;
   }
+  #chat-wrapper {
+    display: flex;
+    height: 500px;
+    width: 500px;
+    margin: 0 auto;
+    border: 1px solid black;
+    position: relative;
+  }
+
+  #message-container {
+    display: flex;
+      width: 100%;
+      min-height: 300px;
+      height:100%;
+    flex-direction: column;
+    border: solid black 1px;
+  }
+
+  #message-container div {
+    background-color: #CCC;
+    padding: 5px;
+    text-align: left;
+  }
+
+  #message-container div:nth-child(2n) {
+    background-color: #FFF;
+  }
+
+  #send-container {
+    position: fixed;
+    height: 50px;
+    bottom: 0;
+    background-color: white;
+    max-width: 500px;
+    width: 80%;
+    display: flex;
+  }
+
+  #message-input {
+    flex-grow: 1;
+  }
+  
