@@ -1,4 +1,6 @@
 .alertMessage {
+    bottom: 150px;
+    position: absolute;
     min-width: 200px;
     justify-content: space-between;
 }

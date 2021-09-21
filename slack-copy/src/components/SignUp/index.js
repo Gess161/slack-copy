@@ -36,24 +36,24 @@ function SignUp(props) {
                 "password": state.password,
             }
             console.log(API_BASE_URL)
-            axios.post(API_BASE_URL + '/user/signup', payload)
+            axios.post(API_BASE_URL + "/user/signup", payload)
                 .then(function (response) {
                     if (response.status === 200) {
                         setState(prevState => ({
                             ...prevState,
-                            'successMessage': 'Registration successful. Redirecting to home page..'
+                            successMessage: 'Registration successful. Redirecting to home page..'
                         }))
                         localStorage.setItem(ACCESS_TOKEN_NAME, response.data.token);
-                        redirectToHome();
+                        redirectToLogin();
                     } else {
-                        console.log("Some error ocurred");
+                        props.showError("Username does not exists")
                     }
                 })
                 .catch(function (error) {
-                    console.log(error);
+                    console.log('error:', error);
                 });
         } else {
-            console.log('Please enter valid username and password')
+            props.showError('Please enter valid username and password')
         }
     }
 
@@ -61,12 +61,12 @@ function SignUp(props) {
         if (state.password === state.confirmPassword) {
             sendDetailsToServer()
         } else {
-            props.showError('Password do not match')
+            props.showError('Passwords do not match')
         };
     }
 
     return (
-        <div className="card col-12 col-lg-4 login-card hv-center">
+        <div className="card h-100 col-12 login-card hv-center">
             <form>
                 <div className="form-group text-left">
                     <label htmlFor="exampleInputEmail1">Email address</label>
@@ -89,6 +89,7 @@ function SignUp(props) {
                         value={state.password}
                         onChange={handleChange}
                     />
+                    <small id="passwordHelp" className="form-text text-muted">Password must contain at least 6 characters</small>
                 </div>
                 <div className="form-group text-left">
                     <label htmlFor="exampleInputPassword1">Confirm Password</label>

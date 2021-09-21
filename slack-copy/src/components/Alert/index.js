@@ -10,27 +10,25 @@ function AlertComponent(props) {
         props.hideError(null)
     }
     useEffect(() => {
-        if (props.errorMessage === null) {
-            closeModal()
-        } else {
+        if (props.errorMessage !== null) {
             openModal()
+        } else {
+            closeModal()
         }
     });
 
     return (
         <div
-            className={'alert alert-danger alert-dismissable mt-4'}
+            className={'alertMessage alert alert-danger alert-dismissable mt-4'}
             role="alert"
             id="alertPopUp"
             style={{ display: modalDisplay }}
         >
-            <div className="d-flex alertMessage">
+            <div className="d-flex">
                 <span>{props.errorMessage}</span>
-                <button type="button" className="close" aria-label="Close" onClick={() => closeModal()}>
-                    <span aria-hidden="true">&times;</span>
+                <button type="button" className="btn-close" aria-label="Close" onClick={() => closeModal()}>
                 </button>
             </div>
-
         </div>
     )
 }

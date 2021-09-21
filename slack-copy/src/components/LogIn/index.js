@@ -26,31 +26,37 @@ function LogIn(props) {
         props.history.push('/');
     }
 
+    const redirectToChat = () => {
+        props.updateTitle('Welcome to Hlack')
+        props.history.push('/chat')
+    }
+
     const sendDetailsToServer = () => {
+        console.log('my props', props)
         if (state.email.length && state.password.length) {
             props.showError(null);
             const payload = {
                 "email": state.email,
                 "password": state.password,
             }
-            axios.post(API_BASE_URL + '/user/login', payload)
+            axios.post(API_BASE_URL + "/user/login", payload)
                 .then(function (response) {
                     if (response.status === 200) {
                         setState(prevState => ({
                             ...prevState,
-                            'successMessage': 'Authentification succesful. Logging in...'
+                            successMessage: 'Authentification succesful. Logging in...'
                         }))
                         localStorage.setItem(ACCESS_TOKEN_NAME, response.data.token);
-                        // !!!!!redirectToChat()
+                        redirectToChat()
                         props.showError(null)
-                    } else if(response.code === 204){
+                    } else if (response.code === 204) {
                         props.showError("Username or password does not match");
                     } else {
-                        props.showErroe("Username does not exists")
+                        props.showError("Username does not exists")
                     }
                 })
                 .catch(function (error) {
-                    console.log(error);
+                    console.error(error);
                 });
         } else {
             props.showError('Please enter valid username and password')
@@ -61,7 +67,7 @@ function LogIn(props) {
         sendDetailsToServer()
     }
     return (
-        <div className="card col-12 col-lg-4 login-card hv-center" >
+        <div className="d-flex card h-100 col-12 login-card hv-center" >
             <form>
                 <div className="form-group text-left">
                     <label htmlFor="exampleInputEmail1">Email address</label>
@@ -84,9 +90,10 @@ function LogIn(props) {
                         value={state.password}
                         onChange={handleChange}
                     />
+                <small id="passwordHelp" className="form-text text-muted">Password must contain at least 6 characters</small>
                 </div>
                 <button
-                    type="submit"
+                    type="button"
                     className="m-2 btn btn-primary"
                     onClick={handleSubmit}
                 >
