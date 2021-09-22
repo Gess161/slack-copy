@@ -27,7 +27,7 @@ function LogIn(props) {
     }
 
     const redirectToChat = () => {
-        props.updateTitle('Welcome to Hlack')
+        props.updateTitle('Chat')
         props.history.push('/chat')
     }
 

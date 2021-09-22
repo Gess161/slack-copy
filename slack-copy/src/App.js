@@ -1,5 +1,5 @@
 import './App.css';
-import React, {useEffect, useState}from 'react'
+import React, {useState}from 'react'
 import {
   Switch,
   Route,
@@ -14,14 +14,14 @@ import AlertComponent from './components/Alert'
 import Page404 from './components/Page404';
 import {io} from "socket.io-client"
 
-const socket = io('http://localhost:4001/')
 
+const socket = io('http://localhost:4001/')
 function App() {
   const [title, updateTitle] = useState(null)
   const [errorMessage, updateErrorMessage] = useState(null)
   return (
     <div className="App">
-      <div className="container d-flex h-100 align-items-center flex-column">  
+      <div className="container d-flex h-100 flex-column">  
       <Header title={title}/>
         <Switch>
           <Route exact path="/">
