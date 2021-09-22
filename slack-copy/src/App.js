@@ -1,5 +1,5 @@
 import './App.css';
-import React, {useState}from 'react'
+import React, {useEffect, useState}from 'react'
 import {
   Switch,
   Route,
@@ -25,9 +25,6 @@ function App() {
       <Header title={title}/>
         <Switch>
           <Route exact path="/">
-            <SignUp showError={updateErrorMessage} updateTitle={updateTitle}/>
-          </Route>
-          <Route path="/signup">
             <SignUp showError={updateErrorMessage} updateTitle={updateTitle}/>
           </Route>
           <Route path="/login">

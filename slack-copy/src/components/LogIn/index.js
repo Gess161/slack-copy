@@ -32,7 +32,6 @@ function LogIn(props) {
     }
 
     const sendDetailsToServer = () => {
-        console.log('my props', props)
         if (state.email.length && state.password.length) {
             props.showError(null);
             const payload = {
@@ -49,14 +48,14 @@ function LogIn(props) {
                         localStorage.setItem(ACCESS_TOKEN_NAME, response.data.token);
                         redirectToChat()
                         props.showError(null)
-                    } else if (response.code === 204) {
+                    } else if (response.status === 204) {
                         props.showError("Username or password does not match");
                     } else {
                         props.showError("Username does not exists")
                     }
                 })
-                .catch(function (error) {
-                    console.error(error);
+                .catch( error => {
+                    props.showError(error.response.data.errorMessage)
                 });
         } else {
             props.showError('Please enter valid username and password')

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './AlertComponent.css';
+import { withRouter } from "react-router"
 function AlertComponent(props) {
     const [modalDisplay, toggleDisplay] = useState('none');
     const openModal = () => {
@@ -33,4 +34,4 @@ function AlertComponent(props) {
     )
 }
 
-export default AlertComponent
+export default withRouter(AlertComponent)

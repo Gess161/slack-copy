@@ -20,10 +20,7 @@ function SignUp(props) {
         }))
     }
 
-    const redirectToHome = () => {
-        props.updateTitle('Home')
-        props.history.push('/home');
-    }
+
     const redirectToLogin = () => {
         props.updateTitle('Login')
         props.history.push('/login');
@@ -36,21 +33,21 @@ function SignUp(props) {
                 "password": state.password,
             }
             console.log(API_BASE_URL)
-            axios.post(API_BASE_URL + "/user/signup", payload)
+            axios.post(API_BASE_URL + "/user", payload)
                 .then(function (response) {
+                    console.log(response.status)
                     if (response.status === 200) {
+                        console.log('succes with response:', response)
                         setState(prevState => ({
                             ...prevState,
                             successMessage: 'Registration successful. Redirecting to home page..'
                         }))
                         localStorage.setItem(ACCESS_TOKEN_NAME, response.data.token);
                         redirectToLogin();
-                    } else {
-                        props.showError("Username does not exists")
-                    }
+                    } 
                 })
-                .catch(function (error) {
-                    console.log('error:', error);
+                .catch( error => {
+                    props.showError(error.response.data.errorMessage)
                 });
         } else {
             props.showError('Please enter valid username and password')
