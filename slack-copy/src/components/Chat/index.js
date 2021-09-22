@@ -3,24 +3,18 @@ import React, { useState, useEffect } from "react";
 import { withRouter } from "react-router";
 import { API_BASE_URL, ACCESS_TOKEN_NAME } from "../../constants";
 import { useSelector, useDispatch } from "react-redux"
-import { selectUser, userReducer } from "../../redux/userReducer/userSlice"
+import { selectUser, userReducer } from "../../redux/reducers/userReducer/userSlice"
+import { fetchUser } from "../../redux/reducers/userReducer/userSlice"
 
 
 function ChatRender(props) {
-    const user = useSelector(selectUser)
-    const dispatch = useDispatch(userReducer)
     const [state, setState] = useState({
         message: '',
         room: '',
     })
-
-    const appendMessage = (message, user) => {
-        const messageContainer = document.getElementById('message-container')
-        const messageElement = document.createElement('div')
-        messageElement.innerText = `user: ${message}`
-        messageContainer.append(messageElement)
-    }
-
+    const user = useSelector(state => state.user)
+    const message = useSelector(state => state.message)
+    const dispatch = useDispatch()
 
     const sendData = () => {
         if (state.message === '') return;
@@ -39,40 +33,34 @@ function ChatRender(props) {
         e.target.id === "join-button" ? setState({ message: state.message, room: '' }) : setState({ message: '', room: state.room })
         sendData()
     }
+    // useEffect(() => {
+    //     axios.get(API_BASE_URL + "/user/me", { headers: { "token": localStorage.getItem(ACCESS_TOKEN_NAME) } })
+    //         .then(res => {
+    //             if (res.status !== 200) {
+    //                 redirectToLogin()
+    //             }
+    //             dispatch(fetchUser())
+    //         })
+    //         .catch(err => {
+    //             console.error(err)
+    //             redirectToLogin()
+    //         })
+    // }, [user, dispatch])
 
-    const fetchUser = user => {
-        return async (dispatch, getState) => {
-            try {
-                const user = await axios.get(API_BASE_URL + "/user/me", { headers: { "token": localStorage.getItem(ACCESS_TOKEN_NAME) } })
-                    .then(res => {
-                        return res.data.email
-                    })
-                    dispatch(userReducer, user)
-            } catch(err){
-                console.log('while dispatch', err)
-            }
-        }
-    }
+
     useEffect(() => {
-        axios.get(API_BASE_URL + "/user/me", { headers: { "token": localStorage.getItem(ACCESS_TOKEN_NAME) } })
-            .then(res => {
-                if (res.status !== 200) {
-                    redirectToLogin()
-                }
-                console.log(res)
-            })
-            .catch(err => {
-                console.error(err)
-                redirectToLogin()
-            })
-    })
-    const messageDep = props.socket.sendBuffer.length > 0
-    useEffect(() => {
+        dispatch(fetchUser())
         props.socket.on('send-message', message => {
             appendMessage(message)
         })
+    },[user, message, dispatch])
 
-    }, [messageDep, props.socket])
+        const appendMessage = (message) => {
+        const messageContainer = document.getElementById('message-container')
+        const messageElement = document.createElement('div')
+        messageElement.innerText = `${user.user}: ${message}`
+        messageContainer.append(messageElement)
+    }
 
     function redirectToLogin() {
         props.history.push('/login')
