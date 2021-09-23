@@ -1,0 +1,6 @@
+#message-container {
+    display: flex;
+    height: 80%;
+    width: 100%;
+    flex-direction: column
+}

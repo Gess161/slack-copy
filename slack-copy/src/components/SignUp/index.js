@@ -63,35 +63,35 @@ function SignUp(props) {
     }
 
     return (
-        <div className="card h-100 col-12 login-card hv-center">
-            <form>
-                <div className="form-group text-left">
-                    <label htmlFor="exampleInputEmail1">Email address</label>
-                    <input type="email"
-                        className="form-control"
+        <div className="-flex flex-column card col-12 login-card hv-center">
+            <form className="form-signup">
+                <div className="form-part">
+                    <label className="form-label" htmlFor="exampleInputEmail1">Email address</label>
+                    <input className="form-input" type="email"
+
                         id="email"
                         aria-describedby="emailHelp"
                         placeholder="Enter email"
                         value={state.email}
                         onChange={handleChange}
                     />
-                    <small id="emailHelp" className="form-text text-muted">We'll never share your email with anyone else.</small>
+                    <small id="emailHelp" className="form-small">We'll never share your email with anyone else.</small>
                 </div>
-                <div className="form-group text-left">
-                    <label htmlFor="exampleInputPassword1">Password</label>
+                <div className="form-part">
+                    <label className="form-label" htmlFor="exampleInputPassword1">Password</label>
                     <input type="password"
-                        className="form-control"
+                        className="form-input"
                         id="password"
                         placeholder="Password"
                         value={state.password}
                         onChange={handleChange}
                     />
-                    <small id="passwordHelp" className="form-text text-muted">Password must contain at least 6 characters</small>
+                    <small id="passwordHelp" className="form-small">Password must contain at least 6 characters</small>
                 </div>
-                <div className="form-group text-left">
-                    <label htmlFor="exampleInputPassword1">Confirm Password</label>
+                <div className="form-part">
+                    <label className="form-label" htmlFor="exampleInputPassword1">Confirm Password</label>
                     <input type="password"
-                        className="form-control"
+                        className="form-input"
                         id="confirmPassword"
                         placeholder="Confirm Password"
                         value={state.confirmPassword}
@@ -100,7 +100,7 @@ function SignUp(props) {
                 </div>
                 <button
                     type="button"
-                    className="m-2 btn btn-primary"
+                    className="d-flex w-50 justify-content-center align-self-center btn btn-primary"
                     onClick={handleSubmit}
                 >
                     Click Me!
@@ -109,7 +109,7 @@ function SignUp(props) {
             <div className="alert alert-success mt-2" style={{ display: state.successMessage ? 'block' : 'none' }} role="alert">
                 {state.successMessage}
             </div>
-            <div className="mt-2">
+            <div className="registerMessage">
                 <span>Already have an account? </span>
                 <span className="loginText" onClick={redirectToLogin}>Login here</span>
             </div>

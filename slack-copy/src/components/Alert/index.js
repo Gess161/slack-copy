@@ -25,7 +25,7 @@ function AlertComponent(props) {
             id="alertPopUp"
             style={{ display: modalDisplay }}
         >
-            <div className="d-flex">
+            <div className="d-flex justify-content-center">
                 <span>{props.errorMessage}</span>
                 <button type="button" className="btn-close" aria-label="Close" onClick={() => closeModal()}>
                 </button>

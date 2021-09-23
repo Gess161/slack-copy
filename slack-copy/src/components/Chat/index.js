@@ -2,19 +2,16 @@ import React, { useState, useEffect } from "react";
 import { withRouter } from "react-router";
 import { useSelector, useDispatch } from "react-redux"
 import { fetchUser } from "../../redux/reducers/userReducer/userSlice"
-
+import "./Chat.css"
 
 function ChatRender(props) {
     const [message, setMessage] = useState('');
-    const [room, setRoom] = useState('');
     const user = useSelector(state => state.user);
     const userStatus = useSelector(state => state.user.status);
     const dispatch = useDispatch();
 
-
     const sendData = () => {
         if (message === '') return;
-        if (room === '' && message === '') return;
         props.socket.emit('message', message, user.user);
     }
 
@@ -36,13 +33,13 @@ function ChatRender(props) {
         props.socket.on('get-message', (message, user) => {
             appendMessage(message, user);
         })
-    },[userStatus])
+    },[userStatus, props.socket])
 
     return (
         <div className="d-flex w-100 h-100 flex-column">
             <div id="message-container"></div>
-            <form id="form" className="d-flex flex-column border border-dark">
-                <div className="d-flex flex-row">
+            <form id="form" className="chat-form d-flex flex-column border border-dark">
+                <div className="message-row d-flex flex-row">
                     <label
                         className="p-2"
                         style={{ width: 100}}

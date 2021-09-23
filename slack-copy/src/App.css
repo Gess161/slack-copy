@@ -1,6 +1,7 @@
 .App {
     text-align: center;
     height: 100%;
+    width: 100%;
   }
   
 .hv-center {
@@ -8,7 +9,7 @@
     justify-content: center;
     align-items: center;
   }
-  #chat-wrapper {
+#chat-wrapper {
     display: flex;
     height: 500px;
     width: 500px;
@@ -17,7 +18,7 @@
     position: relative;
   }
 
-  #message-container {
+#message-container {
     display: flex;
       width: 100%;
       min-height: 300px;
@@ -26,17 +27,17 @@
     border: solid black 1px;
   }
 
-  #message-container div {
+#message-container div {
     background-color: #CCC;
     padding: 5px;
     text-align: left;
   }
 
-  #message-container div:nth-child(2n) {
+#message-container div:nth-child(2n) {
     background-color: #FFF;
   }
 
-  #send-container {
+#send-container {
     position: fixed;
     height: 50px;
     bottom: 0;
@@ -46,7 +47,19 @@
     display: flex;
   }
 
-  #message-input {
+#message-input {
     flex-grow: 1;
   }
   
+.login-card{
+    display: flex;
+    height: 90%;
+    width: 100%;
+  }
+  
+.container{
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+}

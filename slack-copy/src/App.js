@@ -21,7 +21,7 @@ function App() {
   const [errorMessage, updateErrorMessage] = useState(null)
   return (
     <div className="App">
-      <div className="container d-flex h-100 flex-column">  
+      <div className="container">  
       <Header title={title}/>
         <Switch>
           <Route exact path="/">

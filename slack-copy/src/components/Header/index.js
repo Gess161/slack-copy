@@ -1,6 +1,7 @@
 import React from 'react'
 import { ACCESS_TOKEN_NAME } from '../../constants'
 import { withRouter } from 'react-router'
+import './Header.css'
 
 
 function Header(props) {
@@ -17,12 +18,10 @@ function Header(props) {
 
     let display = props.location.pathname === '/chat' ? "btn btn-danger" : "d-none"
     return (
-        <nav className="navbar d-flex col-12 mt-2 bg-primary navbar-dark">
-            <div className="row col-12 d-flex justify-content-center text-white">
-                <span className="h3">{props.title || title}</span>
-                <div className="m1-auto">
-                    <button className={display} onClick={handleLogout}>Logout</button>
-                </div>
+        <nav className="nav-bar">
+            <span className="nav-span">{props.title || title}</span>
+            <div className="nav-logout postition-absolute btn btn-primary">
+                <button className={display} onClick={handleLogout}>Logout</button>
             </div>
         </nav>
     )

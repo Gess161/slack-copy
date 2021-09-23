@@ -1,7 +1,43 @@
-.login-card {
-    min-height: 60vh;
+.registerMessage {
+    margin-top: 5vh;
 }
 
-.registerMessage {
-    margin-top: 10vh;
+.form-login{
+    display: flex;
+    justify-content: space-around;
+    height: 40%;
+    flex-direction: column;
+    text-align: left;
+}
+
+.form-signup{
+    display: flex;
+    justify-content: space-around;
+    height: 50%;
+    flex-direction: column;
+    text-align: left;
+}
+.form-part{
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.form-label{
+    justify-content: space-around;
+    display: flex;
+    align-items: flex-end;
+}
+
+.form-input{
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+    display: flex;
+    padding: .375rem .75rem;
+}
+.form-small {
+    color: #6c757d;
+    align-items: center;
+    display: flex;
+    flex: 1;
 }

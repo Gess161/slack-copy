@@ -66,34 +66,32 @@ function LogIn(props) {
         sendDetailsToServer()
     }
     return (
-        <div className="d-flex card h-100 col-12 login-card hv-center" >
-            <form>
-                <div className="form-group text-left">
-                    <label htmlFor="exampleInputEmail1">Email address</label>
-                    <input type="email"
-                        className="form-control"
+        <div id="login" className="d-flex flex-column card  login-card hv-center" >
+            <form className="form-login">
+                <div className="form-part">
+                    <label className="form-label" htmlFor="exampleInputEmail1">Email address</label>
+                    <input className="form-input" type="email"
                         id="email"
                         aria-describedby="emailHelp"
                         placeholder="Enter email"
                         value={state.email}
                         onChange={handleChange}
                     />
-                    <small id="emailHelp" className="form-text text-muted">We'll never share your email with anyone else.</small>
+                    <small id="emailHelp" className="form-small">We'll never share your email with anyone else.</small>
                 </div>
-                <div className="form-group text-left">
-                    <label htmlFor="exampleInputPassword1">Password</label>
-                    <input type="password"
-                        className="form-control"
+                <div className="form-part">
+                    <label className="form-label"  htmlFor="exampleInputPassword1">Password</label>
+                    <input className="form-input" type="password"
                         id="password"
                         placeholder="Password"
                         value={state.password}
                         onChange={handleChange}
                     />
-                <small id="passwordHelp" className="form-text text-muted">Password must contain at least 6 characters</small>
+                <small id="passwordHelp" className="form-small">Password must contain at least 6 characters</small>
                 </div>
                 <button
                     type="button"
-                    className="m-2 btn btn-primary"
+                    className="d-flex w-50 justify-content-center align-self-center btn btn-primary"
                     onClick={handleSubmit}
                 >
                     Click Me!
