@@ -36,9 +36,9 @@ function ChatRender(props) {
     },[userStatus, props.socket])
 
     return (
-        <div className="d-flex w-100 h-100 flex-column">
+        <div className="chat d-flex flex-column">
             <div id="message-container"></div>
-            <form id="form" className="chat-form d-flex flex-column border border-dark">
+            <form id="form" className="chat-form flex-column border border-dark">
                 <div className="message-row d-flex flex-row">
                     <label
                         className="p-2"

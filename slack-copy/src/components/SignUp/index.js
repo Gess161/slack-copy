@@ -63,7 +63,7 @@ function SignUp(props) {
     }
 
     return (
-        <div className="-flex flex-column card col-12 login-card hv-center">
+        <div className="d-flex flex-column card login-card hv-center">
             <form className="form-signup">
                 <div className="form-part">
                     <label className="form-label" htmlFor="exampleInputEmail1">Email address</label>

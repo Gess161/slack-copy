@@ -8,3 +8,9 @@
     color: green;
     font-weight: bold;
 }
+
+.signup-card{
+    display: flex;
+    height: 100%;
+    width: 100%;
+  }

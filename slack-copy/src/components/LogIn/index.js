@@ -66,7 +66,7 @@ function LogIn(props) {
         sendDetailsToServer()
     }
     return (
-        <div id="login" className="d-flex flex-column card  login-card hv-center" >
+        <div id="login" className="d-flex flex-column card login-card hv-center" >
             <form className="form-login">
                 <div className="form-part">
                     <label className="form-label" htmlFor="exampleInputEmail1">Email address</label>

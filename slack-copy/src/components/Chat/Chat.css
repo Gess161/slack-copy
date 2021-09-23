@@ -1,6 +1,18 @@
 #message-container {
     display: flex;
-    height: 80%;
+    height: 100%;
     width: 100%;
     flex-direction: column
+}
+
+.chat{
+    display: flex;
+    height: 100%;
+    width: 100%;
+}
+
+.chat-form {
+    display: flex;
+    height: 15%;
+    width: 100%;
 }
