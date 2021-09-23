@@ -1,70 +1,42 @@
-import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { withRouter } from "react-router";
-import { API_BASE_URL, ACCESS_TOKEN_NAME } from "../../constants";
 import { useSelector, useDispatch } from "react-redux"
-import { selectUser, userReducer } from "../../redux/reducers/userReducer/userSlice"
 import { fetchUser } from "../../redux/reducers/userReducer/userSlice"
 
 
 function ChatRender(props) {
-    const [state, setState] = useState({
-        message: '',
-        room: '',
-    })
-    const user = useSelector(state => state.user)
-    const message = useSelector(state => state.message)
-    const dispatch = useDispatch()
+    const [message, setMessage] = useState('');
+    const [room, setRoom] = useState('');
+    const user = useSelector(state => state.user);
+    const userStatus = useSelector(state => state.user.status);
+    const dispatch = useDispatch();
+
 
     const sendData = () => {
-        if (state.message === '') return;
-        if (state.room === '' && state.message === '') return;
-        props.socket.emit('message', state.message);
+        if (message === '') return;
+        if (room === '' && message === '') return;
+        props.socket.emit('message', message, user.user);
     }
 
-    const handleChange = (e) => {
-        const { id, value } = e.target;
-        setState(prevState => ({
-            ...prevState,
-            [id]: value
-        }))
+    const appendMessage = async (message, user) => {
+        const messageContainer = document.getElementById('message-container');
+        const messageElement = document.createElement('div');
+        messageElement.innerText = `${user}: ${message}`;
+        messageContainer.append(messageElement);
     }
-    const handleSubmit = (e) => {
-        e.target.id === "join-button" ? setState({ message: state.message, room: '' }) : setState({ message: '', room: state.room })
-        sendData()
-    }
-    // useEffect(() => {
-    //     axios.get(API_BASE_URL + "/user/me", { headers: { "token": localStorage.getItem(ACCESS_TOKEN_NAME) } })
-    //         .then(res => {
-    //             if (res.status !== 200) {
-    //                 redirectToLogin()
-    //             }
-    //             dispatch(fetchUser())
-    //         })
-    //         .catch(err => {
-    //             console.error(err)
-    //             redirectToLogin()
-    //         })
-    // }, [user, dispatch])
-
 
     useEffect(() => {
-        dispatch(fetchUser())
-        props.socket.on('send-message', message => {
-            appendMessage(message)
+        if(userStatus === 'idle'){
+            dispatch(fetchUser());
+        }
+    }, [userStatus, dispatch]);
+    
+    useEffect(() => {
+        if(userStatus === 'succeeded')
+        props.socket.on('get-message', (message, user) => {
+            appendMessage(message, user);
         })
-    },[user, message, dispatch])
-
-        const appendMessage = (message) => {
-        const messageContainer = document.getElementById('message-container')
-        const messageElement = document.createElement('div')
-        messageElement.innerText = `${user.user}: ${message}`
-        messageContainer.append(messageElement)
-    }
-
-    function redirectToLogin() {
-        props.history.push('/login')
-    }
+    },[userStatus])
 
     return (
         <div className="d-flex w-100 h-100 flex-column">
@@ -72,35 +44,23 @@ function ChatRender(props) {
             <form id="form" className="d-flex flex-column border border-dark">
                 <div className="d-flex flex-row">
                     <label
-                        style={{ width: 100 }}
+                        className="p-2"
+                        style={{ width: 100}}
                         htmlFor="message"> Message </label>
                     <input
-                        onChange={handleChange}
+                        onChange={(e) => setMessage(e.target.value)}
                         className="w-50 m-2"
                         type="text"
                         id="message"
-                        value={state.message} />
+                        value={message} />
                     <button
-                        onClick={handleSubmit}
+                        onClick={sendData}
                         className="w-50 m-2"
                         type="button"
                         id="send-button">Send</button>
                 </div>
-                <div className="d-flex flex-row">
-                    <label
-                        style={{ width: 100 }}
-                        htmlFor="room"> Room </label>
-                    <input
-                        onChange={handleChange}
-                        className="w-50 m-2"
-                        type="text"
-                        id="room"
-                        value={state.room} />
-                    <button
-                        onClick={handleSubmit}
-                        className="w-50 m-2"
-                        type="button"
-                        id="join-button">Join</button>
+                <div className="d-flex p-2 flex-row">
+                    Current user: {user.user}
                 </div>
             </form>
         </div>
