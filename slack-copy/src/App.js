@@ -4,7 +4,6 @@ import {
   Switch,
   Route,
 } from 'react-router-dom'
-
 import Header from './components/Header';
 import SignUp from './components/SignUp';
 import LogIn from './components/LogIn'
@@ -15,10 +14,12 @@ import Page404 from './components/Page404';
 import {io} from "socket.io-client"
 
 
-const socket = io('http://localhost:4001/')
+
+const socket = io('http://localhost:8080/')
 function App() {
   const [title, updateTitle] = useState(null)
   const [errorMessage, updateErrorMessage] = useState(null)
+
   return (
     <div className="App">
       <div className="wrapper">  

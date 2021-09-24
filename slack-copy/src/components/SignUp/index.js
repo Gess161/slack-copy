@@ -37,7 +37,6 @@ function SignUp(props) {
                 .then(function (response) {
                     console.log(response.status)
                     if (response.status === 200) {
-                        console.log('succes with response:', response)
                         setState(prevState => ({
                             ...prevState,
                             successMessage: 'Registration successful. Redirecting to home page..'
