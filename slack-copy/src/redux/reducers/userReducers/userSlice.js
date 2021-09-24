@@ -13,7 +13,7 @@ const slice = createSlice({
     initialState,
     reducers: {
         roomReducer: (state, action) => {
-            state.socket = action.payload
+            state.room = action.payload
         },
         socketReducer: (state, action) => {
             state.socket = action.payload
@@ -41,5 +41,5 @@ const slice = createSlice({
 });
 
 export const selectUser = state => state.user.value
-export const { userReducer } = slice.actions
+export const { userReducer, socketReducer, roomReducer } = slice.actions
 export default slice.reducer
