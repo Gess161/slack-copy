@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { API_BASE_URL, ACCESS_TOKEN_NAME } from "../../constants";
 import addError from "../../redux/actions/addError";
 import loginReducer from "../../redux/reducers/loginReducer/loginReducer";
@@ -9,7 +9,6 @@ import loginReducer from "../../redux/reducers/loginReducer/loginReducer";
 export default function SendLoginDetails(payload){
     const dispatch = useDispatch()
 
-    console.log('hi')
     axios.post(API_BASE_URL + "/user/login", payload)
     .then(response => {
         if (response.status === 200) {
