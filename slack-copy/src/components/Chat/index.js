@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { withRouter } from "react-router";
 import { useSelector, useDispatch } from "react-redux"
-import { fetchUser } from "../../redux/reducers/userReducer/userSlice"
+import { fetchUser, userReducer } from "../../redux/reducers/userReducer/userSlice"
 import "./Chat.css"
+import ChatItem from "./ChatListItem";
+import addSocket from "../../redux/actions/addSocket";
 
 
 
 function ChatRender(props) {
-
     const [message, setMessage] = useState('');
     const user = useSelector(state => state.user);
     const userStatus = useSelector(state => state.user.status);
@@ -32,12 +33,15 @@ function ChatRender(props) {
         }
     }, [userStatus, dispatch]);
 
+
     useEffect(() => {
         if (userStatus === 'succeeded')
-            props.socket.on('get-message', (message, user) => {
+            props.socket.on('get-message', (message, user, socket) => {
                 appendMessage(message, user);
+                console.log(socket)
             })
     }, [userStatus, props.socket])
+
 
     const onKeyDownHandler = e => {
         if (e.keyCode === 13) {
@@ -76,8 +80,13 @@ function ChatRender(props) {
             <div className="chat-panel">
             List of rooms and users
                 <button>Add Room</button>
-                <div className="chat-panel-list">Rooms</div>
-                <div className="chat-panel-list">Users</div>
+                <div className="chat-panel-list">
+                    <ChatItem name='Current room' />
+                    <ChatItem name='General' />
+                </div>
+                <div className="chat-panel-list">
+                    <ChatItem name='Some user' />
+                </div>
             </div>
         </div>
     )
