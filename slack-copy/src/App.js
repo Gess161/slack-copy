@@ -12,10 +12,11 @@ import Chat from './components/Chat'
 import AlertComponent from './components/Alert'
 import Page404 from './components/Page404';
 import {io} from "socket.io-client"
+import { WEB_SOCKET_URL } from './constants';
 
 
 
-const socket = io('http://localhost:8080/')
+const socket = io(WEB_SOCKET_URL)
 function App() {
   const [title, updateTitle] = useState(null)
   const [errorMessage, updateErrorMessage] = useState(null)

@@ -32,9 +32,8 @@ function SignUp(props) {
                 "email": state.email,
                 "password": state.password,
             }
-            console.log(API_BASE_URL)
             axios.post(API_BASE_URL + "/user", payload)
-                .then(function (response) {
+                .then(response => {
                     console.log(response.status)
                     if (response.status === 200) {
                         setState(prevState => ({
