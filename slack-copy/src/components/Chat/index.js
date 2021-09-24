@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { withRouter } from "react-router";
 import { useSelector, useDispatch } from "react-redux"
-import { fetchUser, userReducer } from "../../redux/reducers/userReducer/userSlice"
+import { fetchUser, socketReducer } from "../../redux/reducers/userReducers/userSlice"
 import "./Chat.css"
 import ChatItem from "./ChatListItem";
-import addSocket from "../../redux/actions/addSocket";
 
 
 
@@ -13,6 +12,14 @@ function ChatRender(props) {
     const user = useSelector(state => state.user);
     const userStatus = useSelector(state => state.user.status);
     const dispatch = useDispatch();
+
+
+    const onKeyDownHandler = e => {
+        if (e.keyCode === 13) {
+            e.preventDefault()
+            sendData()
+        }
+    };
 
     const sendData = () => {
         if (message === '') return;
@@ -34,21 +41,17 @@ function ChatRender(props) {
     }, [userStatus, dispatch]);
 
 
+
     useEffect(() => {
-        if (userStatus === 'succeeded')
-            props.socket.on('get-message', (message, user, socket) => {
+        if (userStatus === 'succeeded') {
+            props.socket.emit('user-log-in', (user.user, user.socket))
+            props.socket.on('get-message', (message, user) => {
                 appendMessage(message, user);
-                console.log(socket)
             })
-    }, [userStatus, props.socket])
-
-
-    const onKeyDownHandler = e => {
-        if (e.keyCode === 13) {
-            e.preventDefault()
-            sendData()
+            console.log(dispatch(socketReducer(props.socket.id)))
         }
-    };
+    }, [userStatus, props.socket, dispatch, user.user, user.socket])
+
     return (
         <div className="chat-wrapper">
             <div className="chat d-flex flex-column">
@@ -78,7 +81,7 @@ function ChatRender(props) {
                 </form>
             </div>
             <div className="chat-panel">
-            List of rooms and users
+                List of rooms and users
                 <button>Add Room</button>
                 <div className="chat-panel-list">
                     <ChatItem name='Current room' />
