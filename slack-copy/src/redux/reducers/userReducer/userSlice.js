@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit"
 import axios from "axios"
 import { API_BASE_URL , ACCESS_TOKEN_NAME} from "../../../constants"
 
-const initialState = { user: 'unnamed', status: 'idle'}
+const initialState = { user: 'unnamed', status: 'idle', socket: null, room: null}
 export const fetchUser = createAsyncThunk('user/fetchUser', async () => {
     const res = await axios.get(API_BASE_URL + "/user/me", { headers: { "token": localStorage.getItem(ACCESS_TOKEN_NAME) } })
     return res.data.email
@@ -12,6 +12,12 @@ const slice = createSlice({
     name: 'user',
     initialState,
     reducers: {
+        roomReducer: (state, action) => {
+            state.socket = action.payload
+        },
+        socketReducer: (state, action) => {
+            state.socket = action.payload
+        },
         userReducer: (state, action) => {
             state.user = action.payload
         },
