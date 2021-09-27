@@ -1,33 +1,34 @@
 import React, { useState, useEffect } from "react";
 import { withRouter } from "react-router";
 import { useSelector, useDispatch } from "react-redux"
-import { fetchUser, socketReducer } from "../../redux/reducers/userReducers/userSlice"
+import { socketReducer } from "../../redux/reducers/userReducers/userSlice"
+import { fetchUser } from "../../redux/thunk/fetchUser";
 import "./Chat.css"
 import ChatItem from "./ChatListItem";
-
-
+import ChatPanelList from "./ChatPanelList";
 
 function ChatRender(props) {
     const [message, setMessage] = useState('');
     const user = useSelector(state => state.user);
     const userStatus = useSelector(state => state.user.status);
     const dispatch = useDispatch();
-
+    const socket = props.socket
 
     const onKeyDownHandler = e => {
         if (e.keyCode === 13) {
             e.preventDefault()
-            sendData()
+            sendData()  
         }
     };
 
     const sendData = () => {
         if (message === '') return;
-        props.socket.emit('message', message, user.user);
+        socket.emit('message', message, user.user, user.roomId);
         setMessage('')
+        appendMessage(message, user.user) 
     }
 
-    const appendMessage = async (message, user) => {
+    const appendMessage = (message, user) => {
         const messageContainer = document.getElementById('message-container');
         const messageElement = document.createElement('div');
         messageElement.innerText = `${user}: ${message}`;
@@ -40,22 +41,25 @@ function ChatRender(props) {
         }
     }, [userStatus, dispatch]);
 
-
+    useEffect(() => {
+        if (user.socket) socket.emit('user-log-in', user.user, user.socket)
+    }, [user.socket, socket, user.user])
 
     useEffect(() => {
         if (userStatus === 'succeeded') {
-            props.socket.emit('user-log-in', (user.user, user.socket))
-            props.socket.on('get-message', (message, user) => {
+            socket.on('get-message', (message, user) => {
                 appendMessage(message, user);
             })
-            console.log(dispatch(socketReducer(props.socket.id)))
+            dispatch(socketReducer(socket.id))
         }
-    }, [userStatus, props.socket, dispatch, user.user, user.socket])
+    }, [userStatus, socket, dispatch])
 
     return (
         <div className="chat-wrapper">
             <div className="chat d-flex flex-column">
-                <div id="message-container"></div>
+                <div id="message-container">
+                    <div className="current-room">Room: {user.roomName}</div>
+                </div>
                 <form id="form" className="chat-form flex-column border border-dark">
                     <div className="message-row d-flex flex-row">
                         <label
@@ -81,15 +85,11 @@ function ChatRender(props) {
                 </form>
             </div>
             <div className="chat-panel">
-                List of rooms and users
-                <button>Add Room</button>
+                Rooms
                 <div className="chat-panel-list">
-                    <ChatItem name='Current room' />
-                    <ChatItem name='General' />
+                    <ChatItem name='General' socket=""/>
                 </div>
-                <div className="chat-panel-list">
-                    <ChatItem name='Some user' />
-                </div>
+                <ChatPanelList socket={socket} />
             </div>
         </div>
     )

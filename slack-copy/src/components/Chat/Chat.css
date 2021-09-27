@@ -42,5 +42,14 @@
     height: 50px;
     width: 100%;
     padding: 5px;
+    cursor: pointer;
+}
+.current-room {
+    display: flex;
+    align-self: center;
+    justify-content: center;
+    width: 200px;
+    border-radius: 10px;
+    border:lightgray 1px solid;
 }
 

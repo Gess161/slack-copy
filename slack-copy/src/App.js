@@ -24,7 +24,7 @@ function App() {
   return (
     <div className="App">
       <div className="wrapper">  
-      <Header title={title}/>
+      <Header title={title} socket={socket}/>
         <Switch>
           <Route exact path="/">
             <SignUp showError={updateErrorMessage} updateTitle={updateTitle}/>

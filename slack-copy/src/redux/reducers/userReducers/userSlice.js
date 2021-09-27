@@ -1,19 +1,19 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit"
-import axios from "axios"
-import { API_BASE_URL , ACCESS_TOKEN_NAME} from "../../../constants"
+import { createSlice} from "@reduxjs/toolkit"
+import { fetchUser } from "../../thunk/fetchUser"
 
-const initialState = { user: 'unnamed', status: 'idle', socket: null, room: null}
-export const fetchUser = createAsyncThunk('user/fetchUser', async () => {
-    const res = await axios.get(API_BASE_URL + "/user/me", { headers: { "token": localStorage.getItem(ACCESS_TOKEN_NAME) } })
-    return res.data.email
-})
-
+const initialState = { user: 'unnamed', status: 'idle', socket: null, roomId: '' , roomName: 'General'}
 const slice = createSlice({
     name: 'user',
     initialState,
     reducers: {
-        roomReducer: (state, action) => {
-            state.room = action.payload
+        statusReducer: (state, action) => {
+            state.status = action.payload
+        },
+        roomIdReducer: (state, action) => {
+            state.roomId = action.payload
+        },
+        roomNameReducer: (state, action) => {
+            state.roomName = action.payload
         },
         socketReducer: (state, action) => {
             state.socket = action.payload
@@ -22,24 +22,24 @@ const slice = createSlice({
             state.user = action.payload
         },
     },
-    extraReducers(builder){
+    extraReducers(builder) {
         builder
-        .addCase(fetchUser)
-        .addCase(fetchUser.pending, (state, action) => {
-            state.status = 'loading'
-        })
-        .addCase(fetchUser.fulfilled, (state, action) => {
-            state.status = 'succeeded'
-            state.user = action.payload
-        })
-        .addCase(fetchUser.rejected,(state,action) => {
-            state.status = 'failed'
-            state.error = action.error.message
-        })
-        
+            .addCase(fetchUser)
+            .addCase(fetchUser.pending, (state, action) => {
+                state.status = 'loading'
+            })
+            .addCase(fetchUser.fulfilled, (state, action) => {
+                state.status = 'succeeded'
+                state.user = action.payload
+            })
+            .addCase(fetchUser.rejected, (state, action) => {
+                state.status = 'failed'
+                state.error = action.error.message
+            })
+
     }
 });
 
 export const selectUser = state => state.user.value
-export const { userReducer, socketReducer, roomReducer } = slice.actions
+export const { statusReducer, userReducer, socketReducer, roomIdReducer, roomNameReducer } = slice.actions
 export default slice.reducer
