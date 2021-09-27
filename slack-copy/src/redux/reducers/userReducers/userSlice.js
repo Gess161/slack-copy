@@ -40,6 +40,6 @@ const slice = createSlice({
     }
 });
 
-export const selectUser = state => state.user.value
+
 export const { statusReducer, userReducer, socketReducer, roomIdReducer, roomNameReducer } = slice.actions
 export default slice.reducer
