@@ -28,7 +28,7 @@
     height: 100%;
     width: 15%;
 }
-.chat-panel-list {
+.chat-list {
     flex-direction: column;
     display: flex;
     height: 100%;
