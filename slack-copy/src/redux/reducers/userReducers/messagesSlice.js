@@ -11,8 +11,7 @@ const slice = createSlice({
     initialState,
     reducers: {
         messageReducer: (state, action) => {
-            console.log('action', action)
-            state.messages.messages = [action.payload, ...state.messages.messages]
+            state.messages.messages = [action.payload, ...state.messages.messages].slice().reverse()
         }
     }
 })

@@ -5,9 +5,11 @@ import { socketReducer } from "../../redux/reducers/userReducers/userSlice"
 import { messageReducer } from "../../redux/reducers/userReducers/messagesSlice";
 import { fetchUser } from "../../redux/thunk/fetchUser";
 import "./Chat.css"
-import ChatItem from "./ChatListItem";
+import ChatItem from "./ChatList/ChatListItem";
 import ChatList from "./ChatList";
 import MessageContainer from "./MessageContainer";
+import AddRoom from "./AddRoomBtn/index";
+import RoomList from "./RoomList";
 
 function ChatRender(props) {
     const [message, setMessage] = useState('');
@@ -19,7 +21,7 @@ function ChatRender(props) {
     const onKeyDownHandler = e => {
         if (e.keyCode === 13) {
             e.preventDefault()
-            sendData()  
+            sendData()
         }
     };
 
@@ -35,7 +37,7 @@ function ChatRender(props) {
 
     const sendData = () => {
         if (message === '') return;
-        socket.emit('message', message, user.user, user.roomId);
+        socket.emit('message', message, user.user, user.roomName, user.roomId);
         const text = `${user.user}: ${message}`
         dispatch(messageReducer(text))
         setMessage('')
@@ -54,7 +56,7 @@ function ChatRender(props) {
     return (
         <div className="chat-wrapper">
             <div className="chat d-flex flex-column">
-                <MessageContainer roomName={user.roomName}/>
+                <MessageContainer roomName={user.roomName} />
                 <form id="form" className="chat-form flex-column border border-dark">
                     <div className="message-row d-flex flex-row">
                         <label
@@ -80,10 +82,10 @@ function ChatRender(props) {
                 </form>
             </div>
             <div className="chat-panel">
-                Rooms
-                <div className="chat-list">
-                    <ChatItem name='General' socket=""/>
-                </div>
+                <AddRoom socket={socket}/>
+                Rooms:
+                <ChatItem name='General' socket="" />
+                <RoomList socket={socket} />
                 <ChatList socket={socket} />
             </div>
         </div>

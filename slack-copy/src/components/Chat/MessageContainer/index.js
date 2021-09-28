@@ -1,14 +1,13 @@
 import { useSelector } from "react-redux"
 
-const MessageContainer = () => {
+const MessageContainer = (props) => {
     const messageList = useSelector(state => state.message.messages.messages)
-    console.log(messageList)
-
     return (
         <div id="message-container">
-            {messageList.map(message => {
+        <div className="current-room">Room: {props.roomName}</div>
+            {messageList.map((message, index) => {
                 return (
-                    <div>{message}</div>
+                    <div key={index}>{message}</div>
                 )
             })}
         </div>
