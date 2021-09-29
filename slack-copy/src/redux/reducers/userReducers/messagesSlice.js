@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit"
 
-const initialState = { 
+const initialState = {
     messages: []
 }
 const slice = createSlice({
@@ -8,16 +8,17 @@ const slice = createSlice({
     initialState,
     reducers: {
         messageReducer: (state, action) => {
-            state.messages = [...state.messages, action.payload]
+            if (Array.isArray(action.payload)) {
+                state.messages = [...state.messages, ...action.payload]
+            } else {
+                state.messages = [...state.messages, action.payload]
+            };
         },
         initialMessageReducer: (state, action) => {
             state.messages = [];
         },
-        messageArrReducer: (state, action) => {
-            state.messages = [...action.payload]
-        }
     }
 })
 
 export default slice.reducer
-export const { messageArrReducer, messageReducer, initialMessageReducer } = slice.actions;
+export const { messageReducer, initialMessageReducer } = slice.actions;

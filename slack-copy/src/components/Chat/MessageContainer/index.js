@@ -1,10 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { messageArrReducer } from "../../../redux/reducers/userReducers/messagesSlice";
+import { messageReducer } from "../../../redux/reducers/userReducers/messagesSlice";
 
 const MessageContainer = (props) => {
     const dispatch = useDispatch()
-    const [roomMessages, setRoomMessages] = useState([])
     const room = useSelector(state => state.user.roomName)
     const newMessages = useSelector(state => state.message.messages)
 
@@ -19,10 +18,9 @@ const MessageContainer = (props) => {
                 const text = `${data[i].user}: ${data[i].message}`
                 arr.push(text)
             }
-            setRoomMessages(arr)
+            dispatch(messageReducer(arr))
         })
-        dispatch(messageArrReducer(roomMessages))
-    }, [props.socket, roomMessages, dispatch])
+    }, [props.socket, dispatch])
 
     return (
         <div id="message-container">

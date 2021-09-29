@@ -7,11 +7,19 @@ const slice = createSlice({
     initialState,
     reducers: {
         roomListReducer: (state, action) => {
-            state.roomList = [action.payload, ...state.roomList].slice(0).reverse()
+            if (Array.isArray(action.payload)) {
+                state.roomList = [...action.payload, ...state.roomList].slice(0).reverse()
+            } else {
+                state.roomList = [action.payload, ...state.roomList].slice(0).reverse()
+            }
         },
+        deleteRoomReducer: (state, action) => {
+            const toDeleteIndex = state.roomList.findIndex(() => action.payload)
+            state.roomList.splice(toDeleteIndex - 1, 1)
+        }
     },
 });
 
 
-export const { roomListReducer } = slice.actions
+export const { deleteRoomReducer, roomListReducer } = slice.actions
 export default slice.reducer

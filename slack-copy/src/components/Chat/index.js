@@ -9,6 +9,7 @@ import ChatList from "./ChatList";
 import MessageContainer from "./MessageContainer";
 import AddRoom from "./AddRoomBtn/index";
 import RoomList from "./RoomList";
+import DeleteRoom from "./RemoveRoomBtn";
 
 function ChatRender(props) {
     const [message, setMessage] = useState('');
@@ -82,6 +83,7 @@ function ChatRender(props) {
             </div>
             <div className="chat-panel">
                 <AddRoom socket={socket}/>
+                <DeleteRoom socket={socket}/>
                 Rooms:
                 <RoomList socket={socket} />
                 <ChatList socket={socket} />
