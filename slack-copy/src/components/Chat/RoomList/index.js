@@ -3,22 +3,23 @@ import RoomItem from "./RoomListItem";
 
 const RoomList = (props) => {
     const socket = props.socket
-    const [roomsList , setRoomsList] = useState([])
-    
+    const [roomsList, setRoomsList] = useState([])
+
     useEffect(() => {
         socket.on('room-added', rooms => setRoomsList(rooms))
-        socket.on('users-connected', (user , rooms) => setRoomsList(rooms));
+        socket.on('users-connected', (user, rooms) => setRoomsList(rooms));
     }, [roomsList, socket])
 
     return (
         <div className="chat-panel-list">
+            <RoomItem name='General' socket={socket} />
             {Object.keys(roomsList).map(key => {
                 return (
                     <RoomItem
                         name={roomsList[key]}
                         key={[key]}
                         socket={socket}
-                        />
+                    />
                 )
             })}
         </div>

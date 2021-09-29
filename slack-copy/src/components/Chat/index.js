@@ -5,7 +5,6 @@ import { socketReducer } from "../../redux/reducers/userReducers/userSlice"
 import { messageReducer } from "../../redux/reducers/userReducers/messagesSlice";
 import { fetchUser } from "../../redux/thunk/fetchUser";
 import "./Chat.css"
-import ChatItem from "./ChatList/ChatListItem";
 import ChatList from "./ChatList";
 import MessageContainer from "./MessageContainer";
 import AddRoom from "./AddRoomBtn/index";
@@ -45,7 +44,7 @@ function ChatRender(props) {
 
     useEffect(() => {
         if (userStatus === 'succeeded') {
-            socket.on('get-message', (message, user, room) => {
+            socket.on('get-message', (message, user) => {
                 const text = `${user}: ${message}`
                 dispatch(messageReducer(text))
             })
@@ -56,7 +55,7 @@ function ChatRender(props) {
     return (
         <div className="chat-wrapper">
             <div className="chat d-flex flex-column">
-                <MessageContainer roomName={user.roomName} />
+                <MessageContainer socket={socket} roomName={user.roomName} />
                 <form id="form" className="chat-form flex-column border border-dark">
                     <div className="message-row d-flex flex-row">
                         <label
@@ -84,7 +83,6 @@ function ChatRender(props) {
             <div className="chat-panel">
                 <AddRoom socket={socket}/>
                 Rooms:
-                <ChatItem name='General' socket="" />
                 <RoomList socket={socket} />
                 <ChatList socket={socket} />
             </div>
