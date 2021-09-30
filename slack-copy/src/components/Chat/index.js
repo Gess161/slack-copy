@@ -80,8 +80,8 @@ function ChatRender(props) {
                 </form>
             </div>
             <div className="chat-panel">
-                <AddRoom socket={socket}/>
-                <DeleteRoom socket={socket}/>
+                <AddRoom socket={socket} />
+                <DeleteRoom socket={socket} />
                 Rooms:
                 <RoomList socket={socket} />
                 <ChatList socket={socket} />
