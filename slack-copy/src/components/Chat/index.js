@@ -10,10 +10,12 @@ import MessageContainer from "./MessageContainer";
 import AddRoom from "./AddRoomBtn/index";
 import RoomList from "./RoomList";
 import DeleteRoom from "./RemoveRoomBtn";
+import { roomListReducer } from "../../redux/reducers/userReducers/roomSlice";
 
 function ChatRender(props) {
     const [message, setMessage] = useState('');
     const user = useSelector(state => state.user);
+    const roomsList = useSelector(state => state.roomsList)
     const userStatus = useSelector(state => state.user.status);
     const dispatch = useDispatch();
     const socket = props.socket
@@ -85,7 +87,7 @@ function ChatRender(props) {
                 <AddRoom socket={socket}/>
                 <DeleteRoom socket={socket}/>
                 Rooms:
-                <RoomList socket={socket} />
+                <RoomList rooms={roomsList} socket={socket} />
                 <ChatList socket={socket} />
             </div>
         </div>

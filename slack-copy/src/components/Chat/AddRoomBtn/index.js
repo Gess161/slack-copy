@@ -2,7 +2,6 @@ import { useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { roomListReducer } from "../../../redux/reducers/userReducers/roomSlice"
 
-
 export default function AddRoom(props) {
     const socket = props.socket;
     const roomList = useSelector(state => state.room.roomList)
@@ -21,6 +20,7 @@ export default function AddRoom(props) {
             dispatch(roomListReducer(roomname))
             socket.emit('add-room', roomname)
             setActive(!active)
+            socket.emit('join-room', roomname);
             setRoomname('')
         }
     };
