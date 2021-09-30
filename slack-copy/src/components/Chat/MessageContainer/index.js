@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { messageReducer } from "../../../redux/reducers/userReducers/messagesSlice";
+import { messageReplaceReducer } from "../../../redux/reducers/userReducers/messagesSlice";
+import { roomIdReducer, roomNameReducer } from "../../../redux/reducers/userReducers/userSlice";
 
 const MessageContainer = (props) => {
     const dispatch = useDispatch();
@@ -12,13 +13,24 @@ const MessageContainer = (props) => {
     },[room, props.socket]);
 
     useEffect(() => {
+        props.socket.on('current-room', room => {
+            if(room === 'General'){
+                dispatch(roomIdReducer(''))
+            } else {
+                dispatch(roomIdReducer(room))
+            }
+            dispatch(roomNameReducer(room))
+        })
+    }, [room, props.socket, dispatch])
+
+    useEffect(() => {
         props.socket.on('room-joined', data => {
             const arr = [];
             for (let i = 0; i < data.length; i++) {
                 const text = `${data[i].user}: ${data[i].message}`;
                 arr.push(text);
             };
-            dispatch(messageReducer(arr));
+            dispatch(messageReplaceReducer(arr));
         })
     }, [props.socket, dispatch]);
 
