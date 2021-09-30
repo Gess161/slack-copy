@@ -10,6 +10,7 @@ const RoomList = (props) => {
  
     useEffect(() => {
         socket.on(('initial-rooms'), rooms => {
+            console.log('initial rooms', rooms)
             dispatch(roomAddArrayReducer(rooms));
         });
 
@@ -20,8 +21,7 @@ const RoomList = (props) => {
         socket.on(('room-added'), rooms => {
             dispatch(roomAddArrayReducer(rooms));
         });
-        return
-    }, [socket, dispatch]);
+    }, [socket, rooms, dispatch]);
 
     return (
         <div className="chat-panel-list">
