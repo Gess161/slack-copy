@@ -17,8 +17,11 @@ const slice = createSlice({
         initialMessageReducer: (state, action) => {
             state.messages = [];
         },
+        messageReplaceReducer: (state, action) => {
+            state.messages = [...action.payload]
+        }
     }
 })
 
 export default slice.reducer
-export const { messageReducer, initialMessageReducer } = slice.actions;
+export const { messageReplaceReducer, messageReducer, initialMessageReducer } = slice.actions;
