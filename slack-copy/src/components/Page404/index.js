@@ -4,5 +4,5 @@ export default function NotFound (){
             <h1>Oops</h1>
             <h2>404 Not Found</h2>
         </div>
-    )
-}
+    );
+};

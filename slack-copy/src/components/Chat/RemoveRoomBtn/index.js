@@ -1,33 +1,31 @@
-import { useState } from "react"
-import { useDispatch, useSelector } from "react-redux"
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { roomIdReducer, roomNameReducer } from "../../../redux/reducers/userReducers/userSlice";
 
 
 export default function DeleteRoom(props) {
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
     const socket = props.socket;
-    const roomList = useSelector(state => state.room.roomList)
-    const [active, setActive] = useState(false)
-    const [roomname, setRoomname] = useState('')
+    const roomList = useSelector(state => state.room.roomList);
+    const [active, setActive] = useState(false);
+    const [roomname, setRoomname] = useState('');
 
 
     const handleButtonClick = () => {
-        setActive(!active)
-    }
+        setActive(!active);
+    };
 
     const onKeyDownHandler = e => {
         if (e.keyCode === 13) {
-            e.preventDefault()
-            if (!roomList.includes(roomname)) return alert(`This room doesn't exist`)
-            console.log(roomname)
-            socket.emit('delete-room', roomname)
-            setActive(!active)
-            setRoomname('')
-            dispatch(roomIdReducer(''))
-            dispatch(roomNameReducer('General'))
-        }
+            e.preventDefault();
+            if (!roomList.includes(roomname)) return alert(`This room doesn't exist`);
+            socket.emit('delete-room', roomname);
+            dispatch(roomIdReducer(''));
+            dispatch(roomNameReducer('General'));
+            setActive(!active);
+            setRoomname('');
+        };
     };
-
 
     const button = <button onClick={handleButtonClick}>Delete room</button>
     const input = (
@@ -38,9 +36,9 @@ export default function DeleteRoom(props) {
                 type="text"
                 placeholder="Enter roomname..." />
         </div>
-    )
+    );
 
-    const currentComponent = active ? input : button
-    return currentComponent
+    const currentComponent = active ? input : button;
+    return currentComponent;
 }
 

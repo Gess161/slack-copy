@@ -1,21 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import './AlertComponent.css';
-import { withRouter } from "react-router"
+import { withRouter } from "react-router";
 function AlertComponent(props) {
     const [modalDisplay, toggleDisplay] = useState('none');
-    const openModal = () => {
-        toggleDisplay('block');
-    }
+    const openModal = () => toggleDisplay('block');
     const closeModal = () => {
         toggleDisplay('none');
         props.hideError(null)
-    }
+    };
     useEffect(() => {
-        if (props.errorMessage !== null) {
-            openModal()
-        } else {
-            closeModal()
-        }
+        props.errorMessage !==null ? openModal() : closeModal();
     });
 
     return (
@@ -31,7 +25,7 @@ function AlertComponent(props) {
                 </button>
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default withRouter(AlertComponent)
+export default withRouter(AlertComponent);

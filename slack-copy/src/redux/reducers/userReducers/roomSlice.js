@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit"
+import { createSlice } from "@reduxjs/toolkit";
 
 
 const initialState = { roomList: [] }
@@ -11,7 +11,7 @@ const slice = createSlice({
                 state.roomList = [...action.payload, ...state.roomList].slice(0).reverse()
             } else {
                 state.roomList = [action.payload, ...state.roomList].slice(0).reverse()
-            }
+            };
         },
         deleteRoomReducer: (state, action) => {
             const toDeleteIndex = state.roomList.findIndex(() => action.payload)
@@ -21,9 +21,5 @@ const slice = createSlice({
 });
 
 
-export const { deleteRoomReducer, roomListReducer } = slice.actions
-export default slice.reducer
-
-
-//DOUBLE MESSAGES - vmesto io emit socket broadcast ili lishnii raz ne pihatj v redux
-// SOZDANIE KOMNAT DUBLIRYETSA U vtorogo usera - libo ubratj nahooi redux, libo popravit zapisivaemoe znachenie tyda
+export const { deleteRoomReducer, roomListReducer } = slice.actions;
+export default slice.reducer;

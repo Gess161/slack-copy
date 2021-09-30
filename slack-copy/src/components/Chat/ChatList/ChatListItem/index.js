@@ -1,12 +1,12 @@
 import { useDispatch } from "react-redux"
 import { roomIdReducer, roomNameReducer } from "../../../../redux/reducers/userReducers/userSlice"
 
-
 const ChatItem = (props) => {
     const dispatch = useDispatch()
     const handleRoomClick = (e) => {
-        dispatch(roomNameReducer(e.target.innerText))
         const roomId = e.target.attributes.socketid.nodeValue
+        const room = e.target.innerText
+        dispatch(roomNameReducer(room)) 
         dispatch(roomIdReducer(roomId))
     }
 

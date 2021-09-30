@@ -40,5 +40,5 @@ const slice = createSlice({
 });
 
 
-export const { statusReducer, userReducer, socketReducer, roomIdReducer, roomNameReducer } = slice.actions
-export default slice.reducer
+export const { statusReducer, userReducer, socketReducer, roomIdReducer, roomNameReducer } = slice.actions;
+export default slice.reducer;

@@ -1,15 +1,15 @@
-import { useEffect, useState } from "react"
-import ChatItem from "./ChatListItem/"
+import { useEffect, useState } from "react";
+import ChatItem from "./ChatListItem/";
 
 const ChatPanelList = (props) => {
-    const socket = props.socket
-    const [usersList, setUsersList] = useState({})
+    const socket = props.socket;
+    const [usersList, setUsersList] = useState({});
 
     useEffect(() => {
         socket.on('users-connected', userList => setUsersList(userList));
         socket.on('user-disconnected', userList => setUsersList(userList));
         return;
-    }, [socket])
+    }, [socket]);
 
     return (
         <div className="chat-panel-list">
@@ -22,10 +22,10 @@ const ChatPanelList = (props) => {
                         socket={socket}
                         socketid={usersList[key]}
                     />
-                )
+                );
             })}
         </div>
-    )
-}
+    );
+};
 
 export default ChatPanelList

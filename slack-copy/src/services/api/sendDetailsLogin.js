@@ -5,10 +5,8 @@ import addError from "../../redux/actions/addError";
 import loginReducer from "../../redux/reducers/loginReducer/loginReducer";
 
 
-
 export default function SendLoginDetails(payload){
-    const dispatch = useDispatch()
-
+    const dispatch = useDispatch();
     axios.post(API_BASE_URL + "/user/login", payload)
     .then(response => {
         if (response.status === 200) {
@@ -23,4 +21,4 @@ export default function SendLoginDetails(payload){
     .catch(error => {
         this.props.showError(error.response.data.errorMessage)
     });
-}
+};

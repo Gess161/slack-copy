@@ -1,59 +1,55 @@
 import React, { useState, useEffect } from "react";
 import { withRouter } from "react-router";
-import { useSelector, useDispatch } from "react-redux"
-import { socketReducer } from "../../redux/reducers/userReducers/userSlice"
+import { useSelector, useDispatch } from "react-redux";
+import { socketReducer } from "../../redux/reducers/userReducers/userSlice";
 import { messageReducer } from "../../redux/reducers/userReducers/messagesSlice";
 import { fetchUser } from "../../redux/thunk/fetchUser";
-import "./Chat.css"
+import "./Chat.css";
 import ChatList from "./ChatList";
 import MessageContainer from "./MessageContainer";
 import AddRoom from "./AddRoomBtn/index";
 import RoomList from "./RoomList";
 import DeleteRoom from "./RemoveRoomBtn";
-import { roomListReducer } from "../../redux/reducers/userReducers/roomSlice";
 
 function ChatRender(props) {
+    const socket = props.socket;
+    const dispatch = useDispatch();
     const [message, setMessage] = useState('');
     const user = useSelector(state => state.user);
-    const roomsList = useSelector(state => state.roomsList)
     const userStatus = useSelector(state => state.user.status);
-    const dispatch = useDispatch();
-    const socket = props.socket
 
     const onKeyDownHandler = e => {
         if (e.keyCode === 13) {
-            e.preventDefault()
-            sendData()
-        }
+            e.preventDefault();
+            sendData();
+        };
     };
 
     useEffect(() => {
-        if (userStatus === 'idle') {
-            dispatch(fetchUser());
-        }
+        if (userStatus === 'idle') dispatch(fetchUser());
     }, [userStatus, dispatch]);
 
     useEffect(() => {
-        if (user.socket) socket.emit('user-log-in', user.user, user.socket)
-    }, [user.socket, socket, user.user])
+        if (user.socket) socket.emit('user-log-in', user.user, user.socket);
+    }, [user.socket, socket, user.user]);
 
     const sendData = () => {
         if (message === '') return;
         socket.emit('message', message, user.user, user.roomName, user.roomId);
-        const text = `${user.user}: ${message}`
-        dispatch(messageReducer(text))
-        setMessage('')
+        const text = `${user.user}: ${message}`;
+        dispatch(messageReducer(text));
+        setMessage('');
     }
 
     useEffect(() => {
         if (userStatus === 'succeeded') {
             socket.on('get-message', (message, user) => {
-                const text = `${user}: ${message}`
-                dispatch(messageReducer(text))
+                const text = `${user}: ${message}`;
+                dispatch(messageReducer(text));
             })
-            dispatch(socketReducer(socket.id))
-        }
-    }, [userStatus, socket, dispatch])
+            dispatch(socketReducer(socket.id));
+        };
+    }, [userStatus, socket, dispatch]);
 
     return (
         <div className="chat-wrapper">
@@ -87,11 +83,11 @@ function ChatRender(props) {
                 <AddRoom socket={socket}/>
                 <DeleteRoom socket={socket}/>
                 Rooms:
-                <RoomList rooms={roomsList} socket={socket} />
+                <RoomList socket={socket} />
                 <ChatList socket={socket} />
             </div>
         </div>
-    )
+    );
 }
 
-export default withRouter(ChatRender)
+export default withRouter(ChatRender);
