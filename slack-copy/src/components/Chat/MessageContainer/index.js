@@ -13,6 +13,7 @@ const MessageContainer = (props) => {
             if (roomId === null) {
                 dispatch(roomIdReducer(room))
             } else {
+                console.log(roomId)
                 dispatch(roomIdReducer(roomId))
             }
             dispatch(roomNameReducer(room))

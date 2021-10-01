@@ -35,9 +35,16 @@ function ChatRender(props) {
 
     const sendData = () => {
         if (message === '') return;
-        socket.emit('message', message, user.user, user.roomName, user.roomId);
-        const text = `${user.user}: ${message}`;
-        dispatch(messageReducer(text));
+        if (user.roomName === user.roomId) {
+            socket.emit('message', message, user.user, user.roomName, user.roomId);
+        } else {
+            console.log(user.roomName)
+            socket.emit('private-message', {
+                msg: message,
+                sender: user.socket,
+                recipient: user.roomId
+            })
+        }
         setMessage('');
     }
 
@@ -48,6 +55,10 @@ function ChatRender(props) {
                 dispatch(messageReducer(text));
             })
             dispatch(socketReducer(socket.id));
+            socket.on('get-private', ({msg, sender}) => {
+                const text = `${sender}: ${msg}`
+                dispatch(messageReducer(text))
+            })
         };
     }, [userStatus, socket, dispatch]);
 
@@ -84,7 +95,7 @@ function ChatRender(props) {
                 <DeleteRoom socket={socket} />
                 Rooms:
                 <RoomList socket={socket} />
-                <ChatList socket={socket} />
+                <ChatList me={user.user} socket={socket} />
             </div>
         </div>
     );

@@ -4,14 +4,15 @@ import { roomIdReducer, roomNameReducer } from "../../../../redux/reducers/userR
 const ChatItem = (props) => {
     const dispatch = useDispatch()
     const handleRoomClick = (e) => {
-        const roomId = e.target.attributes.socketid.nodeValue
+        const roomId = props.socketid
+        console.log(roomId)
         const room = e.target.innerText
-        dispatch(roomNameReducer(room)) 
+        dispatch(roomNameReducer(room))
         dispatch(roomIdReducer(roomId))
     }
 
     return (
-        <div className="chat-item" socketid={props.socket} onClick={handleRoomClick} >{props.name}</div>
+        <div className="chat-item" socketid={props.socketid} onClick={handleRoomClick} >{props.name}</div>
     )
 }
 

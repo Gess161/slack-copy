@@ -15,6 +15,7 @@ const ChatPanelList = (props) => {
         <div className="chat-panel-list">
             Users:
             {Object.keys(usersList).map(key => {
+                if(key !== props.me)
                 return (
                     <ChatItem
                         name={key}
