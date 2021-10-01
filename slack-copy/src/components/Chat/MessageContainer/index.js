@@ -5,23 +5,23 @@ import { roomIdReducer, roomNameReducer } from "../../../redux/reducers/userRedu
 
 const MessageContainer = (props) => {
     const dispatch = useDispatch();
-    const room = useSelector(state => state.user.roomName);
+    const user = useSelector(state => state.user)
     const newMessages = useSelector(state => state.message.messages);
 
     useEffect(() => {
-        props.socket.emit('join-room', room);
-    },[room, props.socket]);
-
-    useEffect(() => {
-        props.socket.on('current-room', room => {
-            if(room === 'General'){
-                dispatch(roomIdReducer(''))
-            } else {
+        props.socket.on('current-room', (room, roomId) => {
+            if (roomId === null) {
                 dispatch(roomIdReducer(room))
+            } else {
+                dispatch(roomIdReducer(roomId))
             }
             dispatch(roomNameReducer(room))
         })
-    }, [room, props.socket, dispatch])
+    }, [props.socket, dispatch]);
+
+    useEffect(() => {
+        props.socket.emit('join-room', user.roomName, user.roomId, user.isUser, user.user);
+    }, [user.roomName, props.socket]);
 
     useEffect(() => {
         props.socket.on('room-joined', data => {
@@ -36,7 +36,7 @@ const MessageContainer = (props) => {
 
     return (
         <div id="message-container">
-            <div className="current-room">Room: {props.roomName}</div>
+            <div className="current-room">Room: {user.roomName}</div>
             {newMessages.map((message, index) => {
                 return (
                     <div key={index}>{message}</div>

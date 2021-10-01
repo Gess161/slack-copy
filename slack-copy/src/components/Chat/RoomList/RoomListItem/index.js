@@ -1,7 +1,13 @@
+import { useDispatch } from "react-redux";
+import { roomIdReducer, roomNameReducer } from "../../../../redux/reducers/userReducers/userSlice";
+
 const RoomItem = (props) => {
+    const dispatch = useDispatch()
     const handleRoomClick = (e) => {
-        console.log('i worked on room', e.target.innerText)
+        const roomName = e.target.innerText
         props.socket.emit('join-room', e.target.innerText);
+        dispatch(roomNameReducer(roomName))
+        dispatch(roomIdReducer(roomName))
     }
     return (
         <div className="chat-item" socket={props.socket} onClick={handleRoomClick} >{props.name}</div>
