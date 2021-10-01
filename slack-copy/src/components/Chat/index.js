@@ -40,6 +40,8 @@ function ChatRender(props) {
         } else {
             console.log(user.roomName)
             socket.emit('private-message', {
+                senderName: user.user,
+                recipientName: user.roomName,
                 msg: message,
                 sender: user.socket,
                 recipient: user.roomId
@@ -55,9 +57,9 @@ function ChatRender(props) {
                 dispatch(messageReducer(text));
             })
             dispatch(socketReducer(socket.id));
-            socket.on('get-private', ({msg, sender}) => {
-                const text = `${sender}: ${msg}`
-                dispatch(messageReducer(text))
+            socket.on('get-private', ({msg, senderName, sender, recipient, recipientName }) => {
+                // const text = `${senderName}: ${msg}`
+                // dispatch(messageReducer(text))
             })
         };
     }, [userStatus, socket, dispatch]);
