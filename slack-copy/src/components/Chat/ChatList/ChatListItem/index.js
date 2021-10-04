@@ -10,16 +10,18 @@ const ChatItem = (props) => {
         const roomId = props.socketid
         const room = e.target.innerText
         dispatch(roomNameReducer(room))
-        dispatch(sendToReducer(roomId))
-        dispatch(roomIdReducer(user.socket))
+        dispatch(roomIdReducer(roomId))
     }
 
     useEffect(() => {
-        if(user.sendTo !== ''){
-            console.log(user.sendTo)
-            props.socket.emit('join-room', user.sendTo);
+        if(user.roomId !== ''){
+            props.socket.emit('join-room', {
+                room: user.roomName,
+                roomId: user.roomId,
+                isPerson: true
+            });
         }
-    },[user.sendTo])
+    },[user.roomId])
 
     return (
         <div className="chat-item" socketid={props.socketid} onClick={handleRoomClick} >{props.name}</div>

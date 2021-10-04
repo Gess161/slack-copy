@@ -5,7 +5,11 @@ const RoomItem = (props) => {
     const dispatch = useDispatch()
     const handleRoomClick = (e) => {
         const roomName = e.target.innerText
-        props.socket.emit('join-room', e.target.innerText);
+        props.socket.emit('join-room', {
+            room: roomName,
+            roomId: roomName,
+            isPerson: false,
+        });
         dispatch(roomNameReducer(roomName))
         dispatch(roomIdReducer(roomName))
     }

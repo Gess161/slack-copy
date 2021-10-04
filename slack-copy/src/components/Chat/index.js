@@ -11,6 +11,8 @@ import AddRoom from "./AddRoomBtn/index";
 import RoomList from "./RoomList";
 import DeleteRoom from "./RemoveRoomBtn";
 
+// from !== roomname -> ne dispatchit
+
 function ChatRender(props) {
     const socket = props.socket;
     const dispatch = useDispatch();
@@ -35,17 +37,15 @@ function ChatRender(props) {
 
     const sendData = () => {
         if (message === '') return;
-        console.log(user.roomName, 'Roomname <-, RoomId ->', user.roomId)
         if (user.roomName === user.roomId) {
             socket.emit('message', message, user.user, user.roomName, user.roomId);
         } else {
-            console.log(user.socket, 'to', user.sendTo)
             socket.emit('private-message', {
                 senderName: user.user,
                 recipientName: user.roomName,
                 msg: message,
                 sender: user.socket,
-                recipient: user.sendTo
+                recipient: user.roomId
             })
             const text = `${user.user}: ${message}`;
             dispatch(messageReducer(text));
