@@ -8,7 +8,6 @@ const RoomItem = (props) => {
         props.socket.emit('join-room', {
             room: roomName,
             roomId: roomName,
-            isPerson: false,
         });
         dispatch(roomNameReducer(roomName))
         dispatch(roomIdReducer(roomName))

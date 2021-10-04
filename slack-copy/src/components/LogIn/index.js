@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { API_BASE_URL, ACCESS_TOKEN_NAME } from '../../constants';
 import { withRouter } from 'react-router';
-import './Login.css';
 
 
 function LogIn(props) {
@@ -66,24 +65,26 @@ function LogIn(props) {
         sendDetailsToServer();
     };
     return (
-        <div id="login" className="d-flex flex-column card login-card hv-center" >
-            <form className="form-login">
+        <div id="login" className="auth-container" >
+            <img class="logo" alt="Slack" src="https://a.slack-edge.com/bv1-9/slack_logo-ebd02d1.svg"/>
+            <h2 className="greeting">Log in</h2>
+            <form className="form">
                 <div className="form-part">
-                    <label className="form-label" htmlFor="exampleInputEmail1">Email address</label>
+                    <label className="form-label" htmlFor="exampleInputEmail1">Enter your email</label>
                     <input className="form-input" type="email"
                         id="email"
                         aria-describedby="emailHelp"
-                        placeholder="Enter email"
+                        placeholder="myname@work-email.com"
                         value={state.email}
                         onChange={handleChange}
                     />
                     <small id="emailHelp" className="form-small">We'll never share your email with anyone else.</small>
                 </div>
                 <div className="form-part">
-                    <label className="form-label"  htmlFor="exampleInputPassword1">Password</label>
+                    <label className="form-label"  htmlFor="exampleInputPassword1">Enter your password</label>
                     <input className="form-input" type="password"
                         id="password"
-                        placeholder="Password"
+                        placeholder="mypassword"
                         value={state.password}
                         onChange={handleChange}
                     />
@@ -91,7 +92,7 @@ function LogIn(props) {
                 </div>
                 <button
                     type="button"
-                    className="d-flex w-50 justify-content-center align-self-center btn btn-primary"
+                    className="form-button"
                     onClick={handleSubmit}
                 >
                     Click Me!
@@ -100,9 +101,9 @@ function LogIn(props) {
             <div className="alert alert-success mt-2" style={{ display: state.successMessage ? 'block' : 'none' }} role="alert">
                 {state.successMessage}
             </div>
-            <div className="registerMessage">
+            <div className="form-already">
                 <span>Don't have an account? </span>
-                <span className="loginText" onClick={() => redirectToSignUp()}>Register</span>
+                <span className="login-here" onClick={() => redirectToSignUp()}>Register</span>
             </div>
         </div>
     );

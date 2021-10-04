@@ -1,4 +1,4 @@
-import './App.css';
+import "./stylesheets/styles.css"
 import React, { useState } from 'react'
 import { Switch, Route} from 'react-router-dom';
 import Header from './components/Header';
@@ -19,7 +19,7 @@ function App() {
   return (
     <div className="App">
       <div className="wrapper">
-        <Header title={title} socket={socket} />
+        {/* <Header title={title} socket={socket} /> */}
         <Switch>
           <Route exact path="/">
             <SignUp showError={updateErrorMessage} updateTitle={updateTitle} />

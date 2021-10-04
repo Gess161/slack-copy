@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios'
 import { API_BASE_URL, ACCESS_TOKEN_NAME } from '../../constants/index';
 import { withRouter } from 'react-router';
-import './Signup.css'
+import logo from '../../stylesheets/logo/logo.svg'
 
 function SignUp(props) {
     const [state, setState] = useState({
@@ -11,7 +11,6 @@ function SignUp(props) {
         confirmPassword: "",
         successMessage: null
     });
-
     const handleChange = (e) => {
         const { id, value } = e.target
         setState(prevState => ({
@@ -19,13 +18,10 @@ function SignUp(props) {
             [id]: value
         }));
     };
-
-
     const redirectToLogin = () => {
         props.updateTitle('Login')
         props.history.push('/login');
     };
-
     const sendDetailsToServer = () => {
         if (state.email.length && state.password.length) {
             const payload = {
@@ -50,19 +46,19 @@ function SignUp(props) {
             props.showError('Please enter valid username and password')
         };
     };
-
     const handleSubmit = () => state.password === state.confirmPassword ? sendDetailsToServer() : props.showError('Passwords do not match');
 
     return (
-        <div className="d-flex flex-column card login-card hv-center">
-            <form className="form-signup">
+        <div className="auth-container">
+            <img class="logo" alt="Slack" src="https://a.slack-edge.com/bv1-9/slack_logo-ebd02d1.svg"/>
+            <h2 className="greeting">Welcome to Slack!</h2>
+            <form className="form">
                 <div className="form-part">
                     <label className="form-label" htmlFor="exampleInputEmail1">Email address</label>
                     <input className="form-input" type="email"
-
                         id="email"
                         aria-describedby="emailHelp"
-                        placeholder="Enter email"
+                        placeholder="myname@work-email.com"
                         value={state.email}
                         onChange={handleChange}
                     />
@@ -73,7 +69,7 @@ function SignUp(props) {
                     <input type="password"
                         className="form-input"
                         id="password"
-                        placeholder="Password"
+                        placeholder="mysecretpassword123"
                         value={state.password}
                         onChange={handleChange}
                     />
@@ -84,14 +80,14 @@ function SignUp(props) {
                     <input type="password"
                         className="form-input"
                         id="confirmPassword"
-                        placeholder="Confirm Password"
+                        placeholder="Confirm password"
                         value={state.confirmPassword}
                         onChange={handleChange}
                     />
                 </div>
                 <button
                     type="button"
-                    className="d-flex w-50 justify-content-center align-self-center btn btn-primary"
+                    className="form-button"
                     onClick={handleSubmit}
                 >
                     Click Me!
@@ -100,9 +96,9 @@ function SignUp(props) {
             <div className="alert alert-success mt-2" style={{ display: state.successMessage ? 'block' : 'none' }} role="alert">
                 {state.successMessage}
             </div>
-            <div className="registerMessage">
+            <div className="form-already">
                 <span>Already have an account? </span>
-                <span className="loginText" onClick={redirectToLogin}>Login here</span>
+                <span className="login-here" onClick={redirectToLogin}>Login here</span>
             </div>
         </div>
     );
