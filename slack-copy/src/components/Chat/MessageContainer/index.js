@@ -13,16 +13,11 @@ const MessageContainer = (props) => {
             if (roomId === null) {
                 dispatch(roomIdReducer(room))
             } else {
-                console.log(roomId)
                 dispatch(roomIdReducer(roomId))
             }
             dispatch(roomNameReducer(room))
         })
     }, [props.socket, dispatch]);
-
-    useEffect(() => {
-        props.socket.emit('join-room', user.roomName, user.roomId, user.isUser, user.user);
-    }, [user.roomName, props.socket]);
 
     useEffect(() => {
         props.socket.on('room-joined', data => {

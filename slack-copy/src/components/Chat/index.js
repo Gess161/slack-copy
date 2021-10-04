@@ -35,34 +35,39 @@ function ChatRender(props) {
 
     const sendData = () => {
         if (message === '') return;
+        console.log(user.roomName, 'Roomname <-, RoomId ->', user.roomId)
         if (user.roomName === user.roomId) {
             socket.emit('message', message, user.user, user.roomName, user.roomId);
         } else {
-            console.log(user.roomName)
+            console.log(user.socket, 'to', user.sendTo)
             socket.emit('private-message', {
                 senderName: user.user,
                 recipientName: user.roomName,
                 msg: message,
                 sender: user.socket,
-                recipient: user.roomId
+                recipient: user.sendTo
             })
+            const text = `${user.user}: ${message}`;
+            dispatch(messageReducer(text));
         }
         setMessage('');
     }
 
+
     useEffect(() => {
         if (userStatus === 'succeeded') {
+            dispatch(socketReducer(socket.id));
             socket.on('get-message', (message, user) => {
                 const text = `${user}: ${message}`;
                 dispatch(messageReducer(text));
             })
-            dispatch(socketReducer(socket.id));
-            socket.on('get-private', ({msg, senderName, sender, recipient, recipientName }) => {
-                // const text = `${senderName}: ${msg}`
-                // dispatch(messageReducer(text))
+            socket.on('get-private', ({ msg, senderName, sender, recipient, recipientName }) => {
+                const text = `${senderName}: ${msg}`
+                console.log(user.roomName, '?=', senderName)
+                if (user.roomName === senderName) dispatch(messageReducer(text));
             })
         };
-    }, [userStatus, socket, dispatch]);
+    }, [userStatus, dispatch, user.roomName]);
 
     return (
         <div className="chat-wrapper">

@@ -20,7 +20,7 @@ export default function DeleteRoom(props) {
             e.preventDefault();
             if (!roomList.includes(roomname)) return alert(`This room doesn't exist`);
             socket.emit('delete-room', roomname);
-            dispatch(roomIdReducer(''));
+            dispatch(roomIdReducer('General'));
             dispatch(roomNameReducer('General'));
             setActive(!active);
             setRoomname('');
