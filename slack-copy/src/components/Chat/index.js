@@ -4,14 +4,14 @@ import { useSelector, useDispatch } from "react-redux";
 import { socketReducer } from "../../redux/reducers/userReducers/userSlice";
 import { messageReducer } from "../../redux/reducers/userReducers/messagesSlice";
 import { fetchUser } from "../../redux/thunk/fetchUser";
-import "./Chat.css";
 import ChatList from "./ChatList";
 import MessageContainer from "./MessageContainer";
-import AddRoom from "./AddRoomBtn/index";
 import RoomList from "./RoomList";
+import AddRoom from "./AddRoomBtn/index";
 import DeleteRoom from "./RemoveRoomBtn";
-
-// from !== roomname -> ne dispatchit
+import icon from "../../stylesheets/icons/bell.svg"
+import search from "../../stylesheets/icons/search.svg"
+import appicon from "../../stylesheets/icons/app.svg"
 
 function ChatRender(props) {
     const socket = props.socket;
@@ -26,15 +26,6 @@ function ChatRender(props) {
             sendData();
         };
     };
-
-    useEffect(() => {
-        if (userStatus === 'idle') dispatch(fetchUser());
-    }, [userStatus, dispatch]);
-
-    useEffect(() => {
-        if (user.socket) socket.emit('user-log-in', user.user, user.socket);
-    }, [user.socket, socket, user.user]);
-
     const sendData = () => {
         if (message === '') return;
         if (user.roomName === user.roomId) {
@@ -51,9 +42,13 @@ function ChatRender(props) {
             dispatch(messageReducer(text));
         }
         setMessage('');
-    }
-
-
+    };
+    useEffect(() => {
+        if (userStatus === 'idle') dispatch(fetchUser());
+    }, [userStatus, dispatch]);
+    useEffect(() => {
+        if (user.socket) socket.emit('user-log-in', user.user, user.socket);
+    }, [user.socket, socket, user.user]);
     useEffect(() => {
         if (userStatus === 'succeeded') {
             dispatch(socketReducer(socket.id));
@@ -70,8 +65,39 @@ function ChatRender(props) {
     }, [userStatus, dispatch, user.roomName]);
 
     return (
-        <div className="chat-wrapper">
-            <div className="chat d-flex flex-column">
+        <div className="chat">
+            <div className="chat-panel">
+                <h2 className="chat-panel-header ">
+                    <div className="header">
+                        <div className="header-top">
+                            <div className="header-text-name">Hlack Mockup</div>
+                            <div className="chat-panel-arrow"></div>
+                        </div>
+                        <div className="header-bottom">
+                            <div className="online-indicator"></div>
+                            <div className="header-bottom-user">{user.user}</div>
+                        </div>
+                    </div>
+                    <img src={icon} className="chat-panel-bell" />
+                </h2>
+                <div className="jump-to">
+                    <img className="search" src={search} />
+                    <input placeholder="Jump to..." />
+                </div>
+                <div className="apps">
+                    <img className="icon" src={appicon} />
+                    <p>Apps</p>
+                </div>
+                {/* <AddRoom socket={socket} />
+                <DeleteRoom socket={socket} /> */}
+                <div className="channels">
+                    <p>Channels</p>
+                    <AddRoom socket={socket} />
+                </div>
+                <RoomList socket={socket} />
+                <ChatList me={user.user} socket={socket} />
+            </div>
+            <div className="">
                 <MessageContainer socket={socket} roomName={user.roomName} />
                 <form id="form" className="chat-form flex-column border border-dark">
                     <div className="message-row d-flex flex-row">
@@ -96,13 +122,6 @@ function ChatRender(props) {
                         You logged in as: {user.user}
                     </div>
                 </form>
-            </div>
-            <div className="chat-panel">
-                <AddRoom socket={socket} />
-                <DeleteRoom socket={socket} />
-                Rooms:
-                <RoomList socket={socket} />
-                <ChatList me={user.user} socket={socket} />
             </div>
         </div>
     );

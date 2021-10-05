@@ -1,7 +1,6 @@
 import React from 'react';
 import { ACCESS_TOKEN_NAME } from '../../constants';
 import { withRouter } from 'react-router';
-import './Header.css';
 
 function Header(props) {
     const pathname = props.location.pathname;

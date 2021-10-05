@@ -1,9 +1,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lato&display=swap');
 
+$chat-panel-font: 'Lato', sans-serif;
 $auth-font: 'Roboto', sans-serif;
+$background-input: #5C345C;
+$background-chat-color: #3F103F;
 $background-color: #611f69;
 $background-text-color: #FFFFFF;
 $text-color: #1D1C1D;
 $inner-text-color: rgba(29,28,29,.3);
 $link-color: #1264a3;
-
+$background-selected: #1966A1;
+$background-online: #33AB78;

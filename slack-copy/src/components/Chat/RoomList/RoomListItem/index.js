@@ -1,5 +1,6 @@
 import { useDispatch } from "react-redux";
 import { roomIdReducer, roomNameReducer } from "../../../../redux/reducers/userReducers/userSlice";
+import hashtag from "../../../../stylesheets/icons/hashtag.svg"
 
 const RoomItem = (props) => {
     const dispatch = useDispatch()
@@ -13,7 +14,10 @@ const RoomItem = (props) => {
         dispatch(roomIdReducer(roomName))
     }
     return (
-        <div className="chat-item" socket={props.socket} onClick={handleRoomClick} >{props.name}</div>
+        <div className="room-item">
+            <img className="icon" alt="#" src={hashtag}/>
+            <div className="chat-item" socket={props.socket} onClick={handleRoomClick} >{props.name}</div>
+        </div>
     )
 }
 

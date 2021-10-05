@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { roomListReducer } from "../../../redux/reducers/userReducers/roomSlice";
+import addBtn from "../../../stylesheets/icons/add.svg"
 
 export default function AddRoom(props) {
     const socket = props.socket;
@@ -25,14 +26,15 @@ export default function AddRoom(props) {
         };
     };
 
-    const button = <button onClick={handleButtonClick}>Add room</button>
+    const button = <img src={addBtn} className="add-room-button" onClick={handleButtonClick} />
     const input = (
         <div className="add-room">
             <input
+                className="add-room-input"
                 onChange={e => setRoomname(e.target.value)}
                 onKeyDown={onKeyDownHandler}
                 type="text"
-                placeholder="Enter roomname..." />
+                placeholder="Channel name..." />
         </div>
     );
 

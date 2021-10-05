@@ -1,7 +1,7 @@
 import { createSlice} from "@reduxjs/toolkit"
 import { fetchUser } from "../../thunk/fetchUser"
 
-const initialState = { user: 'Unnamed', status: 'idle', socket: null, roomId: 'General' , roomName: 'General', sendTo: ''}
+const initialState = { user: 'Unnamed', status: 'idle', socket: null, roomId: 'general' , roomName: 'general', sendTo: ''}
 const slice = createSlice({
     name: 'user',
     initialState,

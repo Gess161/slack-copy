@@ -12,8 +12,8 @@ const ChatPanelList = (props) => {
     }, [socket]);
 
     return (
-        <div className="chat-panel-list">
-            Users:
+        <div className="chat-panel-list channels">
+            <p className="">Direct Messages</p>
             {Object.keys(usersList).map(key => {
                 if(key !== props.me)
                 return (

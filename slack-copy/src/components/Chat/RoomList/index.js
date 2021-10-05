@@ -25,7 +25,7 @@ const RoomList = (props) => {
 
     return (
         <div className="chat-panel-list">
-            <RoomItem name='General' socket={socket} />
+            <RoomItem name='general' socket={socket} />
             {Object.keys(rooms).map(key => {
                 return (
                     <RoomItem
