@@ -11,7 +11,8 @@ import AddRoom from "./AddRoomBtn/index";
 import DeleteRoom from "./RemoveRoomBtn";
 import icon from "../../stylesheets/icons/bell.svg"
 import search from "../../stylesheets/icons/search.svg"
-import appicon from "../../stylesheets/icons/app.svg"
+import appIcon from "../../stylesheets/icons/app.svg"
+import usersNumber from "../../stylesheets/icons/chat-user.png"
 
 function ChatRender(props) {
     const socket = props.socket;
@@ -19,7 +20,6 @@ function ChatRender(props) {
     const [message, setMessage] = useState('');
     const user = useSelector(state => state.user);
     const userStatus = useSelector(state => state.user.status);
-
     const onKeyDownHandler = e => {
         if (e.keyCode === 13) {
             e.preventDefault();
@@ -85,7 +85,7 @@ function ChatRender(props) {
                     <input placeholder="Jump to..." />
                 </div>
                 <div className="apps">
-                    <img className="icon" src={appicon} />
+                    <img className="icon" src={appIcon} />
                     <p>Apps</p>
                 </div>
                 {/* <AddRoom socket={socket} />
@@ -97,7 +97,32 @@ function ChatRender(props) {
                 <RoomList socket={socket} />
                 <ChatList me={user.user} socket={socket} />
             </div>
-            <div className="">
+            <div className="message-container">
+                <div className="message-header">
+                    <div className="message-header-left">
+                        <div className="message-header-left-text">#{user.roomName}</div>
+                        <div className="status">
+                            <img className="status-icon" src={usersNumber} />
+                            <div className="status-users">{3}</div>
+                        </div>
+                    </div>
+                    <div className="message-header-right">
+                        <div className="buttons-left">
+                            <img className="button-icon"/>
+                            <img className="button-icon"/>
+                            <img className="button-icon"/>
+                        </div>
+                        <div className="message-search">
+                            <img className="button-icon"/>
+                            <input className="message-search-input" />
+                        </div>
+                        <div className="buttons-right">
+                            <img className="button-icon"/>
+                            <img className="button-icon"/>
+                            <img className="button-icon"/>
+                        </div>
+                    </div>
+                </div>
                 <MessageContainer socket={socket} roomName={user.roomName} />
                 <form id="form" className="chat-form flex-column border border-dark">
                     <div className="message-row d-flex flex-row">

@@ -3,7 +3,7 @@
 .icon {
     width: 28px;
     height: 28px;
-    padding: 7px 8px 8px 8px ;
+    padding: 7px 8px 8px 8px;
 }
 .auth-container {
     display: flex;
@@ -115,7 +115,7 @@
     &-panel {
         display: flex;
         padding-left: 16px;
-        width: 220px;
+        width: 15.3%;
         height: 920px;
         flex-direction: column;
         background: $background-chat-color;
@@ -127,7 +127,7 @@
             font-size: 18px;
             cursor: pointer;
         }
-        &-list{
+        &-list {
             display: flex;
             flex-direction: column;
         }
@@ -144,7 +144,7 @@
     }
     &-bottom {
         display: flex;
-        flex-direction: row;    
+        flex-direction: row;
         align-items: center;
         &-user {
             padding-left: 4px;
@@ -159,21 +159,21 @@
         }
     }
 }
-.jump-to{
+.jump-to {
     display: flex;
-    width: 188px;
+    width: 90%;
     height: 28px;
     background: $background-input;
     border-radius: 4px;
 
-    .search{
+    .search {
         display: flex;
         padding: 5px 8px 7px 8px;
         width: 32px;
         height: 32px;
         opacity: 0.6;
     }
-    
+
     input {
         font-size: 15px;
         border-radius: 4px;
@@ -181,15 +181,15 @@
         background: $background-input;
         width: 100%;
         border: none;
-        color:$background-text-color;
-        &::placeholder{
+        color: $background-text-color;
+        &::placeholder {
             font-size: 15px;
             color: $background-text-color;
-            opacity: 0.6
+            opacity: 0.6;
         }
     }
 }
-.apps{
+.apps {
     display: flex;
     width: 100%;
     height: 30px;
@@ -202,7 +202,7 @@
         padding: 3px;
     }
 }
-.channels{
+.channels {
     display: flex;
     width: 100%;
     height: 30px;
@@ -220,10 +220,10 @@
         padding: 4px;
     }
 }
-.add-room{
+.add-room {
     display: flex;
     width: 100%;
-    &-button{
+    &-button {
         display: flex;
         height: 30px;
         width: 30px;
@@ -231,7 +231,7 @@
         justify-self: flex-end;
         align-self: flex-end;
     }
-    &-input{
+    &-input {
         display: flex;
         font-size: 15px;
         border-radius: 4px;
@@ -240,21 +240,64 @@
         margin-left: 10px;
         width: 85%;
         border: none;
-        color:$background-text-color;
-        &::placeholder{
+        color: $background-text-color;
+        &::placeholder {
             font-size: 15px;
             color: $background-text-color;
-            opacity: 0.6
+            opacity: 0.6;
         }
     }
 }
-.room-item{
+.room-item {
     display: flex;
     width: 100%;
     height: 30px;
     font-size: 15px;
     opacity: 0.6;
     align-items: center;
+}
+.message {
+    &-container {
+        width: 84.7%;
+    }
+    &-header {
+        width: 100%;
+        display: flex;
+        height: 60px;
+        border-bottom: 1px solid $chat-border;
+        &-left {
+            padding: 8px 8px 8px 20px;
+            flex-direction: column;
+            height: 100%;
+            width: 50%;
+            align-items: flex-start;
+            &-text {
+                font-family: $chat-panel-font;
+                font-size: 18px;
+                font-weight: 900;
+                text-align: left;
+                color: $text-color;
+            }
+        }
+    }
+}
+.status {
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    &-icon {
+        width: 19px;
+        height: 19px;
+        padding: 4px;
+        opacity: 0.6;
+    }
+    &-users {
+        padding-top: 1px;
+        height: 19px;
+        font-size: 12px;
+        color: $text-color;
+        opacity: 0.6;
+    }
 }
 
 @media (max-width: 800px) {
