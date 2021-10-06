@@ -2,16 +2,14 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { API_BASE_URL, ACCESS_TOKEN_NAME } from '../../constants';
 import { withRouter } from 'react-router';
-
+import LoginForm from './Form';
 
 function LogIn(props) {
     const [state, setState] = useState({
         email: "",
         password: "",
-        confirmPassword: "",
         successMessage: null
     });
-
     const handleChange = (e) => {
         const { id, value } = e.target
         setState(prevState => ({
@@ -19,17 +17,12 @@ function LogIn(props) {
             [id]: value
         }));
     };
-
     const redirectToSignUp = () => {
-        props.updateTitle('Register');
         props.history.push('/');
     };
-
     const redirectToChat = () => {
-        props.updateTitle('Chat');
         props.history.push('/chat');
     };
-
     const sendDetailsToServer = () => {
         if (state.email.length && state.password.length) {
             props.showError(null);
@@ -53,51 +46,25 @@ function LogIn(props) {
                         props.showError("Username does not exists");
                     };
                 })
-                .catch( error => {
+                .catch(error => {
                     props.showError(error.response.data.errorMessage);
                 });
         } else {
             props.showError('Please enter valid username and password');
         };
     };
-
     const handleSubmit = (e) => {
         sendDetailsToServer();
     };
     return (
         <div id="login" className="auth-container" >
-            <img class="logo" alt="Slack" src="https://a.slack-edge.com/bv1-9/slack_logo-ebd02d1.svg"/>
+            <img class="logo" alt="Slack" src="https://a.slack-edge.com/bv1-9/slack_logo-ebd02d1.svg" />
             <h2 className="greeting">Log in</h2>
-            <form className="form">
-                <div className="form-part">
-                    <label className="form-label" htmlFor="exampleInputEmail1">Enter your email</label>
-                    <input className="form-input" type="email"
-                        id="email"
-                        aria-describedby="emailHelp"
-                        placeholder="myname@work-email.com"
-                        value={state.email}
-                        onChange={handleChange}
-                    />
-                    <small id="emailHelp" className="form-small">We'll never share your email with anyone else.</small>
-                </div>
-                <div className="form-part">
-                    <label className="form-label"  htmlFor="exampleInputPassword1">Enter your password</label>
-                    <input className="form-input" type="password"
-                        id="password"
-                        placeholder="mypassword"
-                        value={state.password}
-                        onChange={handleChange}
-                    />
-                <small id="passwordHelp" className="form-small">Password must contain at least 6 characters</small>
-                </div>
-                <button
-                    type="button"
-                    className="form-button"
-                    onClick={handleSubmit}
-                >
-                    Click Me!
-                </button>
-            </form>
+            <LoginForm 
+                handleChange={handleChange} 
+                handleSubmit={handleSubmit} 
+                email={state.email} 
+                password={state.password} />
             <div className="alert alert-success mt-2" style={{ display: state.successMessage ? 'block' : 'none' }} role="alert">
                 {state.successMessage}
             </div>
