@@ -1,7 +1,7 @@
-import { createSlice} from "@reduxjs/toolkit"
+import { createSlice } from "@reduxjs/toolkit"
 import { fetchUser } from "../../thunk/fetchUser"
 
-const initialState = { user: 'Unnamed', status: 'idle', socket: null, roomId: 'general' , roomName: 'general', sendTo: ''}
+const initialState = { user: 'Unnamed', userList: [], status: 'idle', socket: null, roomId: 'general', roomName: 'general', sendTo: '' }
 const slice = createSlice({
     name: 'user',
     initialState,
@@ -20,6 +20,9 @@ const slice = createSlice({
         },
         userReducer: (state, action) => {
             state.user = action.payload
+        },
+        userListReducer: (state, action) => {
+            state.usersList = action.payload
         },
         sendToReducer: (state, action) => {
             state.sendTo = action.payload
@@ -43,5 +46,12 @@ const slice = createSlice({
 });
 
 
-export const { sendToReducer, statusReducer, userReducer, socketReducer, roomIdReducer, roomNameReducer } = slice.actions;
+export const { 
+    sendToReducer, 
+    statusReducer, 
+    userReducer,
+    userListReducer, 
+    socketReducer, 
+    roomIdReducer, 
+    roomNameReducer, } = slice.actions;
 export default slice.reducer;

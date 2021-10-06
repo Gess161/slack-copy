@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import axios from 'axios'
 import { API_BASE_URL, ACCESS_TOKEN_NAME } from '../../constants/index';
 import { withRouter } from 'react-router';
-import logo from '../../stylesheets/logo/logo.svg'
 
 function SignUp(props) {
     const [state, setState] = useState({

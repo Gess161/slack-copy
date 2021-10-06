@@ -13,3 +13,21 @@ $link-color: #1264a3;
 $background-selected: #1966A1;
 $background-online: #33AB78;
 $chat-border: #DDDDDD;
+$chat-input-background: #F8F8F8;
+$chat-input-icon-selected: #DCDCDC;
+
+body{
+    height: 100vh;
+    width: 100%;
+}  
+.App, .wrapper, #root{
+    height: 100%;
+    width: 100%;
+}
+
+input:focus,
+select:focus,
+textarea:focus,
+button:focus {
+    outline: none;
+}

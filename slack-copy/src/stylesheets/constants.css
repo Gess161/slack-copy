@@ -1,4 +1,20 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Lato&display=swap");
+body {
+  height: 100vh;
+  width: 100%;
+}
+
+.App, .wrapper, #root {
+  height: 100%;
+  width: 100%;
+}
+
+input:focus,
+select:focus,
+textarea:focus,
+button:focus {
+  outline: none;
+}
 
 /*# sourceMappingURL=constants.css.map */

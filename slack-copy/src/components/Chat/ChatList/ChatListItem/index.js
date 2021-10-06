@@ -1,6 +1,6 @@
 import { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { roomIdReducer, roomNameReducer, sendToReducer } from "../../../../redux/reducers/userReducers/userSlice"
+import { roomIdReducer, roomNameReducer } from "../../../../redux/reducers/userReducers/userSlice"
 import userPicture from "../../../../stylesheets/icons/user.png"
 
 

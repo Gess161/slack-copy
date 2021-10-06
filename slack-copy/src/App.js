@@ -1,7 +1,6 @@
 import "./stylesheets/styles.css"
 import React, { useState } from 'react'
 import { Switch, Route} from 'react-router-dom';
-import Header from './components/Header';
 import SignUp from './components/SignUp';
 import LogIn from './components/LogIn'
 import PrivateRoute from './utils/PrivateRoute';
@@ -13,19 +12,17 @@ import { WEB_SOCKET_URL } from './constants';
 
 const socket = io(WEB_SOCKET_URL)
 function App() {
-  const [title, updateTitle] = useState(null)
   const [errorMessage, updateErrorMessage] = useState(null)
 
   return (
     <div className="App">
       <div className="wrapper">
-        {/* <Header title={title} socket={socket} /> */}
         <Switch>
           <Route exact path="/">
-            <SignUp showError={updateErrorMessage} updateTitle={updateTitle} />
+            <SignUp showError={updateErrorMessage}/>
           </Route>
           <Route path="/login">
-            <LogIn showError={updateErrorMessage} updateTitle={updateTitle} />
+            <LogIn showError={updateErrorMessage}/>
           </Route>
           <PrivateRoute path="/chat">
             <Chat

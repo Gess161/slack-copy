@@ -75,7 +75,6 @@
         width: 40%;
         border: 1px solid $inner-text-color;
         border-radius: 4px;
-        color: $inner-text-color;
     }
 }
 .online-indicator {
@@ -85,12 +84,69 @@
     border-radius: 50%;
     background: $background-online;
 }
-.chat {
+.client {
     display: flex;
     width: 100%;
     height: 100%;
     color: $background-text-color;
-
+    font-family: $chat-panel-font;
+    &-form {
+        align-self: center;
+        display: flex;
+        border: 2px solid $inner-text-color;
+        border-radius: 5px;
+        height: 8.7%;
+        min-height: 80px;
+        width: 98%;
+        margin-bottom: 2%;
+        &-chats {
+            height: 100%;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            &-top {
+                height: 50%;
+                width: 100%;
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                input {
+                    font-size: 15px;
+                    border: none;
+                    width: 100%;
+                    height: 100%;
+                    padding: 10px 10px 10px 30px;
+                }
+            }
+            &-bottom {
+                display: flex;
+                width: 100%;
+                flex-direction: row;
+                justify-content: space-around;
+                height: 50%;
+                background: $chat-input-background;
+                align-items: center;
+                .bottom {
+                    &-left {
+                        opacity: 0.4;
+                        flex-direction: row;
+                        display: flex;
+                        width: 50%;
+                        align-self: flex-start;
+                        justify-content: flex-start;
+                    }
+                    &-right {
+                        opacity: 0.4;
+                        justify-content: flex-end;
+                        flex-direction: row;
+                        display: flex;
+                        width: 50%;
+                        align-self: flex-end;
+                    }
+                }
+            }
+        }
+    }
     &-panel-bell {
         width: 32px;
         height: 52px;
@@ -98,7 +154,6 @@
         justify-self: flex-end;
         padding-right: 16px;
     }
-
     &-panel-arrow {
         align-self: center;
         width: 5px;
@@ -111,12 +166,11 @@
         transform: rotate(45deg);
         -webkit-transform: rotate(45deg);
     }
-
     &-panel {
         display: flex;
         padding-left: 16px;
         width: 15.3%;
-        height: 920px;
+        height: 100%;
         flex-direction: column;
         background: $background-chat-color;
 
@@ -154,7 +208,6 @@
             font-family: $chat-panel-font;
             font-weight: normal;
             font-size: 14px;
-            line-height: 17px;
             opacity: 0.6;
         }
     }
@@ -209,6 +262,7 @@
     justify-content: space-between;
     align-self: center;
     justify-self: center;
+    flex-direction: column;
     p {
         height: 30px;
         display: flex;
@@ -256,16 +310,38 @@
     opacity: 0.6;
     align-items: center;
 }
-.message {
+.chat {
     &-container {
+        display: flex;
         width: 84.7%;
+        height: 100%;
+        flex-direction: column;
+    }
+    &-field {
+        display: flex;
+        height: 84.7%;
+        flex-shrink: 1;
+        flex-direction: column;
+    }
+    &-search {
+        border-radius: 5px;
+        border: 1px solid $inner-text-color;
+        display: flex;
+        height: 32px;
+        flex-direction: row;
+        &-input {
+            border: none;
+        }
     }
     &-header {
         width: 100%;
         display: flex;
-        height: 60px;
+        min-height: 60px;
+        height: 6.5%;
         border-bottom: 1px solid $chat-border;
+        justify-content: space-between;
         &-left {
+            display: flex;
             padding: 8px 8px 8px 20px;
             flex-direction: column;
             height: 100%;
@@ -278,6 +354,13 @@
                 text-align: left;
                 color: $text-color;
             }
+        }
+        &-right {
+            height: 100%;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
         }
     }
 }
@@ -297,6 +380,37 @@
         font-size: 12px;
         color: $text-color;
         opacity: 0.6;
+    }
+}
+.buttons {
+    &-left {
+        display: flex;
+        flex-direction: row;
+        width: 25%;
+    }
+    &-right {
+        display: flex;
+        flex-direction: row;
+        width: 25%;
+    }
+    &-icon {
+        display: flex;
+        width: 30px;
+        height: 30px;
+        padding: 6px;
+        margin: 6px;
+        &-clip {
+            padding: 1px;
+        }
+        &-link{
+            padding: 8px;
+        }
+        &-chat {
+            padding: 4px;
+        }
+        &-search {
+            margin: 0;
+        }
     }
 }
 
