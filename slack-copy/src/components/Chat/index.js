@@ -7,7 +7,7 @@ import { fetchUser } from "../../redux/thunk/fetchUser";
 import MessageContainer from "./MessageContainer";
 import { at, chatSearch, chatUser, info, overflow, phone, settings, star } from "../../stylesheets/icons/icons"
 import Sidebar from "./Sidebar";
-import MessageForm from "../MessageForm";
+import MessageForm from "./MessageForm"
 
 function ChatRender(props) {
     const socket = props.socket;

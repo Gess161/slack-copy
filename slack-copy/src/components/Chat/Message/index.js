@@ -1,10 +1,12 @@
+import { profilePicture } from "../../../stylesheets/icons/icons";
+
 const Message = (props) => {
     return (
-        <div className="msg-container" key={props.key}>
-            <img alt='userPicture' />
-            <div>
-                <h2>Username</h2>
-                <p>{props.message}</p>
+        <div className="message-container" key={props.key}>
+            <img alt='userPicture' src={profilePicture}/>
+            <div className="message">
+                <h2 className="username">Username</h2>
+                <p className="message-text">{props.message}</p>
             </div>
         </div>
     );

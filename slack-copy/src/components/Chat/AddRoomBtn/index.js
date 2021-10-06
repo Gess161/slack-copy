@@ -26,7 +26,7 @@ export default function AddRoom(props) {
         };
     };
 
-    const button = <img src={addBtn} alt="addBtn"c lassName="add-room-button" onClick={handleButtonClick} />
+    const button = <img src={addBtn} alt="addBtn" className="add-room-button" onClick={handleButtonClick} />
     const input = (
         <div className="add-room">
             <input

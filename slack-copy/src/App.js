@@ -12,6 +12,7 @@ import { WEB_SOCKET_URL } from './constants';
 
 const socket = io(WEB_SOCKET_URL)
 function App() {
+  const [title, updateTitle] = useState(null)
   const [errorMessage, updateErrorMessage] = useState(null)
 
   return (
@@ -19,10 +20,10 @@ function App() {
       <div className="wrapper">
         <Switch>
           <Route exact path="/">
-            <SignUp showError={updateErrorMessage}/>
+            <SignUp showError={updateErrorMessage} updateTitle={updateTitle} />
           </Route>
           <Route path="/login">
-            <LogIn showError={updateErrorMessage}/>
+            <LogIn showError={updateErrorMessage} updateTitle={updateTitle} />
           </Route>
           <PrivateRoute path="/chat">
             <Chat

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { messageReducer } from "../../redux/reducers/userReducers/messagesSlice";
-import { bold, italic, link, clip, smile, sendMessage } from "../../stylesheets/icons/icons"
+import { messageReducer } from "../../../redux/reducers/userReducers/messagesSlice";
+import { bold, italic, link, clip, smile, sendMessage } from "../../../stylesheets/icons/icons"
 
 
 const MessageForm = ({ user, roomName, roomId, socket }) => {
@@ -25,7 +25,7 @@ const MessageForm = ({ user, roomName, roomId, socket }) => {
                 sender: socket.id,
                 recipient: roomId
             })
-            const text = `${user}: ${message}`;
+            const text = `${message}`;
             dispatch(messageReducer(text));
         }
         setMessage('');
