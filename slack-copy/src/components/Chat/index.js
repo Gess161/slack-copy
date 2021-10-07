@@ -27,11 +27,15 @@ function ChatRender(props) {
             socket.on('get-message', (msg) => {
                 dispatch(messageReducer(msg));
             })
-            socket.on('get-private', (msg) => {
-                if (user.roomName === msg.recipientName || msg.senderName) dispatch(messageReducer(msg));
-            })
         };
     }, [userStatus, dispatch]);
+    useEffect(() => {
+        socket.on('get-private', (msg) => {
+            if (user.roomName === msg.recipientName || user.roomName === msg.senderName) {
+                dispatch(messageReducer(msg));
+            }
+        })
+    }, [user.roomName])
 
     return (
         <div className="client">

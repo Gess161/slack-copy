@@ -10,7 +10,6 @@ const RoomList = (props) => {
  
     useEffect(() => {
         socket.on(('initial-rooms'), rooms => {
-            console.log('initial rooms', rooms)
             dispatch(roomAddArrayReducer(rooms));
         });
 
