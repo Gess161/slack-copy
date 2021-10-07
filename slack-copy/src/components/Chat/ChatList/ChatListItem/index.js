@@ -1,4 +1,3 @@
-import { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { roomIdReducer, roomNameReducer } from "../../../../redux/reducers/userReducers/userSlice"
 import userPicture from "../../../../stylesheets/icons/user.png"
@@ -10,19 +9,16 @@ const ChatItem = (props) => {
     const handleRoomClick = (e) => {
         const roomId = props.socketid
         const room = e.target.innerText
-        dispatch(roomNameReducer(room))
-        dispatch(roomIdReducer(roomId))
-    }
-
-    useEffect(() => {
-        if (user.roomId !== '') {
+        if(room !== user.roomName){
             props.socket.emit('join-room', {
-                room: user.roomName,
-                roomId: user.roomId,
-                isPerson: true
+                user: user.user,
+                room: room,
+                roomId: roomId
             });
+            dispatch(roomNameReducer(room))
+            dispatch(roomIdReducer(roomId))
         }
-    }, [user.roomId])
+    }
 
     return (
         <div className="room-item">

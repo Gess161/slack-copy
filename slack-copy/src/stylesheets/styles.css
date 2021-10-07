@@ -339,6 +339,7 @@ button:focus {
   height: 84.7%;
   flex-shrink: 1;
   flex-direction: column;
+  overflow: auto;
 }
 .chat-search {
   border-radius: 5px;

@@ -21,14 +21,9 @@ const MessageContainer = (props) => {
 
     useEffect(() => {
         props.socket.on('room-joined', data => {
-            const arr = [];
-            for (let i = 0; i < data.length; i++) {
-                const text = `${data[i].user}: ${data[i].message}`;
-                arr.push(text);
-            };
-            dispatch(messageReplaceReducer(arr));
+            dispatch(messageReplaceReducer(data));
         })
-    }, [props.socket, dispatch]);
+    }, [dispatch]);
 
     return (
         <div className="chat-field">

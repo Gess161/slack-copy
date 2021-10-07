@@ -16,17 +16,26 @@ const MessageForm = ({ user, roomName, roomId, socket }) => {
     const sendData = () => {
         if (message === '') return;
         if (roomName === roomId) {
-            socket.emit('message', message, user, roomName, roomId);
+            const msg = {
+                sender: socket.id,
+                senderName: user,
+                message: message,
+                recipient: roomId,
+                recipientName: roomName
+            }
+            socket.emit('message', msg);
+            // dispatch(messageReducer(msg));
+            console.log(1)
         } else {
-            socket.emit('private-message', {
+            const msg = {
                 senderName: user,
                 recipientName: roomName,
-                msg: message,
+                message: message,
                 sender: socket.id,
                 recipient: roomId
-            })
-            const text = `${message}`;
-            dispatch(messageReducer(text));
+            }
+            socket.emit('private-message', msg)
+            console.log(msg)
         }
         setMessage('');
     };
