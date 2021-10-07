@@ -201,10 +201,11 @@ button:focus {
 
 .header {
   display: flex;
-  width: 100%;
+  width: 90%;
   flex-direction: column;
 }
 .header-top {
+  flex: 1;
   padding: 11px 0 0 0;
   display: flex;
   flex-direction: row;
@@ -458,7 +459,7 @@ button:focus {
 }
 .message-container {
   display: flex;
-  width: 100%;
+  width: fit-content;
   height: 64px;
   margin-top: 10px;
   margin-left: 10px;
@@ -470,6 +471,15 @@ button:focus {
   padding-top: 4px;
 }
 
+@media (max-width: 1030px) {
+  .client-panel {
+    width: 25%;
+  }
+
+  .chat-container {
+    width: 75%;
+  }
+}
 @media (max-width: 800px) {
   .logo {
     width: 25%;
@@ -486,7 +496,32 @@ button:focus {
     width: 100%;
   }
 }
-@media (max-width: 470px) {
+@media (max-width: 540px) {
+  .jump-to,
+.apps {
+    display: none;
+  }
+
+  .client {
+    flex-direction: column;
+    overflow: auto;
+  }
+  .client-panel {
+    width: 100%;
+    height: 40%;
+  }
+
+  .chat-field {
+    height: 100%;
+  }
+  .chat-header-right {
+    display: none;
+  }
+  .chat-container {
+    width: 100%;
+    height: 100%;
+  }
+
   .logo {
     width: 40%;
     padding: 5px;
