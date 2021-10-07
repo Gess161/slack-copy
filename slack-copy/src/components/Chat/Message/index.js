@@ -2,7 +2,7 @@ import { profilePicture } from "../../../stylesheets/icons/icons";
 
 const Message = ({key, message}) => {
     return (
-        <div className="message-container" key={key}>
+        <div className="message-container" index={key}>
             <img alt='userPicture' src={profilePicture} />
             <div className="message">
                 <h2 className="username">{message.senderName}</h2>

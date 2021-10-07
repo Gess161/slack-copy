@@ -1,11 +1,7 @@
 import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { messageReducer } from "../../../redux/reducers/userReducers/messagesSlice";
 import { bold, italic, link, clip, smile, sendMessage } from "../../../stylesheets/icons/icons"
 
-
 const MessageForm = ({ user, roomName, roomId, socket }) => {
-    const dispatch = useDispatch()
     const [message, setMessage] = useState('');
     const onKeyDownHandler = e => {
         if (e.keyCode === 13) {
@@ -24,8 +20,6 @@ const MessageForm = ({ user, roomName, roomId, socket }) => {
                 recipientName: roomName
             }
             socket.emit('message', msg);
-            // dispatch(messageReducer(msg));
-            console.log(1)
         } else {
             const msg = {
                 senderName: user,
@@ -35,7 +29,6 @@ const MessageForm = ({ user, roomName, roomId, socket }) => {
                 recipient: roomId
             }
             socket.emit('private-message', msg)
-            console.log(msg)
         }
         setMessage('');
     };
