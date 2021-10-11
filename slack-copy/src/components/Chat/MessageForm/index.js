@@ -44,7 +44,7 @@ const MessageForm = ({ user, roomName, roomId, socket }) => {
         const textarea = document.querySelector('textarea');
         textarea.addEventListener("keyup", handleKeyUp)
         return () => textarea.removeEventListener("keyup", handleKeyUp)
-    },[handleKeyUp])
+    })
     return (
         <form id="form" className="client-form">
             <div className="client-form-chats">
