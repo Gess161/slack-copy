@@ -1,13 +1,21 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { bold, italic, link, clip, smile, sendMessage } from "../../../stylesheets/icons/icons"
 
 const MessageForm = ({ user, roomName, roomId, socket }) => {
     const [message, setMessage] = useState('');
-    const onKeyDownHandler = e => {
-        if (e.keyCode === 13) {
-            e.preventDefault();
-            sendData();
-        };
+    const handleKeyUp = e => {        
+        const textarea = document.querySelector('textarea');
+        textarea.style.height = `auto`
+        let scHeight = e.target.scrollHeight;
+        textarea.style.height = `${scHeight}px`
+    }
+    const handleKeyDown = e => {
+        if (e.keyCode === 13 && !e.shiftKey) {
+                e.preventDefault();
+                sendData();
+        } else if (e.keyCode === 13 && e.shiftKey){
+            console.log(e.target.value)
+        }
     };
     const sendData = () => {
         if (message === '') return;
@@ -32,14 +40,19 @@ const MessageForm = ({ user, roomName, roomId, socket }) => {
         }
         setMessage('');
     };
+    useEffect(() => {
+        const textarea = document.querySelector('textarea');
+        textarea.addEventListener("keyup", handleKeyUp)
+        return () => textarea.removeEventListener("keyup", handleKeyUp)
+    },[handleKeyUp])
     return (
         <form id="form" className="client-form">
             <div className="client-form-chats">
                 <div className="client-form-chats-top">
-                    <input
+                    <textarea
                         placeholder={`Message #${roomName}`}
                         onChange={(e) => setMessage(e.target.value)}
-                        onKeyDown={onKeyDownHandler}
+                        onKeyDown={handleKeyDown}
                         type="text"
                         id="message"
                         value={message} />
