@@ -48,7 +48,7 @@ function SignUp(props) {
     const handleSubmit = () => state.password === state.confirmPassword ? sendDetailsToServer() : props.showError('Passwords do not match');
     return (
         <div className="auth-container">
-            <img class="logo" alt="Slack" src="https://a.slack-edge.com/bv1-9/slack_logo-ebd02d1.svg"/>
+            <img className="logo" alt="Slack" src="https://a.slack-edge.com/bv1-9/slack_logo-ebd02d1.svg"/>
             <h2 className="greeting">Welcome to Slack!</h2>
             <SignUpForm 
                 handleChange={handleChange} 

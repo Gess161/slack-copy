@@ -11,6 +11,7 @@ body {
 }
 
 input:focus,
+span:focus,
 select:focus,
 textarea:focus,
 button:focus {

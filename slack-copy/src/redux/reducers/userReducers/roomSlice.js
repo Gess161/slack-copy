@@ -11,10 +11,10 @@ const slice = createSlice({
         },
         roomAddArrayReducer: (state, action) => {
             state.roomList = [...action.payload]
-        }
+        },
     },
 });
 
 
-export const { deleteRoomReducer, roomListReducer, roomAddArrayReducer } = slice.actions;
+export const { isActiveReducer, roomListReducer, roomAddArrayReducer } = slice.actions;
 export default slice.reducer;

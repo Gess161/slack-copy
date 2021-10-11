@@ -13,12 +13,13 @@ const ChatPanelList = (props) => {
     }, [socket]);
 
     return (
-        <div className="chat-panel-list channels">
+        <div className="channels">
             <p>Direct Messages</p>
             {Object.keys(usersList).map(key => {
                 if (key !== props.me)
                     return (
                         <ChatItem
+                            active={props.active}
                             name={key}
                             key={usersList[key]}
                             socket={socket}

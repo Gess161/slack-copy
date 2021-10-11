@@ -2,8 +2,11 @@ import AddRoom from "../AddRoomBtn";
 import RoomList from "../RoomList";
 import ChatList from "../ChatList";
 import { app, bell, search } from "../../../stylesheets/icons/icons"
+import { useSelector } from "react-redux";
 
 const Sidebar = (props) => {
+    const active = useSelector(state => state.user.roomName)
+
     return (
         <div className="client-panel">
             <h2 className="client-panel-header ">
@@ -27,12 +30,12 @@ const Sidebar = (props) => {
                 <img alt="icon" className="icon" src={app} />
                 <p>Apps</p>
             </div>
-            <div className="channels">
+            <div className="channels-rooms channels" >
                 <p>Channels</p>
                 <AddRoom socket={props.socket} />
             </div>
-            <RoomList socket={props.socket} />
-            <ChatList me={props.user} socket={props.socket} />
+            <RoomList socket={props.socket} active={active} />
+            <ChatList me={props.user} active={active} socket={props.socket} />
         </div>
     )
 }

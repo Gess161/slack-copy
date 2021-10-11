@@ -24,10 +24,11 @@ const RoomList = (props) => {
 
     return (
         <div className="chat-panel-list">
-            <RoomItem name='general' socket={socket} />
+            <RoomItem name='general' active={props.active} socket={socket} />
             {Object.keys(rooms).map(key => {
                 return (
                     <RoomItem
+                        active={props.active}
                         name={rooms[key]}
                         key={[key]}
                         socket={socket}

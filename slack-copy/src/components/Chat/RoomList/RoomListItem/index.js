@@ -13,10 +13,11 @@ const RoomItem = (props) => {
         dispatch(roomNameReducer(roomName))
         dispatch(roomIdReducer(roomName))
     }
+    const style = props.name === props.active ? {opacity: 1, fontWeight: 700, color: 'white'} : {opacity: 0.8}
     return (
         <div className="room-item">
             <img className="icon" alt="#" src={hashtag}/>
-            <div className="chat-item" socket={props.socket} onClick={handleRoomClick} >{props.name}</div>
+            <div className="room-item" style={style} socket={props.socket} onClick={handleRoomClick} >{props.name}</div>
         </div>
     )
 }

@@ -19,11 +19,11 @@ const ChatItem = (props) => {
             dispatch(roomIdReducer(roomId))
         }
     }
-
+    const style = props.name === props.active ? {opacity: 1, fontWeight: 700, color: 'white'} : {opacity: 0.8}
     return (
-        <div className="room-item">
+        <div className="chat-item">
             <img className="icon" alt="user" src={userPicture}/>
-            <div className="chat-item" socketid={props.socketid} onClick={handleRoomClick} >{props.name}</div>
+            <div className="chat-item" style={style} socketid={props.socketid} onClick={handleRoomClick} >{props.name}</div>
         </div>
     )
 }

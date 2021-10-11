@@ -58,7 +58,7 @@ function LogIn(props) {
     };
     return (
         <div id="login" className="auth-container" >
-            <img class="logo" alt="Slack" src="https://a.slack-edge.com/bv1-9/slack_logo-ebd02d1.svg" />
+            <img className="logo" alt="Slack" src="https://a.slack-edge.com/bv1-9/slack_logo-ebd02d1.svg" />
             <h2 className="greeting">Log in</h2>
             <LoginForm 
                 handleChange={handleChange} 

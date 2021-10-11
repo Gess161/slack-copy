@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { roomListReducer } from "../../../redux/reducers/userReducers/roomSlice";
+import { roomIdReducer, roomNameReducer } from "../../../redux/reducers/userReducers/userSlice";
 import addBtn from "../../../stylesheets/icons/add.svg"
 
 export default function AddRoom(props) {
@@ -21,6 +22,8 @@ export default function AddRoom(props) {
             dispatch(roomListReducer(roomname));
             socket.emit('add-room', roomname);
             socket.emit('join-room', roomname);
+            dispatch(roomNameReducer(roomname))
+            dispatch(roomIdReducer(roomname))
             setActive(!active);
             setRoomname('');
         };

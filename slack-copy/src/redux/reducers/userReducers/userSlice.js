@@ -21,12 +21,6 @@ const slice = createSlice({
         userReducer: (state, action) => {
             state.user = action.payload
         },
-        userListReducer: (state, action) => {
-            state.usersList = action.payload
-        },
-        sendToReducer: (state, action) => {
-            state.sendTo = action.payload
-        },
     },
     extraReducers(builder) {
         builder

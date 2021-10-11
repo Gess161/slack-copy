@@ -29,7 +29,7 @@ const MessageContainer = (props) => {
         <div className="chat-field">
             {newMessages.map((message, index) => {
                 return (
-                    <Message index={index} message={message}/>
+                    <Message key={index} index={index} message={message}/>
                 );
             })}
         </div>
