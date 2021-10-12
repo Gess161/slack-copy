@@ -17,11 +17,6 @@ function ChatRender(props) {
 
     useEffect(() => {
         if (userStatus === 'idle') dispatch(fetchUser());
-    }, [userStatus, dispatch]);
-    useEffect(() => {
-        if (user.socket) socket.emit('user-log-in', user.user, user.socket);
-    }, [user.socket, socket, user.user]);
-    useEffect(() => {
         if (userStatus === 'succeeded') {
             dispatch(socketReducer(socket.id));
             socket.on('get-message', (msg) => {
@@ -29,6 +24,9 @@ function ChatRender(props) {
             })
         };
     }, [userStatus, dispatch]);
+    useEffect(() => {
+        if (user.socket) socket.emit('user-log-in', user.user, user.socket);
+    }, [user.socket, socket, user.user]);
     useEffect(() => {
         socket.on('get-private', (msg) => {
             if (user.roomName === msg.recipientName || user.roomName === msg.senderName) {
