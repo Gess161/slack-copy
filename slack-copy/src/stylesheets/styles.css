@@ -413,6 +413,16 @@ button:focus {
   opacity: 0.6;
 }
 
+.buttons-return {
+  background-color: #611f69;
+  color: #FFFFFF;
+  border: none;
+  margin: 10px;
+  width: 16%;
+  height: 44px;
+  padding: 0 16px;
+  font-weight: bold;
+}
 .buttons-left {
   display: flex;
   flex-direction: row;
@@ -500,6 +510,21 @@ button:focus {
   height: 100%;
   z-index: 10;
   background: rgba(87, 212, 243, 0.6);
+}
+
+.not-found {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+}
+.not-found h1 {
+  padding: 10px;
+}
+.not-found h2 {
+  padding: 10px;
 }
 
 @media (max-width: 1030px) {

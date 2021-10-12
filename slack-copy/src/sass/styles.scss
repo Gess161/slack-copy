@@ -251,7 +251,7 @@
     }
 }
 .channels {
-    &-rooms{
+    &-rooms {
         flex-direction: row;
     }
     flex-direction: column;
@@ -312,7 +312,7 @@
         align-items: center;
         position: relative;
         cursor: pointer;
-        z-index: 1
+        z-index: 1;
     }
 }
 .chat {
@@ -396,6 +396,16 @@
     }
 }
 .buttons {
+    &-return {
+        background-color: $background-color;
+        color: $background-text-color;
+        border: none;
+        margin: 10px;
+        width: 16%;
+        height: 44px;
+        padding: 0 16px;
+        font-weight: bold;
+    }
     &-left {
         display: flex;
         flex-direction: row;
@@ -482,6 +492,20 @@
     height: 100%;
     z-index: 10;
     background: rgba($color: #57d4f3, $alpha: 0.6);
+}
+.not-found {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    h1 {
+        padding: 10px;
+    }
+    h2 {
+        padding: 10px;
+    }
 }
 
 @media (max-width: 1030px) {
