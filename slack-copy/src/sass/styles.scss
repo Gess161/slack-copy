@@ -358,6 +358,7 @@
             flex-direction: column;
             height: 100%;
             width: 50%;
+            justify-content: center;
             align-items: flex-start;
             &-text {
                 font-family: $chat-panel-font;
@@ -411,6 +412,7 @@
         height: 30px;
         padding: 6px;
         margin: 6px;
+        border-radius: 4px;
         &-clip {
             padding: 1px;
         }
@@ -481,6 +483,7 @@
     z-index: 10;
     background: rgba($color: #57d4f3, $alpha: 0.6);
 }
+
 @media (max-width: 1030px) {
     .client {
         &-panel {

@@ -1,6 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-
 const initialState = { roomList: [] }
 const slice = createSlice({
     name: 'rooms',

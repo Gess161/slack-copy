@@ -376,6 +376,7 @@ button:focus {
   flex-direction: column;
   height: 100%;
   width: 50%;
+  justify-content: center;
   align-items: flex-start;
 }
 .chat-header-left-text {
@@ -428,6 +429,7 @@ button:focus {
   height: 30px;
   padding: 6px;
   margin: 6px;
+  border-radius: 4px;
 }
 .buttons-icon-clip {
   padding: 1px;

@@ -1,15 +1,14 @@
 import React, { useState } from 'react';
-import axios from 'axios';
-import { API_BASE_URL, ACCESS_TOKEN_NAME } from '../../constants';
 import { withRouter } from 'react-router';
 import LoginForm from './Form';
+import SendLoginDetails from '../../services/api/sendDetailsLogin';
 
 function LogIn(props) {
     const [state, setState] = useState({
         email: "",
         password: "",
-        successMessage: null
     });
+    const [error, setError] = useState(null)
     const handleChange = (e) => {
         const { id, value } = e.target
         setState(prevState => ({
@@ -23,34 +22,17 @@ function LogIn(props) {
     const redirectToChat = () => {
         props.history.push('/chat');
     };
-    const sendDetailsToServer = () => {
+    const sendDetailsToServer = async () => {
         if (state.email.length && state.password.length) {
-            props.showError(null);
             const payload = {
                 "email": state.email,
                 "password": state.password,
             };
-            axios.post(API_BASE_URL + "/user/login", payload)
-                .then(function (response) {
-                    if (response.status === 200) {
-                        setState(prevState => ({
-                            ...prevState,
-                            successMessage: 'Authentification succesful. Logging in...'
-                        }));
-                        localStorage.setItem(ACCESS_TOKEN_NAME, response.data.token);
-                        redirectToChat();
-                        props.showError(null);
-                    } else if (response.status === 204) {
-                        props.showError("Username or password does not match");
-                    } else {
-                        props.showError("Username does not exists");
-                    };
-                })
-                .catch(error => {
-                    props.showError(error.response.data.errorMessage);
-                });
+         const res = await SendLoginDetails(payload);
+         if ( res === null) redirectToChat();
+         setError(res);
         } else {
-            props.showError('Please enter valid username and password');
+            setError('Please enter valid username and password');
         };
     };
     const handleSubmit = (e) => {
@@ -65,8 +47,8 @@ function LogIn(props) {
                 handleSubmit={handleSubmit} 
                 email={state.email} 
                 password={state.password} />
-            <div className="alert alert-success mt-2" style={{ display: state.successMessage ? 'block' : 'none' }} role="alert">
-                {state.successMessage}
+            <div className="alert alert-danger mt-1" style={{ display: error ? 'block' : 'none' }} role="alert">
+                {error}
             </div>
             <div className="form-already">
                 <span>Don't have an account? </span>
