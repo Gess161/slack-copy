@@ -1,12 +1,19 @@
+import axios from "axios"
 import { useState } from "react"
+import { API_BASE_URL } from "../../../../../constants"
 
 const ModalProfile = () => {
     const [file, setFile] = useState(null)
 
     const handleFile =  e => {
         const file = e.target.files[0]
-        console.log(file)
-        setFile(file)
+        const formData = new FormData()
+        formData.append("image", file, file.name);
+        axios.post(API_BASE_URL + "/user/upload", formData, {
+            headers: {
+                'Content-Type': `image/png`,
+              }
+        })
     }
     return (
         <div className="form-label form-label-modal">
