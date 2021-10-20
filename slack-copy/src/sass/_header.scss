@@ -1,0 +1,29 @@
+@import "./constants.scss";
+
+.header {
+    display: flex;
+    width: 90%;
+    flex-direction: column;
+    &-top {
+        flex: 1;
+        padding: 11px 0 0 0;
+        display: flex;
+        flex-direction: row;
+    }
+    &-bottom {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        &-user {
+            padding-left: 4px;
+            display: flex;
+            height: 20px;
+            width: 93px;
+            font-family: $chat-panel-font;
+            font-weight: normal;
+            font-size: 14px;
+            opacity: 0.6;
+            align-items: center;
+        }
+    }
+}

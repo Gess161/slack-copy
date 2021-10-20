@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { bold, italic, link, clip, smile, sendMessage } from "../../../stylesheets/icons/icons"
 
 const MessageForm = ({ user, roomName, roomId, socket }) => {

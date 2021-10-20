@@ -1,3 +1,4 @@
+import React from "react"
 import { profilePicture } from "../../../stylesheets/icons/icons";
 
 const Message = ({message}) => {

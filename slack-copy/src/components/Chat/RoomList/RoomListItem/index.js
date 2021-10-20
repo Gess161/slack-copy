@@ -1,3 +1,4 @@
+import React from "react"
 import { useDispatch } from "react-redux";
 import { roomIdReducer, roomNameReducer } from "../../../../redux/reducers/userReducers/userSlice";
 import hashtag from "../../../../stylesheets/icons/hashtag.svg"
