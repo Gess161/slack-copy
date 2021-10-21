@@ -25,9 +25,12 @@ function SignUp(props) {
             const payload = {
                 "email": state.email,
                 "password": state.password,
+                "username": state.email,
+                "image": null,
             };
             const res = await sendDetailsSignup(payload)
             setError(res)
+            redirectToLogin()
             } else {
                 setError('Please enter valid username and password')
             };

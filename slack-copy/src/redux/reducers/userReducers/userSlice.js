@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit"
 import { fetchUser } from "../../thunk/fetchUser"
 
-const initialState = { user: 'Unnamed', userList: [], status: 'idle', socket: null, roomId: 'general', roomName: 'general', sendTo: '' }
+const initialState = { user: 'Unnamed', email: "No-email", userList: [], status: 'idle', socket: null, roomId: 'general', roomName: 'general', sendTo: '' }
 const slice = createSlice({
     name: 'user',
     initialState,
@@ -30,7 +30,8 @@ const slice = createSlice({
             })
             .addCase(fetchUser.fulfilled, (state, action) => {
                 state.status = 'succeeded'
-                state.user = action.payload
+                state.user = action.payload.username
+                state.email = action.payload.email
             })
             .addCase(fetchUser.rejected, (state, action) => {
                 state.status = 'failed'

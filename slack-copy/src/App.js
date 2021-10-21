@@ -1,4 +1,4 @@
-import "./stylesheets/styles.css"
+import "./stylesheets/styles.css/styles.css"
 import React from 'react'
 import { Switch, Route} from 'react-router-dom';
 import SignUp from './components/SignUp';
