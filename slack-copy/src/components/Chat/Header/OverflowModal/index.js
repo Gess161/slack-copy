@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react"
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import ModalForm from "./ModalForm";
 import ModalProfile from "./ModalProfile";
-import axios from "axios";
-import { API_BASE_URL } from "../../../../constants";
+import uploadProfileData from "../../../../services/api/uploadProfileData";
+import { userReducer } from "../../../../redux/reducers/userReducers/userSlice";
 
 
 const OverflowModal = (props) => {
+    const dispatch = useDispatch()
     const defaultUser = useSelector(state => state.user)
     const [user, setUser] = useState(defaultUser.user)
     const [email, setEmail] = useState(defaultUser.email)
@@ -25,18 +26,16 @@ const OverflowModal = (props) => {
 
     const handleChange = e => e.target.id === "name" ? setUser(e.target.value) : setEmail(e.target.value);
 
-    const handleSubmit = () => {
-        console.log(file)
+    const handleSubmit = async () => {
         const formData = new FormData()
-        formData.append("image", file, file.name);
+        if (file) formData.append("image", file, file.name);
         formData.append("username", user);
         formData.append("email", email);
         formData.append("previousname", defaultUser.user)
-        console.log(formData)
-        axios.post(API_BASE_URL + "/user/upload", formData)
-            .then(res => {
-                console.log(res)
-            })
+        const data = await uploadProfileData(formData)
+        console.log(data)
+        dispatch(userReducer(data))
+        props.handleModal()
     }
 
     const active = props.display ? "flex" : "none"

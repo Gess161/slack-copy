@@ -9,9 +9,9 @@ const ModalForm = ({ handleChange, handleSubmit, user, email }) => {
                 <label className="form-label form-label-modal" htmlFor="fullName">Your email</label>
                 <input
                     className="form-input form-input-modal"
-                    type="name"
-                    id="name"
-                    aria-describedby="nameHelp"
+                    type="email"
+                    id="email"
+                    aria-describedby="emailHelp"
                     placeholder="Email"
                     value={email}
                     onChange={handleChange}
@@ -20,9 +20,9 @@ const ModalForm = ({ handleChange, handleSubmit, user, email }) => {
             <div className="form-part form-part-modal">
                 <label className="form-label form-label-modal" htmlFor="displayName">Display name</label>
                 <input
-                    type="displayName"
+                    type="name"
                     className="form-input form-input-modal"
-                    id="displayName"
+                    id="name"
                     placeholder="Username"
                     value={user}
                     onChange={handleChange}
