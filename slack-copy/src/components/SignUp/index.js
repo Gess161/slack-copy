@@ -26,7 +26,6 @@ function SignUp(props) {
                 "email": state.email,
                 "password": state.password,
                 "username": state.email,
-                "image": null,
             };
             const res = await sendDetailsSignup(payload)
             setError(res)

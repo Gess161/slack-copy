@@ -7,35 +7,49 @@ import { userReducer } from "../../../../redux/reducers/userReducers/userSlice";
 
 
 const OverflowModal = (props) => {
-    const dispatch = useDispatch()
-    const defaultUser = useSelector(state => state.user)
-    const [user, setUser] = useState(defaultUser.user)
-    const [email, setEmail] = useState(defaultUser.email)
-    const [file, setFile] = useState()
+    const dispatch = useDispatch();
+    const defaultUser = useSelector(state => state.user);
+    const [state, setState] = useState({
+        user: defaultUser.user,
+        email: defaultUser.email
+    })
+    const [error, setError] = useState(null);
 
     useEffect(() => {
-        setUser(defaultUser.user)
-        setEmail(defaultUser.email)
+        setState({
+            user: defaultUser.user,
+            email: defaultUser.email,
+            previousName: defaultUser.user
+        })
     }, [defaultUser.user, defaultUser.email])
-
+    
     const handleFile = e => {
-        const file = e.target.files[0]
-        setFile(file)
-        console.log(file)
+        const file = e.target.files[0];
+        setState(prevState => ({
+            ...prevState,
+            "image": file
+        }));
     }
-
-    const handleChange = e => e.target.id === "name" ? setUser(e.target.value) : setEmail(e.target.value);
-
+    const handleChange = (e) => {
+        const { id, value } = e.target
+        setState(prevState => ({
+            ...prevState,
+            [id]: value
+        }));
+    };
     const handleSubmit = async () => {
         const formData = new FormData()
-        if (file) formData.append("image", file, file.name);
-        formData.append("username", user);
-        formData.append("email", email);
-        formData.append("previousname", defaultUser.user)
+        for (let key in state) {
+            formData.append(key, state[key])
+        }
         const data = await uploadProfileData(formData)
-        console.log(data)
-        dispatch(userReducer(data))
-        props.handleModal()
+        if (typeof data === "string") {
+            setError(data)
+        } else {
+            dispatch(userReducer(data))
+            props.handleModal()
+            setError(null)
+        }
     }
 
     const active = props.display ? "flex" : "none"
@@ -49,13 +63,12 @@ const OverflowModal = (props) => {
                 <div className="modal-container">
                     <div className="modal-content-left">
                         <ModalForm
-                            user={user}
-                            email={email}
+                            state={state}
                             handleSubmit={handleSubmit}
                             handleChange={handleChange} />
                     </div>
                     <div className="modal-content-right">
-                        <ModalProfile image={file} handleSubmit={handleSubmit} handleFile={handleFile} />
+                        <ModalProfile error={error} state={state} handleSubmit={handleSubmit} handleFile={handleFile} />
                     </div>
                 </div>
             </div>

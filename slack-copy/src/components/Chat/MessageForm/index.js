@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { bold, italic, link, clip, smile, sendMessage } from "../../../stylesheets/icons/icons"
 
-const MessageForm = ({ user, roomName, roomId, socket }) => {
+const MessageForm = ({ image, user, roomName, roomId, socket }) => {
     const [message, setMessage] = useState('');
     const [isBold, setBold] = useState(false);
     const [isItalic, setItalic] = useState(false)
@@ -23,15 +23,18 @@ const MessageForm = ({ user, roomName, roomId, socket }) => {
         if (message === '') return;
         if (roomName === roomId) {
             const msg = {
+                image: image,
                 sender: socket.id,
                 senderName: user,
                 message: message,
                 recipient: roomId,
                 recipientName: roomName
             }
+            console.log(msg)
             socket.emit('message', msg);
         } else {
             const msg = {
+                image: image,
                 senderName: user,
                 recipientName: roomName,
                 message: message,

@@ -46,6 +46,7 @@ function ChatRender(props) {
                     socket={socket} 
                     roomName={user.roomName} />
                 <MessageForm
+                    image={user.image}
                     user={user.user}
                     socket={socket}
                     roomName={user.roomName}

@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit"
 import { fetchUser } from "../../thunk/fetchUser"
 
-const initialState = { user: 'Unnamed', email: "No-email", userList: [], status: 'idle', socket: null, image: null, roomId: 'general', roomName: 'general', sendTo: '' }
+const initialState = { user: 'Unnamed', email: "No-email", userList: [], status: 'idle', socket: null, image: "uploads\\profile-image.svg", roomId: 'general', roomName: 'general', sendTo: '' }
 const slice = createSlice({
     name: 'user',
     initialState,
@@ -21,7 +21,7 @@ const slice = createSlice({
         userReducer: (state, action) => {
             state.user = action.payload.user
             state.email = action.payload.email
-            state.image = action.payload.image
+            state.image = action.payload.img
         },
     },
     extraReducers(builder) {
@@ -34,6 +34,7 @@ const slice = createSlice({
                 state.status = 'succeeded'
                 state.user = action.payload.username
                 state.email = action.payload.email
+                state.image = action.payload.image
             })
             .addCase(fetchUser.rejected, (state, action) => {
                 state.status = 'failed'

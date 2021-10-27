@@ -7,7 +7,7 @@ import { useSelector } from "react-redux";
 
 const Sidebar = (props) => {
     const active = useSelector(state => state.user.roomName)
-
+    // const image = API_BASE_URL + "/" + message.image
     return (
         <div className="client-panel">
             <h2 className="client-panel-header ">
