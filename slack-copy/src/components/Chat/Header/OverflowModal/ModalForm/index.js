@@ -1,11 +1,6 @@
-import React, { useState } from "react"
+import React from "react"
 
-const ModalForm = ({ handleChange, handleSubmit, state, }) => {
-    const [active, setActive] = useState(false)
-    
-    const handlePasswordChange = () => {
-        setActive(!active)
-    }
+const ModalForm = ({ handleChange, handlePasswordChange, active, state, }) => {
     const display = active ? "flex" : "none"
     return (
         <form className="form form-modal">
@@ -37,9 +32,8 @@ const ModalForm = ({ handleChange, handleSubmit, state, }) => {
                 type="button"
                 className="form-button form-button-modal"
                 onClick={handlePasswordChange}
-                style={active ?{display: "none"} : {display: "flex"}}
             >
-                Change password
+                {active ? "Discard changes" : "Change password" }
             </button>
             <div className="form-part form-part-modal" style={{ display: display }}>
                 <label className="form-label form-label-modal" htmlFor="displayName">Enter your password</label>

@@ -5,25 +5,32 @@ import ModalProfile from "./ModalProfile";
 import uploadProfileData from "../../../../services/api/uploadProfileData";
 import { userReducer } from "../../../../redux/reducers/userReducers/userSlice";
 
-
 const OverflowModal = (props) => {
     const dispatch = useDispatch();
     const defaultUser = useSelector(state => state.user);
+    const [error, setError] = useState(null);
     const [state, setState] = useState({
         user: defaultUser.user,
-        email: defaultUser.email
+        email: defaultUser.email,
+        active: false,
     })
-    const [error, setError] = useState(null);
-
-    useEffect(() => {
-        setState({
-            user: defaultUser.user,
-            email: defaultUser.email,
-            previousName: defaultUser.user
-        })
-    }, [defaultUser.user, defaultUser.email])
-    
-    const handleFile = e => {
+    const handlePasswordChange = () => {
+        if (state.active) {
+            setState(prevState => ({
+                ...prevState,
+                "active": !state.active
+            }));
+        } else {
+            setState(prevState => ({
+                ...prevState,
+                "active": !state.active,
+                "password": "",
+                "newPassword": "",
+                "confirmPassword": ""
+            }));
+        }
+    }
+    const handleFile = (e) => {
         const file = e.target.files[0];
         setState(prevState => ({
             ...prevState,
@@ -51,10 +58,18 @@ const OverflowModal = (props) => {
             setError(null)
         }
     }
+    useEffect(() => {
+        setState({
+            user: defaultUser.user,
+            email: defaultUser.email,
+            previousName: defaultUser.user,
+            active: false,
+        })
+    }, [defaultUser.user, defaultUser.email])
 
-    const active = props.display ? "flex" : "none"
+    const display = props.display ? "flex" : "none"
     return (
-        <aside style={{ display: active }} className="modal-cover">
+        <aside style={{ display: display }} className="modal-cover">
             <div className="modal-area">
                 <div className="modal-head">
                     <h4>Edit your profile</h4>
@@ -63,12 +78,17 @@ const OverflowModal = (props) => {
                 <div className="modal-container">
                     <div className="modal-content-left">
                         <ModalForm
+                            handlePasswordChange={handlePasswordChange}
                             state={state}
-                            handleSubmit={handleSubmit}
-                            handleChange={handleChange} />
+                            handleChange={handleChange}
+                            active={state.active} />
                     </div>
                     <div className="modal-content-right">
-                        <ModalProfile error={error} state={state} handleSubmit={handleSubmit} handleFile={handleFile} />
+                        <ModalProfile
+                            handleSubmit={handleSubmit}
+                            error={error}
+                            state={state}
+                            handleFile={handleFile} />
                     </div>
                 </div>
             </div>
