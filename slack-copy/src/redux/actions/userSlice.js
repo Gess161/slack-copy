@@ -1,24 +1,35 @@
 import { createSlice } from "@reduxjs/toolkit"
-import { fetchUser } from "../../thunk/fetchUser"
+import { fetchUser } from "../thunk/fetchUser"
 
-const initialState = { user: 'Unnamed', email: "No-email", userList: [], status: 'idle', socket: null, image: "uploads\\profile-image.svg", roomId: 'general', roomName: 'general', sendTo: '' }
+const initialState = {
+    user: 'Unnamed',
+    email: "No-email",
+    userList: [],
+    status: 'idle',
+    socket: null,
+    image: "uploads\\profile-image.svg",
+    roomId: 'general',
+    roomName: 'general',
+    sendTo: ''
+}
+
 const slice = createSlice({
     name: 'user',
     initialState,
     reducers: {
-        statusReducer: (state, action) => {
+        setStatus: (state, action) => {
             state.status = action.payload
         },
-        roomIdReducer: (state, action) => {
+        setRoomId: (state, action) => {
             state.roomId = action.payload
         },
-        roomNameReducer: (state, action) => {
+        setRoomName: (state, action) => {
             state.roomName = action.payload
         },
-        socketReducer: (state, action) => {
+        setSocket: (state, action) => {
             state.socket = action.payload
         },
-        userReducer: (state, action) => {
+        setUser: (state, action) => {
             state.user = action.payload.user
             state.email = action.payload.email
             state.image = action.payload.img
@@ -44,12 +55,5 @@ const slice = createSlice({
 });
 
 
-export const { 
-    sendToReducer, 
-    statusReducer, 
-    userReducer,
-    userListReducer, 
-    socketReducer, 
-    roomIdReducer, 
-    roomNameReducer, } = slice.actions;
+export const { setSocket, setRoomId, setRoomName, setStatus, setUser } = slice.actions;
 export default slice.reducer;

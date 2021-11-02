@@ -1,6 +1,7 @@
 import React from "react"
 
-const ModalForm = ({ handleChange, handlePasswordChange, active, state, }) => {
+const ModalForm = (props) => {
+    const { handleChange, handlePasswordChange, active, state } = props;
     const display = active ? "flex" : "none"
     return (
         <form className="form form-modal">

@@ -1,30 +1,22 @@
-
-import React, { useEffect, useState } from "react";
+import React from "react";
 import ChatItem from "./ChatListItem/";
 
-
 const ChatPanelList = (props) => {
-    const socket = props.socket;
-    const [usersList, setUsersList] = useState({});
-
-    useEffect(() => {
-        socket.on('users-connected', userList => setUsersList(userList));
-        socket.on('user-disconnected', userList => setUsersList(userList));
-        return;
-    }, [socket]);
+    const { socket, usersList, activeChat, me, handleRoomClick } = props;
 
     return (
         <div className="channels">
             <p>Direct Messages</p>
             {Object.keys(usersList).map(key => {
-                if (key !== props.me)
+                if (key !== me)
                     return (
                         <ChatItem
-                            active={props.active}
+                            handleRoomClick={handleRoomClick}
+                            active={activeChat}
                             name={key}
                             key={usersList[key]}
                             socket={socket}
-                            socketid={usersList[key]}
+                            socketId={usersList[key]}
                         />
                     );
             })}

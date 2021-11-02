@@ -1,83 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { bold, italic, link, clip, smile, sendMessage } from "../../../stylesheets/icons/icons"
 
-const MessageForm = ({ image, user, roomName, roomId, socket }) => {
-    const [message, setMessage] = useState('');
-    const [isBold, setBold] = useState(false);
-    const [isItalic, setItalic] = useState(false)
-    const handleKeyUp = e => {
-        const textarea = document.querySelector('textarea');
-        textarea.style.height = `auto`
-        let scHeight = e.target.scrollHeight;
-        textarea.style.height = `${scHeight}px`
-    }
-    const handleKeyDown = e => {
-        if (e.keyCode === 13 && !e.shiftKey) {
-            e.preventDefault();
-            sendData();
-        } else if (e.keyCode === 13 && e.shiftKey) {
-            console.log(e.target.value)
-        }
-    };
-    const sendData = () => {
-        if (message === '') return;
-        if (roomName === roomId) {
-            const msg = {
-                image: image,
-                sender: socket.id,
-                senderName: user,
-                message: message,
-                recipient: roomId,
-                recipientName: roomName
-            }
-            console.log(msg)
-            socket.emit('message', msg);
-        } else {
-            const msg = {
-                image: image,
-                senderName: user,
-                recipientName: roomName,
-                message: message,
-                sender: socket.id,
-                recipient: roomId
-            }
-            socket.emit('private-message', msg)
-        }
-        setMessage('');
-    };
-    const handleBold = e => {
-        const target = document.getElementById("textarea");
-        if (target.style.fontWeight === "normal") {
-            target.style.fontWeight = "bolder"
-            e.target.style.background = "grey"
-        } else {
-            target.style.fontWeight = "normal"
-            e.target.style.background = "white"
-        }
-        setBold(!isBold)
-    }
-    const handleItalic = e => {
-        const target = document.getElementById("textarea");
-        if (target.style.fontStyle === "normal") {
-            target.style.fontStyle = "italic"
-            e.target.style.background = "grey"
-        } else {
-            target.style.fontStyle = "normal"
-            e.target.style.background = "white"
-        }
-        setItalic(!isItalic)
-    }
-    useEffect(() => {
-        const textarea = document.querySelector('textarea');
-        textarea.addEventListener("keyup", handleKeyUp)
-        return () => textarea.removeEventListener("keyup", handleKeyUp)
-    })
+const MessageForm = (props) => {
+    const { handleKeyDown, sendData, message, roomName, setMessage } = props;
     return (
         <form id="form" className="client-form">
             <div className="client-form-chats">
                 <div className="client-form-chats-top">
                     <textarea
-                        style={{ fontWeight: "normal" , fontStyle: "normal"}}
                         placeholder={`Message #${roomName}`}
                         onChange={(e) => setMessage(e.target.value)}
                         onKeyDown={handleKeyDown}
@@ -87,8 +17,8 @@ const MessageForm = ({ image, user, roomName, roomId, socket }) => {
                 </div>
                 <div className="client-form-chats-bottom">
                     <div className="bottom-left">
-                        <img alt="bold" className="buttons-icon" src={bold} onClick={handleBold} />
-                        <img alt="italic" className="buttons-icon" src={italic} onClick={handleItalic}/>
+                        <img alt="bold" className="buttons-icon" src={bold}  />
+                        <img alt="italic" className="buttons-icon" src={italic} />
                         <img alt="link" className="buttons-icon buttons-icon-link" src={link} />
                     </div>
                     <div className="bottom-right">

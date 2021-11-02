@@ -1,11 +1,18 @@
 import { chatUser, phone, info, settings, chatSearch, at, star, overflow } from "../../../stylesheets/icons/icons"
-import React, { useState } from "react";
+import React from "react";
 import OverflowModal from "./OverflowModal/index"
-const ChatHeader = ({ roomName, userList }) => {
-    const [active, setActive] = useState(false)
-    const handleModal = () => {
-        setActive(!active)
-    }
+const ChatHeader = (props) => {
+    const {
+        user,
+        error,
+        state,
+        handleModal,
+        roomName,
+        userList,
+        handleSubmit,
+        handleChange,
+        handleFile,
+        handlePasswordChange } = props;
     return (
         <div className="chat-header">
             <div className="chat-header-left">
@@ -29,7 +36,15 @@ const ChatHeader = ({ roomName, userList }) => {
                     <img src={at} alt="icon" className="buttons-icon" />
                     <img src={star} alt="icon" className="buttons-icon" />
                     <img src={overflow} alt="icon" className="buttons-icon" onClick={handleModal} />
-                    <OverflowModal display={active} handleModal={handleModal} />
+                    <OverflowModal
+                        user={user}
+                        error={error} 
+                        state={state} 
+                        handleModal={handleModal}
+                        handleSubmit={handleSubmit}
+                        handleChange={handleChange}
+                        handleFile={handleFile}
+                        handlePasswordChange={handlePasswordChange} />
                 </div>
             </div>
         </div>

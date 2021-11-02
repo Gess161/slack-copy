@@ -1,13 +1,13 @@
 import React from "react"
-import AddRoom from "../AddRoomBtn";
-import RoomList from "../RoomList";
-import ChatList from "../ChatList";
+import AddRoom from "./AddRoomBtn/index";
+import RoomList from "./RoomList/index";
+import ChatList from "./ChatList/index";
 import { app, bell, search } from "../../../stylesheets/icons/icons"
-import { useSelector } from "react-redux";
 
 const Sidebar = (props) => {
-    const active = useSelector(state => state.user.roomName)
-    // const image = API_BASE_URL + "/" + message.image
+    const { setAddRoomName, user, handleUserClick, addRoom, usersList , handleAddRoomClick, handleRoomClick, rooms  } = props;
+    const socket = user.socket
+    const currentChat = user.roomName
     return (
         <div className="client-panel">
             <h2 className="client-panel-header ">
@@ -18,7 +18,7 @@ const Sidebar = (props) => {
                     </div>
                     <div className="header-bottom">
                         <div className="online-indicator"></div>
-                        <div className="header-bottom-user">{props.user}</div>
+                        <div className="header-bottom-user">{user.user}</div>
                     </div>
                 </div>
                 <img alt="icon" src={bell} className="client-panel-bell" />
@@ -33,10 +33,10 @@ const Sidebar = (props) => {
             </div>
             <div className="channels-rooms channels" >
                 <p>Channels</p>
-                <AddRoom socket={props.socket} />
+                <AddRoom setAddRoomName={setAddRoomName} socket={socket} addRoom={addRoom} handleAddRoomClick={handleAddRoomClick} />
             </div>
-            <RoomList socket={props.socket} active={active} />
-            <ChatList me={props.user} active={active} socket={props.socket} />
+            <RoomList handleRoomClick={handleRoomClick} rooms={rooms} socket={socket} activeChat={currentChat} />
+            <ChatList handleRoomClick={handleUserClick} usersList={usersList } me={user} activeChat={currentChat} socket={socket} />
         </div>
     )
 }

@@ -1,10 +1,9 @@
 import React from "react"
-import { useSelector } from "react-redux";
 import { API_BASE_URL } from "../../../../../constants";
 
-const ModalProfile = ({ error, state, handleFile, handleSubmit }) => {
-    const defaultUser = useSelector(state => state.user)
-    const defaultImage = API_BASE_URL + "/" + defaultUser.image;
+const ModalProfile = (props) => {
+    const { user, error, state, handleFile, handleSubmit } = props;
+    const defaultImage = API_BASE_URL + "/" + user.image;
     const chosenImage = state.image;
 
     const pic = chosenImage ? URL.createObjectURL(chosenImage) : defaultImage;
