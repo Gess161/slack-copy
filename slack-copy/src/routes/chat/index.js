@@ -3,7 +3,7 @@ import { withRouter } from "react-router";
 import { useSelector, useDispatch } from "react-redux";
 import { setSocket, setRoomId, setRoomName, setUser } from "../../redux/actions/userSlice";
 import { setMessages, replaceMessages } from "../../redux/actions/messagesSlice";
-import { setRoomList, addRooms } from "../../redux/actions/roomSlice"
+import { setRoomList, addRoom } from "../../redux/actions/roomSlice"
 import { fetchUser } from "../../redux/thunk/fetchUser";
 import uploadProfileData from "../../services/api/uploadProfileData"
 import Sidebar from "../../components/Chat/Sidebar/index"
@@ -11,13 +11,12 @@ import Header from "../../components/Chat/Header"
 import MessageContainer from "../../components/Chat/MessageContainer"
 import MessageForm from "../../components/Chat/MessageForm"
 
-export default function Chat(props) {
+function Chat(props) {
     const { socket } = props;
     const dispatch = useDispatch();
     const user = useSelector(state => state.user);
     const rooms = useSelector(state => state.room.roomList);
     const messages = useSelector(state => state.message.messages);
-    const [addRoomClicked, setClicked] = useState(false);
     const [addRoomName, setAddRoomName] = useState('');
     const [usersList, setUsersList] = useState({});
     const [message, setMessage] = useState('');
@@ -58,6 +57,15 @@ export default function Chat(props) {
             [id]: value
         }));
     };
+    const handleRoomClick = (e) => {
+        const roomName = e.target.innerText
+        socket.emit('join-room', {
+            room: roomName,
+            roomId: roomName,
+        });
+        dispatch(setRoomName(roomName))
+        dispatch(setRoomId(roomName))
+    }
     const handleSubmit = async () => {
         const formData = new FormData()
         for (let key in state) {
@@ -92,6 +100,25 @@ export default function Chat(props) {
             console.log(e.target.value)
         }
     };
+    const handleUserClick = (e) => {
+        const roomId = e.target.socketId
+        const room = e.target.innerText
+        if (room !== user.roomName) {
+            socket.emit('join-room', {
+                user: user.user,
+                room: room,
+                roomId: roomId
+            });
+            dispatch(setRoomName(room))
+            dispatch(setRoomId(roomId))
+        }
+    }
+    const handleAddRoomClick = () => {
+        setState(prevState => ({
+            ...prevState,
+            "active": !state.active
+        }));
+    };
     const sendData = () => {
         if (message === '') return;
         if (user.roomName === user.roomId) {
@@ -117,48 +144,25 @@ export default function Chat(props) {
         }
         setMessage('');
     };
-    const handleUserClick = (e) => {
-        const roomId = e.target.socketId
-        const room = e.target.innerText
-        if (room !== user.roomName) {
-            socket.emit('join-room', {
-                user: user.user,
-                room: room,
-                roomId: roomId
-            });
-            dispatch(setRoomName(room))
-            dispatch(setRoomId(roomId))
-        }
-    }
-    const handleAddRoomClick = () => {
-        //mb objedenit s handle pass change
-        setState(prevState => ({
-            ...prevState,
-            "active": !state.active
-        }));
-    };
-    const addRoom = e => {
+    const addRoomFunction = e => {
         if (e.keyCode === 13) {
             e.preventDefault()
+            console.log("roomname", addRoomName)
             if (rooms.includes(addRoomName)) return alert('This room already exists');
-            dispatch(addRooms(addRoomName));
+            dispatch(addRoom(addRoomName));
             dispatch(setRoomName(addRoomName))
             dispatch(setRoomId(addRoomName))
             socket.emit('add-room', addRoomName);
             socket.emit('join-room', addRoomName);
-            setClicked(!addRoomClicked);
+            setState(prevState => ({
+                ...prevState,
+                "active": !state.active
+            }));
             setAddRoomName('');
+            console.log(addRoomName)
         };
     };
-    const handleRoomClick = (e) => {
-        const roomName = e.target.innerText
-        socket.emit('join-room', {
-            room: roomName,
-            roomId: roomName,
-        });
-        dispatch(setRoomName(roomName))
-        dispatch(setRoomId(roomName))
-    }
+
     useEffect(() => {
         setState({
             user: user.user,
@@ -167,6 +171,7 @@ export default function Chat(props) {
             active: false,
         })
     }, [user.user, user.email])
+
     useEffect(() => {
         socket.on('current-room', (room, roomId) => {
             if (roomId === null) {
@@ -177,31 +182,33 @@ export default function Chat(props) {
             dispatch(setRoomName(room))
         })
     }, [socket, dispatch]);
+
     useEffect(() => {
         socket.on('room-joined', data => {
             dispatch(replaceMessages(data));
         })
-    }, [dispatch]);
-    // useEffect(() => {
-    //     const textarea = document.querySelector('textarea');
-    //     textarea.addEventListener("keyup", handleKeyUp)
-    //     return () => textarea.removeEventListener("keyup", handleKeyUp)
-    // })
+    }, [socket, dispatch]);
+
+    useEffect(() => {
+        const textarea = document.querySelector('textarea');
+        textarea.addEventListener("keyup", handleKeyUp)
+        return () => textarea.removeEventListener("keyup", handleKeyUp)
+    })
+
     useEffect(() => {
         socket.on(('initial-rooms'), rooms => {
-            dispatch(setRoomList(rooms));
-        });
-        socket.on(('room-deleted'), rooms => {
             dispatch(setRoomList(rooms));
         });
         socket.on(('room-added'), rooms => {
             dispatch(setRoomList(rooms));
         });
-    }, [socket, rooms, dispatch]);
+    },[]);
+
     useEffect(() => {
         socket.on('users-connected', users => setUsersList(users));
         socket.on('user-disconnected', users => setUsersList(users));
     }, [usersList]);
+
     useEffect(() => {
         if (user.status === 'idle') {
             dispatch(fetchUser());
@@ -213,9 +220,11 @@ export default function Chat(props) {
             })
         };
     }, [user.status, dispatch]);
+
     useEffect(() => {
         if (user.socket) socket.emit('user-log-in', user.user, user.socket);
     }, [user.socket, socket, user.user]);
+    
     useEffect(() => {
         socket.on('get-private', (msg) => {
             if (user.roomName === msg.recipientName || user.roomName === msg.senderName) {
@@ -233,8 +242,8 @@ export default function Chat(props) {
                 handleAddRoomClick={handleAddRoomClick}
                 handleRoomClick={handleRoomClick}
                 handleUserClick={handleUserClick}
-                addRoom={addRoom}
-                addRoomClicked={addRoomClicked}
+                addRoom={addRoomFunction}
+                addRoomActive={state.active}
                 setAddRoomName={setAddRoomName}
             />
             <div className="chat-container">
@@ -265,4 +274,6 @@ export default function Chat(props) {
         </div>
     )
 }
+
+export default withRouter(Chat)
 
