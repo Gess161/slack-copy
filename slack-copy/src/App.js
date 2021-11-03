@@ -1,8 +1,8 @@
 import "./stylesheets/styles.css/styles.css"
 import React from 'react'
 import { Switch, Route} from 'react-router-dom';
-import SignUp from './components/SignUp';
-import LogIn from './components/LogIn'
+import SignUp from "./routes/signup";
+import LogIn from "./routes/login"
 import PrivateRoute from './utils/PrivateRoute';
 import Chat from "./routes/chat/index"
 import Page404 from './components/Page404';
@@ -11,8 +11,6 @@ import { WEB_SOCKET_URL } from './constants';
 
 const socket = io(WEB_SOCKET_URL)
 function App() {
-  console.log(Chat)
-  console.dir(Chat)
   return (
     <div className="App">
       <div className="wrapper">

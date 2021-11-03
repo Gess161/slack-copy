@@ -1,4 +1,4 @@
-const LoginForm = ({handleChange, handleSubmit, email, password}) => {
+const LoginForm = ({ handleChange, handleSubmit, email, password }) => {
     return (
         <form className="form">
             <div className="form-part">

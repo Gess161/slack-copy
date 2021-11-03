@@ -2,7 +2,7 @@ import React from "react";
 import addBtn from "../../../../stylesheets/icons/add.svg"
 
 export default function AddRoom(props) {
-    const { handleAddRoomClick, addRoom, addRoomClicked, setAddRoomName } = props
+    const {active, handleAddRoomClick, addRoom, setAddRoomName } = props
     const button = <img src={addBtn} alt="addBtn" className="add-room-button" onClick={handleAddRoomClick} />
     const input = (
         <div className="add-room">
@@ -14,7 +14,7 @@ export default function AddRoom(props) {
                 placeholder="Channel name..." />
         </div>
     );
-    const currentComponent = addRoomClicked ? input : button;
+    const currentComponent = active ? input : button;
     return currentComponent;
 }
 

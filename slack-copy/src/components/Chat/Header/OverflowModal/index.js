@@ -12,7 +12,7 @@ const OverflowModal = (props) => {
         handleChange,
         handleFile,
         handlePasswordChange } = props;
-    const display = state.active ? "flex" : "none"
+    const display = state.overflow ? "flex" : "none"
     return (
         <aside style={{ display: display }} className="modal-cover">
             <div className="modal-area">

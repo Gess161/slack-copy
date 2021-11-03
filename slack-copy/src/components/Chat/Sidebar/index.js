@@ -5,7 +5,7 @@ import ChatList from "./ChatList/index";
 import { app, bell, search } from "../../../stylesheets/icons/icons"
 
 const Sidebar = (props) => {
-    const { setAddRoomName, user, handleUserClick, addRoom, usersList , handleAddRoomClick, handleRoomClick, rooms  } = props;
+    const { setAddRoomName, user, handleUserClick, addRoom, addRoomActive, usersList , handleAddRoomClick, handleRoomClick, rooms  } = props;
     const socket = user.socket
     const currentChat = user.roomName
     return (
@@ -33,7 +33,7 @@ const Sidebar = (props) => {
             </div>
             <div className="channels-rooms channels" >
                 <p>Channels</p>
-                <AddRoom setAddRoomName={setAddRoomName} socket={socket} addRoom={addRoom} handleAddRoomClick={handleAddRoomClick} />
+                <AddRoom active={addRoomActive} setAddRoomName={setAddRoomName} socket={socket} addRoom={addRoom} handleAddRoomClick={handleAddRoomClick} />
             </div>
             <RoomList handleRoomClick={handleRoomClick} rooms={rooms} socket={socket} activeChat={currentChat} />
             <ChatList handleRoomClick={handleUserClick} usersList={usersList } me={user} activeChat={currentChat} socket={socket} />

@@ -1,4 +1,5 @@
-const SignUpForm = ({ handleSubmit, handleChange, password, confirmPassword, email }) => {
+const SignUpForm = (props) => {
+    const{ handleSubmit, handleChange, password, confirmPassword, email } = props;
     return (
         <form className="form">
             <div className="form-part">

@@ -6,14 +6,14 @@ const slice = createSlice({
     initialState,
     reducers: {
         setRoomList: (state, action) => {
-            state.roomList = [...state.roomList, action.payload]
-        },
-        addRooms: (state, action) => {
             state.roomList = [...action.payload]
+        },
+        addRoom: (state, action) => {
+            state.roomList = [...state.roomList, action.payload]
         },
     },
 });
 
 
-export const { setRoomList, addRooms } = slice.actions;
+export const { setRoomList, addRoom } = slice.actions;
 export default slice.reducer;
