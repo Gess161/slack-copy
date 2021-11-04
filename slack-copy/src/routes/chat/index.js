@@ -162,7 +162,6 @@ function Chat(props) {
             console.log(addRoomName)
         };
     };
-
     useEffect(() => {
         setState({
             user: user.user,
@@ -171,7 +170,6 @@ function Chat(props) {
             active: false,
         })
     }, [user.user, user.email])
-
     useEffect(() => {
         socket.on('current-room', (room, roomId) => {
             if (roomId === null) {
@@ -182,19 +180,16 @@ function Chat(props) {
             dispatch(setRoomName(room))
         })
     }, [socket, dispatch]);
-
     useEffect(() => {
         socket.on('room-joined', data => {
             dispatch(replaceMessages(data));
         })
     }, [socket, dispatch]);
-
     useEffect(() => {
         const textarea = document.querySelector('textarea');
         textarea.addEventListener("keyup", handleKeyUp)
         return () => textarea.removeEventListener("keyup", handleKeyUp)
     })
-
     useEffect(() => {
         socket.on(('initial-rooms'), rooms => {
             dispatch(setRoomList(rooms));
@@ -203,12 +198,10 @@ function Chat(props) {
             dispatch(setRoomList(rooms));
         });
     },[]);
-
     useEffect(() => {
         socket.on('users-connected', users => setUsersList(users));
         socket.on('user-disconnected', users => setUsersList(users));
     }, [usersList]);
-
     useEffect(() => {
         if (user.status === 'idle') {
             dispatch(fetchUser());
@@ -220,11 +213,9 @@ function Chat(props) {
             })
         };
     }, [user.status, dispatch]);
-
     useEffect(() => {
         if (user.socket) socket.emit('user-log-in', user.user, user.socket);
-    }, [user.socket, socket, user.user]);
-    
+    }, [user.socket, socket, user.user]);   
     useEffect(() => {
         socket.on('get-private', (msg) => {
             if (user.roomName === msg.recipientName || user.roomName === msg.senderName) {
