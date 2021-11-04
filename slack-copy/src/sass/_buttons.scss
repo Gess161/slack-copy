@@ -1,0 +1,68 @@
+.buttons {
+    &-modal{
+        background-color: $background-text-color;
+        border-radius: 6px;
+        color: $text-color;
+        border: 1px $inner-text-color solid;
+        height: 36px;
+        width: 40%;
+        padding: 0 16px 3px;
+        font-weight: bold; 
+        &-save{
+            width: 55%;
+            background-color: $background-button-accept;
+            color: $background-text-color;
+            padding: 0 0 3px;
+        }
+    }
+    &-close {
+        background-color: white;
+        border: none;
+        font-size: 18px;
+        width: 30px;
+        padding: 5px;
+    }
+    &-return {
+        background-color: $background-color;
+        color: $background-text-color;
+        border: none;
+        margin: 10px;
+        width: 16%;
+        height: 44px;
+        padding: 0 16px;
+        font-weight: bold;
+    }
+    &-left {
+        display: flex;
+        flex-direction: row;
+        width: 25%;
+    }
+    &-right {
+        display: flex;
+        flex-direction: row;
+        width: 25%;
+    }
+    &-icon {
+        display: flex;
+        width: 30px;
+        height: 30px;
+        padding: 6px;
+        margin: 6px;
+        border-radius: 4px;
+        &-clip {
+            padding: 1px;
+        }
+        &-link {
+            padding: 8px;
+        }
+        &-chat {
+            padding: 4px;
+        }
+        &-search {
+            margin: 0;
+        }
+        &-message {
+            cursor: pointer;
+        }
+    }
+}

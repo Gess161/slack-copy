@@ -1,8 +1,5 @@
-import React, { useState } from 'react';
-import axios from 'axios'
-import { API_BASE_URL, ACCESS_TOKEN_NAME } from '../../constants/index';
-import { withRouter } from 'react-router';
-import './Signup.css'
+import React from 'react';
+import SignUpForm from './Form';
 
 function SignUp(props) {
     const [state, setState] = useState({
@@ -61,58 +58,25 @@ function SignUp(props) {
     }
 
     return (
-        <div className="d-flex flex-column card login-card hv-center">
-            <form className="form-signup">
-                <div className="form-part">
-                    <label className="form-label" htmlFor="exampleInputEmail1">Email address</label>
-                    <input className="form-input" type="email"
-
-                        id="email"
-                        aria-describedby="emailHelp"
-                        placeholder="Enter email"
-                        value={state.email}
-                        onChange={handleChange}
-                    />
-                    <small id="emailHelp" className="form-small">We'll never share your email with anyone else.</small>
-                </div>
-                <div className="form-part">
-                    <label className="form-label" htmlFor="exampleInputPassword1">Password</label>
-                    <input type="password"
-                        className="form-input"
-                        id="password"
-                        placeholder="Password"
-                        value={state.password}
-                        onChange={handleChange}
-                    />
-                    <small id="passwordHelp" className="form-small">Password must contain at least 6 characters</small>
-                </div>
-                <div className="form-part">
-                    <label className="form-label" htmlFor="exampleInputPassword1">Confirm Password</label>
-                    <input type="password"
-                        className="form-input"
-                        id="confirmPassword"
-                        placeholder="Confirm Password"
-                        value={state.confirmPassword}
-                        onChange={handleChange}
-                    />
-                </div>
-                <button
-                    type="button"
-                    className="d-flex w-50 justify-content-center align-self-center btn btn-primary"
-                    onClick={handleSubmit}
-                >
-                    Click Me!
-                </button>
-            </form>
-            <div className="alert alert-success mt-2" style={{ display: state.successMessage ? 'block' : 'none' }} role="alert">
-                {state.successMessage}
+        <div className="auth-container">
+            <img className="logo" alt="Slack" src="https://a.slack-edge.com/bv1-9/slack_logo-ebd02d1.svg" />
+            <h2 className="greeting">Welcome to Slack!</h2>
+            <SignUpForm
+                handleChange={handleChange}
+                handleSubmit={handleSubmit}
+                email={state.email}
+                password={state.password}
+                confirmPassword={state.confirmPassword} 
+                />
+            <div className="alert alert-danger mt-1" style={{ display: error ? 'block' : 'none' }} role="alert">
+                {error}
             </div>
-            <div className="registerMessage">
+            <div className="form-already">
                 <span>Already have an account? </span>
-                <span className="loginText" onClick={redirectToLogin}>Login here</span>
+                <span className="login-here" onClick={redirectToLogin}>Login here</span>
             </div>
         </div>
     );
-}
+};
 
-export default withRouter(SignUp)
+export default SignUp;

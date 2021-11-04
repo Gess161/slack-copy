@@ -1,0 +1,61 @@
+@import "./constants.scss";
+
+.modal {
+    &-buttons{
+        justify-self: flex-end;
+        display: flex;
+        flex-direction: row;
+        height: 40px;
+        width: 100%;
+        justify-content: space-between;
+    }
+    &-head {
+        display: flex;
+        flex-shrink: 0;
+        align-items: center;
+        justify-content: space-between;
+    }
+    &-container {
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+        height: 100%;
+    }
+    &-cover {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 10;
+        transform: translateZ(0);
+        background-color: rgba(0, 0, 0, 0.8);
+    }
+    &-area {
+        border-radius: 6px;
+        display: flex;
+        flex-direction: column;
+        color: $text-color;
+        position: fixed;
+        top: 10%;
+        left: 30%;
+        width: 40%;
+        height: 80%;
+        padding: 1em;
+        background-color: #ffffff;
+        box-shadow: 0 0 10px 3px rgba(0, 0, 0, 0.1);
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+    &-content{
+        &-right{
+            display: flex;
+            flex: 1;
+            padding: 10px;
+        }
+        &-left{
+            display: flex;
+            flex: 2;
+        }
+    }
+}

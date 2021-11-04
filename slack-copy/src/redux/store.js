@@ -1,10 +1,12 @@
 import { configureStore } from "@reduxjs/toolkit";
-import  userReducer from "./reducers/userReducer/userSlice"
-import loginReducer from "./reducers/loginReducer/loginReducer";
+import  messageReducer  from "./actions/messagesSlice";
+import  roomList  from "./actions/roomSlice";
+import  userReducer from "./actions/userSlice";
 
 export default configureStore({
     reducer: {
         user: userReducer,
-        login: loginReducer,
+        message: messageReducer,
+        room: roomList
     }
-})
+});

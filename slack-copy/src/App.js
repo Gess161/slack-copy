@@ -1,49 +1,44 @@
-import './App.css';
-import React, {useState}from 'react'
-import {
-  Switch,
-  Route,
-} from 'react-router-dom'
-import Header from './components/Header';
-import SignUp from './components/SignUp';
-import LogIn from './components/LogIn'
+import "./stylesheets/styles.css/styles.css"
+import React from 'react'
+import { Switch, Route} from 'react-router-dom';
+import SignUp from "./routes/signup";
+import LogIn from "./routes/login"
 import PrivateRoute from './utils/PrivateRoute';
-import Chat from './components/Chat'
-import AlertComponent from './components/Alert'
+import Chat from "./routes/chat/index"
 import Page404 from './components/Page404';
+<<<<<<< HEAD
 import {io} from "socket.io-client"
 import { WEB_SOCKET_URL } from './constants';
 
 
 
+=======
+import { io } from "socket.io-client";
+import { WEB_SOCKET_URL } from './constants';
+
+>>>>>>> 1.0
 const socket = io(WEB_SOCKET_URL)
 function App() {
-  const [title, updateTitle] = useState(null)
-  const [errorMessage, updateErrorMessage] = useState(null)
-
   return (
     <div className="App">
-      <div className="wrapper">  
-      <Header title={title}/>
+      <div className="wrapper">
         <Switch>
           <Route exact path="/">
-            <SignUp showError={updateErrorMessage} updateTitle={updateTitle}/>
+            <SignUp/>
           </Route>
           <Route path="/login">
-            <LogIn showError={updateErrorMessage} updateTitle={updateTitle}/>
+            <LogIn/>
           </Route>
           <PrivateRoute path="/chat">
-              <Chat 
-                socket={socket} />
+            <Chat socket={socket}/>
           </PrivateRoute>
           <Route exact path="*">
-              <Page404 />
+            <Page404 />
           </Route>
         </Switch>
-        <AlertComponent errorMessage={errorMessage} hideError={updateErrorMessage} />
       </div>
     </div>
   );
-}
+};
 
 export default App;

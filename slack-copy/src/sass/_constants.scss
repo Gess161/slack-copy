@@ -1,0 +1,35 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lato&display=swap');
+
+$chat-panel-font: 'Lato', sans-serif;
+$auth-font: 'Roboto', sans-serif;
+$background-input: #5C345C;
+$background-chat-color: #3F103F;
+$background-color: #611f69;
+$background-text-color: #FFFFFF;
+$text-color: #1D1C1D;
+$inner-text-color: rgba(29,28,29,.3);
+$link-color: #1264a3;
+$background-selected: #2e7bb6;
+$background-online: #33AB78;
+$background-button-accept: #007a5a;
+$chat-border: #DDDDDD;
+$chat-input-background: #F8F8F8;
+$chat-input-icon-selected: #DCDCDC;
+
+body{
+    height: 100vh;
+    width: 100%;
+}  
+.App, .wrapper, #root{
+    height: 100%;
+    width: 100%;
+}
+
+input:focus,
+span:focus,
+select:focus,
+textarea:focus,
+button:focus {
+    outline: none;
+}

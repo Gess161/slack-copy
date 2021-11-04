@@ -1,0 +1,96 @@
+.client {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    color: $background-text-color;
+    font-family: $chat-panel-font;
+    &-form {
+        align-self: center;
+        display: flex;
+        border: 2px solid $inner-text-color;
+        border-radius: 5px;
+        width: 98%;
+        margin-bottom: 2%;
+        &-chats {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            &-top {
+                height: fit-content;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                max-height: 122px;
+                textarea {
+                    color: $text-color;
+                    font-size: 15px;
+                    border: none;
+                    width: 100%;
+                    padding: 7px 5px 5px 15px;
+                    overflow: hidden;
+                }
+            }
+            &-bottom {
+                display: flex;
+                width: 100%;
+                flex-direction: row;
+                justify-content: space-around;
+                background: $chat-input-background;
+                align-items: center;
+                .bottom {
+                    &-left {
+                        opacity: 0.4;
+                        flex-direction: row;
+                        display: flex;
+                        width: 50%;
+                        align-self: flex-start;
+                        justify-content: flex-start;
+                    }
+                    &-right {
+                        opacity: 0.4;
+                        justify-content: flex-end;
+                        flex-direction: row;
+                        display: flex;
+                        width: 50%;
+                        align-self: flex-end;
+                    }
+                }
+            }
+        }
+    }
+    &-panel-bell {
+        width: 32px;
+        height: 52px;
+        display: flex;
+        justify-self: flex-end;
+        padding-right: 16px;
+    }
+    &-panel-arrow {
+        align-self: center;
+        width: 5px;
+        height: 5px;
+        border: solid white;
+        border-width: 0 1.5px 1.5px 0;
+        margin: 0 8px;
+        display: flex;
+        padding: 1px;
+        transform: rotate(45deg);
+        -webkit-transform: rotate(45deg);
+    }
+    &-panel {
+        display: flex;
+        padding-left: 16px;
+        width: 15.3%;
+        height: 100%;
+        flex-direction: column;
+        background: $background-chat-color;
+
+        &-header {
+            display: flex;
+            font-weight: bold;
+            font-family: $chat-panel-font;
+            font-size: 18px;
+            cursor: pointer;
+        }
+    }
+}
