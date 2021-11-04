@@ -6,17 +6,9 @@ import LogIn from "./routes/login"
 import PrivateRoute from './utils/PrivateRoute';
 import Chat from "./routes/chat/index"
 import Page404 from './components/Page404';
-<<<<<<< HEAD
-import {io} from "socket.io-client"
-import { WEB_SOCKET_URL } from './constants';
-
-
-
-=======
 import { io } from "socket.io-client";
 import { WEB_SOCKET_URL } from './constants';
 
->>>>>>> 1.0
 const socket = io(WEB_SOCKET_URL)
 function App() {
   return (
