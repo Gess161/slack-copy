@@ -209,6 +209,7 @@ function Chat(props) {
         if (user.status === 'succeeded') {
             dispatch(setSocket(socket.id));
             socket.on('get-message', (msg) => {
+                console.log(msg)
                 dispatch(setMessages(msg));
             })
         };
