@@ -59,6 +59,7 @@ function Chat(props) {
     };
     const handleRoomClick = (e) => {
         const roomName = e.target.innerText
+        console.log(roomName)
         socket.emit('join-room', {
             room: roomName,
             roomId: roomName,
@@ -184,7 +185,7 @@ function Chat(props) {
         socket.on('room-joined', data => {
             dispatch(replaceMessages(data));
         })
-    }, [socket, dispatch]);
+    }, []);
     useEffect(() => {
         const textarea = document.querySelector('textarea');
         textarea.addEventListener("keyup", handleKeyUp)
@@ -197,7 +198,7 @@ function Chat(props) {
         socket.on(('room-added'), rooms => {
             dispatch(setRoomList(rooms));
         });
-    },[]);
+    }, []);
     useEffect(() => {
         socket.on('users-connected', users => setUsersList(users));
         socket.on('user-disconnected', users => setUsersList(users));
@@ -208,15 +209,23 @@ function Chat(props) {
         };
         if (user.status === 'succeeded') {
             dispatch(setSocket(socket.id));
-            socket.on('get-message', (msg) => {
-                console.log(msg)
-                dispatch(setMessages(msg));
-            })
         };
-    }, [user.status, dispatch]);
+    }, [user.status])
+    useEffect(() => {
+        socket.on('get-message', (msg) => {
+            console.log(user)
+            console.log(msg)
+            if (msg.recipientName === user.roomName) {
+                console.log("message dispatched")
+                dispatch(setMessages(msg));
+            } else {
+                console.log("not that room")
+            }
+        })
+    }, []);
     useEffect(() => {
         if (user.socket) socket.emit('user-log-in', user.user, user.socket);
-    }, [user.socket, socket, user.user]);   
+    }, [user.socket, socket, user.user]);
     useEffect(() => {
         socket.on('get-private', (msg) => {
             if (user.roomName === msg.recipientName || user.roomName === msg.senderName) {
@@ -239,7 +248,7 @@ function Chat(props) {
                 setAddRoomName={setAddRoomName}
             />
             <div className="chat-container">
-            <Header
+                <Header
                     user={user}
                     roomName={user.roomName}
                     userList={usersList}
@@ -251,11 +260,11 @@ function Chat(props) {
                     handleSubmit={handleSubmit}
                     error={error}
                 />
-                <MessageContainer 
+                <MessageContainer
                     messages={messages}
                 />
                 <MessageForm
-                    message={message} 
+                    message={message}
                     roomName={user.roomName}
                     setMessage={setMessage}
                     handleKeyDown={handleKeyDown}
