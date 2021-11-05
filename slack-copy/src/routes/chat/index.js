@@ -17,6 +17,7 @@ function Chat(props) {
     const user = useSelector(state => state.user);
     const rooms = useSelector(state => state.room.roomList);
     const messages = useSelector(state => state.message.messages);
+    const [unreadMessages, setUnreadMessages] = useState({})
     const [addRoomName, setAddRoomName] = useState('');
     const [usersList, setUsersList] = useState({});
     const [message, setMessage] = useState('');
@@ -185,13 +186,6 @@ function Chat(props) {
         socket.on('room-joined', data => {
             dispatch(replaceMessages(data));
         })
-    }, []);
-    useEffect(() => {
-        const textarea = document.querySelector('textarea');
-        textarea.addEventListener("keyup", handleKeyUp)
-        return () => textarea.removeEventListener("keyup", handleKeyUp)
-    })
-    useEffect(() => {
         socket.on(('initial-rooms'), rooms => {
             dispatch(setRoomList(rooms));
         });
@@ -199,6 +193,11 @@ function Chat(props) {
             dispatch(setRoomList(rooms));
         });
     }, []);
+    useEffect(() => {
+        const textarea = document.querySelector('textarea');
+        textarea.addEventListener("keyup", handleKeyUp)
+        return () => textarea.removeEventListener("keyup", handleKeyUp)
+    })
     useEffect(() => {
         socket.on('users-connected', users => setUsersList(users));
         socket.on('user-disconnected', users => setUsersList(users));
@@ -213,16 +212,14 @@ function Chat(props) {
     }, [user.status])
     useEffect(() => {
         socket.on('get-message', (msg) => {
-            console.log(user)
-            console.log(msg)
-            if (msg.recipientName === user.roomName) {
-                console.log("message dispatched")
+            if (msg.recipientName === user.roomName){
                 dispatch(setMessages(msg));
-            } else {
-                console.log("not that room")
             }
         })
-    }, []);
+        return () => {
+            socket.removeAllListeners(['get-message'])
+        };
+    }, [user.roomName]);
     useEffect(() => {
         if (user.socket) socket.emit('user-log-in', user.user, user.socket);
     }, [user.socket, socket, user.user]);
@@ -231,7 +228,10 @@ function Chat(props) {
             if (user.roomName === msg.recipientName || user.roomName === msg.senderName) {
                 dispatch(setMessages(msg));
             }
-        })
+        });
+        return () => {
+            socket.removeAllListeners(['get-message'])
+        };
     }, [user.roomName])
 
     return (

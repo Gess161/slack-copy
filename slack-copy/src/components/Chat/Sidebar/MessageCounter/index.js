@@ -1,5 +1,8 @@
 function Counter (){
     return(
-        <div></div>
+        <div className='message-counter'>
+            1
+        </div>
     )
 }
+export default Counter;
