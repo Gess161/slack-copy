@@ -1,13 +1,14 @@
 import React from "react"
 import RoomItem from "./RoomListItem";
 const RoomList = (props) => {
-    const { handleRoomClick, activeChat, socket, rooms } = props;
+    const { unreadMessages, handleRoomClick, activeChat, socket, rooms } = props;
     return (
         <div className="chat-panel-list">
-            <RoomItem name='general' handleRoomClick={handleRoomClick} active={activeChat} socket={socket} />
+            <RoomItem name='general' unreadMessages={unreadMessages} handleRoomClick={handleRoomClick} active={activeChat} socket={socket} />
             {Object.keys(rooms).map(key => {
                 return (
                     <RoomItem
+                        unreadMessages={unreadMessages}
                         handleRoomClick={handleRoomClick}
                         active={activeChat}
                         name={rooms[key]}

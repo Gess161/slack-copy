@@ -60,13 +60,16 @@ function Chat(props) {
     };
     const handleRoomClick = (e) => {
         const roomName = e.target.innerText
-        console.log(roomName)
         socket.emit('join-room', {
             room: roomName,
             roomId: roomName,
         });
         dispatch(setRoomName(roomName))
         dispatch(setRoomId(roomName))
+        setUnreadMessages(prevState => ({
+            ...prevState,
+            [roomName]: null,
+        }))
     }
     const handleSubmit = async () => {
         const formData = new FormData()
@@ -187,10 +190,25 @@ function Chat(props) {
             dispatch(replaceMessages(data));
         })
         socket.on(('initial-rooms'), rooms => {
+            rooms.map(room => {
+                console.log()
+                socket.emit('join-room', {
+                    room: room,
+                    roomId: room,
+                });
+            })
             dispatch(setRoomList(rooms));
         });
         socket.on(('room-added'), rooms => {
+            rooms.map(room => {
+                console.log()
+                socket.emit('join-room', {
+                    room: room,
+                    roomId: room,
+                });
+            })
             dispatch(setRoomList(rooms));
+
         });
     }, []);
     useEffect(() => {
@@ -212,22 +230,44 @@ function Chat(props) {
     }, [user.status])
     useEffect(() => {
         socket.on('get-message', (msg) => {
-            if (msg.recipientName === user.roomName){
+            const room = msg.recipientName
+            if (room === user.roomName) {
                 dispatch(setMessages(msg));
-            }
+            } else if (unreadMessages[room] === undefined) {
+                setUnreadMessages(prevState => ({
+                    ...prevState,
+                    [room]: 1,
+                }))
+            } else {
+                setUnreadMessages(prevState => ({
+                    ...prevState,
+                    [room]: prevState[room] + 1,
+                }))
+            };
         })
         return () => {
             socket.removeAllListeners(['get-message'])
         };
-    }, [user.roomName]);
+    }, [user.roomName, unreadMessages]);
     useEffect(() => {
         if (user.socket) socket.emit('user-log-in', user.user, user.socket);
     }, [user.socket, socket, user.user]);
     useEffect(() => {
         socket.on('get-private', (msg) => {
+            const room = msg.recipientName
             if (user.roomName === msg.recipientName || user.roomName === msg.senderName) {
                 dispatch(setMessages(msg));
-            }
+            } else if (unreadMessages[room] === undefined) {
+                setUnreadMessages(prevState => ({
+                    ...prevState,
+                    [room]: 1,
+                }))
+            } else {
+                setUnreadMessages(prevState => ({
+                    ...prevState,
+                    [room]: prevState[room] + 1,
+                }))
+            };
         });
         return () => {
             socket.removeAllListeners(['get-message'])
@@ -237,6 +277,7 @@ function Chat(props) {
     return (
         <div className="client">
             <Sidebar
+                unreadMessages={unreadMessages}
                 user={user}
                 rooms={rooms}
                 usersList={usersList}

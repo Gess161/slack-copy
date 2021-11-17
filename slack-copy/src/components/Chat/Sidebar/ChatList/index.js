@@ -2,7 +2,8 @@ import React from "react";
 import ChatItem from "./ChatListItem/";
 
 const ChatPanelList = (props) => {
-    const { socket, usersList, activeChat, me, handleRoomClick } = props;
+    const { socket, usersList, activeChat, me, handleRoomClick, unreadMessages } = props;
+    console.log(me)
     return (
         <div className="channels">
             <p>Direct Messages</p>
@@ -10,6 +11,7 @@ const ChatPanelList = (props) => {
                 if (key !== me.user)
                     return (
                         <ChatItem
+                            unreadMessages={unreadMessages}
                             handleRoomClick={handleRoomClick}
                             active={activeChat}
                             name={key}
