@@ -24,7 +24,7 @@ export default function ChatContainer(props) {
         user: user.user,
         email: user.email,
         active: false,
-        overflow: false
+        modal: false
     })
 
     const sendData = () => {
@@ -55,7 +55,6 @@ export default function ChatContainer(props) {
             message: "",
         }));;
     };
-
     const handleKeyUp = e => {
         const textarea = document.querySelector('textarea');
         textarea.style.height = `auto`
@@ -68,6 +67,7 @@ export default function ChatContainer(props) {
             sendData();
         }
     };
+
     useEffect(() => {
         socket.on('current-room', (room, roomId) => {
             if (roomId === null) {
@@ -78,7 +78,6 @@ export default function ChatContainer(props) {
             dispatch(setRoomName(room))
         })
     }, [socket, dispatch]);
-
     useEffect(() => {
         socket.on('room-joined', data => {
             console.log(data)
@@ -100,7 +99,6 @@ export default function ChatContainer(props) {
             socket.removeAllListeners(['room-joined', 'initial-rooms', 'room-added'])
         };
     }, []);
-
     useEffect(() => {
         socket.on('users-connected', users => setState(prevState => ({
             ...prevState,
@@ -110,6 +108,9 @@ export default function ChatContainer(props) {
             ...prevState,
             usersList: users
         })))
+        return () => {
+            socket.removeAllListeners(['users-connected', 'users-disconnected'])
+        };
     }, [state.usersList]);
     useEffect(() => {
         if (user.status === 'idle') {

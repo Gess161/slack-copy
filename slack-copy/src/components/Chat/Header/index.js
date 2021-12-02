@@ -8,7 +8,6 @@ const ChatHeader = (props) => {
         user,
         error,
         state,
-        handleModal,
         roomName,
         userList,
 } = props;
@@ -34,7 +33,10 @@ const ChatHeader = (props) => {
                 <div className="buttons-right">
                     <img src={at} alt="icon" className="buttons-icon" />
                     <img src={star} alt="icon" className="buttons-icon" />
-                    <img src={overflow} alt="icon" className="buttons-icon" onClick={handleModal} />
+                    <img src={overflow} alt="icon" className="buttons-icon" onClick={e => setState(prevState => ({
+                        ...prevState,
+                        modal: !prevState.modal
+                    }))} />
                     <Modal
                         setState={setState}
                         user={user}

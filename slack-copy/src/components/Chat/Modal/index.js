@@ -59,7 +59,7 @@ const Modal = (props) => {
             setState(prevState => ({
                 ...prevState,
                 error: null,
-                overflow: !state.overflow
+                modal: !prevState.modal
             }))
         }
     }
@@ -75,7 +75,6 @@ const Modal = (props) => {
             user={user}
             error={error}
             state={state}
-            display={display}
             handlePasswordChange={handlePasswordChange} 
             handleModal={handleModal}
             handleSubmit={handleSubmit}

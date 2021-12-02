@@ -12,7 +12,7 @@ const ModalContainer = (props) => {
         handleChange,
         handleFile,
         handlePasswordChange } = props;
-    const display = state.overflow ? "flex" : "none"
+    const display = state.modal ? "flex" : "none"
     return (
         <div style={{ display: display }} className="modal-cover">
             <div className="modal-area">

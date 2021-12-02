@@ -1,10 +1,10 @@
 import "./stylesheets/styles.css"
 import React from 'react'
 import { Switch, Route} from 'react-router-dom';
-import SignUp from "./routes/signup";
-import LogIn from "./routes/login"
+import SignUp from "./pages/signup";
+import LogIn from "./pages/login"
 import PrivateRoute from './utils/PrivateRoute';
-import Chat from "./routes/chat/index"
+import Chat from "./pages/chat"
 import Page404 from './components/Page404';
 
 
