@@ -7,6 +7,7 @@ import { addRoom } from "../../../redux/actions/roomSlice";
 const Sidebar = (props) => {
     const dispatch = useDispatch()
     const {
+        socket,
         state, 
         setState, 
         user, 
@@ -15,8 +16,6 @@ const Sidebar = (props) => {
         rooms, 
         unreadMessages 
     } = props;
-
-    const socket = user.socket
     const currentChat = user.roomName
 
     const handleRoomClick = (e) => {

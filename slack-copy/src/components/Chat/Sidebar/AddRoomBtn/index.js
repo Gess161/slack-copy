@@ -10,7 +10,7 @@ export default function AddRoom(props) {
                 className="add-room-input"
                 onChange={e => setState(prevState => ({
                     ...prevState,
-                    message: e.target.value,
+                    addRoomName: e.target.value,
                 }))}
                 onKeyDown={addRoom}
                 type="text"
