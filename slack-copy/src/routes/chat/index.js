@@ -6,10 +6,12 @@ import { WEB_SOCKET_URL } from '../../constants';
 
 const socket = io(WEB_SOCKET_URL)
 
-function Chat() {
+function Chat(props) {
+    const history = props.history
     return (
         <ChatContainer
             socket={socket}
+            history={history}
         />
     )
 }

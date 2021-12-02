@@ -81,15 +81,10 @@ export default function ChatContainer(props) {
 
     useEffect(() => {
         socket.on('room-joined', data => {
+            console.log(data)
             dispatch(replaceMessages(data));
         })
-        socket.on('initial-rooms', rooms => {
-            rooms.map(room => {
-                socket.emit('join-room', {
-                    room: room,
-                    roomId: room,
-                });
-            })
+        socket.on('initial-rooms', rooms => {      
             dispatch(setRoomList(rooms));
         });
         socket.on(('room-added'), rooms => {
@@ -147,7 +142,7 @@ export default function ChatContainer(props) {
     }, [user.roomName, state.unreadMessages]);
     useEffect(() => {
         if (user.socket) socket.emit('user-log-in', user.user, user.socket);
-    }, [user.socket, socket, user.user]);
+    }, [user.socket]);
     useEffect(() => {
         socket.on('get-private', (msg) => {
             const room = msg.recipientName
