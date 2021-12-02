@@ -1,180 +1,31 @@
 import React, { useEffect, useState } from "react"
 import { withRouter } from "react-router";
 import { useSelector, useDispatch } from "react-redux";
-import { setSocket, setRoomId, setRoomName, setUser } from "../../redux/actions/userSlice";
+import { setSocket, setRoomId, setRoomName } from "../../redux/actions/userSlice";
 import { setMessages, replaceMessages } from "../../redux/actions/messagesSlice";
-import { setRoomList, addRoom } from "../../redux/actions/roomSlice"
+import { setRoomList } from "../../redux/actions/roomSlice"
 import { fetchUser } from "../../redux/thunk/fetchUser";
-import uploadProfileData from "../../services/api/uploadProfileData"
-import Sidebar from "../../components/Chat/Sidebar/index"
-import Header from "../../components/Chat/Header"
-import MessageContainer from "../../components/Chat/MessageContainer"
-import MessageForm from "../../components/Chat/MessageForm"
+import ChatContainer from "../../components/Chat/"
+import { io } from "socket.io-client";
+import { WEB_SOCKET_URL } from '../../constants';
 
-function Chat(props) {
-    const { socket } = props;
+const socket = io(WEB_SOCKET_URL)
+function Chat() {
     const dispatch = useDispatch();
     const user = useSelector(state => state.user);
     const rooms = useSelector(state => state.room.roomList);
-    const messages = useSelector(state => state.message.messages);
-    const [unreadMessages, setUnreadMessages] = useState({})
-    const [addRoomName, setAddRoomName] = useState('');
-    const [usersList, setUsersList] = useState({});
-    const [message, setMessage] = useState('');
-    const [error, setError] = useState(null);
+    const messages = useSelector(state => state.message.messages);;
     const [state, setState] = useState({
+        unreadMessages: {},
+        addRoomName: '',
+        usersList: {},
+        message: '',
+        error: null,
         user: user.user,
         email: user.email,
         active: false,
         overflow: false
     })
-    const handlePasswordChange = () => {
-        if (state.active) {
-            setState(prevState => ({
-                ...prevState,
-                "active": !state.active
-            }));
-        } else {
-            setState(prevState => ({
-                ...prevState,
-                "active": !state.active,
-                "password": "",
-                "newPassword": "",
-                "confirmPassword": ""
-            }));
-        }
-    }
-    const handleFile = (e) => {
-        const file = e.target.files[0];
-        setState(prevState => ({
-            ...prevState,
-            "image": file
-        }));
-    }
-    const handleChange = (e) => {
-        const { id, value } = e.target
-        setState(prevState => ({
-            ...prevState,
-            [id]: value
-        }));
-    };
-    const handleRoomClick = (e) => {
-        const roomName = e.target.innerText
-        socket.emit('join-room', {
-            room: roomName,
-            roomId: roomName,
-        });
-        dispatch(setRoomName(roomName))
-        dispatch(setRoomId(roomName))
-        setUnreadMessages(prevState => ({
-            ...prevState,
-            [roomName]: null,
-        }))
-    }
-    const handleSubmit = async () => {
-        const formData = new FormData()
-        for (let key in state) {
-            formData.append(key, state[key])
-        }
-        const data = await uploadProfileData(formData)
-        if (typeof data === "string") {
-            setError(data)
-        } else {
-            dispatch(setUser(data))
-            handleModal()
-            setError(null)
-        }
-    }
-    const handleModal = e => {
-        setState(prevState => ({
-            ...prevState,
-            "overflow": !state.overflow
-        }));
-    }
-    const handleKeyUp = e => {
-        const textarea = document.querySelector('textarea');
-        textarea.style.height = `auto`
-        let scHeight = e.target.scrollHeight;
-        textarea.style.height = `${scHeight}px`
-    }
-    const handleKeyDown = e => {
-        if (e.keyCode === 13 && !e.shiftKey) {
-            e.preventDefault();
-            sendData();
-        } else if (e.keyCode === 13 && e.shiftKey) {
-            console.log(e.target.value)
-        }
-    };
-    const handleUserClick = (e) => {
-        const roomId = e.target.socketId
-        const room = e.target.innerText
-        if (room !== user.roomName) {
-            socket.emit('join-room', {
-                user: user.user,
-                room: room,
-                roomId: roomId
-            });
-            dispatch(setRoomName(room))
-            dispatch(setRoomId(roomId))
-        }
-    }
-    const handleAddRoomClick = () => {
-        setState(prevState => ({
-            ...prevState,
-            "active": !state.active
-        }));
-    };
-    const sendData = () => {
-        if (message === '') return;
-        if (user.roomName === user.roomId) {
-            const msg = {
-                image: user.image,
-                sender: socket.id,
-                senderName: user.user,
-                message: message,
-                recipient: user.roomId,
-                recipientName: user.roomName
-            }
-            socket.emit('message', msg);
-        } else {
-            const msg = {
-                image: user.image,
-                senderName: user.user,
-                recipientName: user.roomName,
-                message: message,
-                sender: socket.id,
-                recipient: user.roomId
-            }
-            socket.emit('private-message', msg)
-        }
-        setMessage('');
-    };
-    const addRoomFunction = e => {
-        if (e.keyCode === 13) {
-            e.preventDefault()
-            console.log("roomname", addRoomName)
-            if (rooms.includes(addRoomName)) return alert('This room already exists');
-            dispatch(addRoom(addRoomName));
-            dispatch(setRoomName(addRoomName))
-            dispatch(setRoomId(addRoomName))
-            socket.emit('add-room', addRoomName);
-            socket.emit('join-room', addRoomName);
-            setState(prevState => ({
-                ...prevState,
-                "active": !state.active
-            }));
-            setAddRoomName('');
-            console.log(addRoomName)
-        };
-    };
-    useEffect(() => {
-        setState({
-            user: user.user,
-            email: user.email,
-            previousName: user.user,
-            active: false,
-        })
-    }, [user.user, user.email])
     useEffect(() => {
         socket.on('current-room', (room, roomId) => {
             if (roomId === null) {
@@ -208,18 +59,18 @@ function Chat(props) {
                 });
             })
             dispatch(setRoomList(rooms));
-
         });
     }, []);
     useEffect(() => {
-        const textarea = document.querySelector('textarea');
-        textarea.addEventListener("keyup", handleKeyUp)
-        return () => textarea.removeEventListener("keyup", handleKeyUp)
-    })
-    useEffect(() => {
-        socket.on('users-connected', users => setUsersList(users));
-        socket.on('user-disconnected', users => setUsersList(users));
-    }, [usersList]);
+        socket.on('users-connected', users => setState(prevState => ({
+            ...prevState,
+            usersList: users
+        })))
+        socket.on('users-disconnected', users => setState(prevState => ({
+            ...prevState,
+            usersList: users
+        })))
+    }, [state.usersList]);
     useEffect(() => {
         if (user.status === 'idle') {
             dispatch(fetchUser());
@@ -233,22 +84,22 @@ function Chat(props) {
             const room = msg.recipientName
             if (room === user.roomName) {
                 dispatch(setMessages(msg));
-            } else if (unreadMessages[room] === undefined) {
-                setUnreadMessages(prevState => ({
+            } else if (state.unreadMessages[room] === undefined) {
+                setState(prevState => ({
                     ...prevState,
-                    [room]: 1,
+                    unreadMessages: { [room]: 1 },
                 }))
             } else {
-                setUnreadMessages(prevState => ({
+                setState(prevState => ({
                     ...prevState,
-                    [room]: prevState[room] + 1,
+                    unreadMessages: { [room]: prevState[room] + 1 },
                 }))
             };
         })
         return () => {
             socket.removeAllListeners(['get-message'])
         };
-    }, [user.roomName, unreadMessages]);
+    }, [user.roomName, state.unreadMessages]);
     useEffect(() => {
         if (user.socket) socket.emit('user-log-in', user.user, user.socket);
     }, [user.socket, socket, user.user]);
@@ -257,15 +108,15 @@ function Chat(props) {
             const room = msg.recipientName
             if (user.roomName === msg.recipientName || user.roomName === msg.senderName) {
                 dispatch(setMessages(msg));
-            } else if (unreadMessages[room] === undefined) {
-                setUnreadMessages(prevState => ({
+            } else if (state.unreadMessages[room] === undefined) {
+                setState(prevState => ({
                     ...prevState,
-                    [room]: 1,
+                    unreadMessages: { [room]: 1 },
                 }))
             } else {
-                setUnreadMessages(prevState => ({
+                setState(prevState => ({
                     ...prevState,
-                    [room]: prevState[room] + 1,
+                    unreadMessages: { [room]: prevState[room] + 1 },
                 }))
             };
         });
@@ -273,49 +124,20 @@ function Chat(props) {
             socket.removeAllListeners(['get-message'])
         };
     }, [user.roomName])
-
     return (
-        <div className="client">
-            <Sidebar
-                unreadMessages={unreadMessages}
-                user={user}
-                rooms={rooms}
-                usersList={usersList}
-                handleAddRoomClick={handleAddRoomClick}
-                handleRoomClick={handleRoomClick}
-                handleUserClick={handleUserClick}
-                addRoom={addRoomFunction}
-                addRoomActive={state.active}
-                setAddRoomName={setAddRoomName}
-            />
-            <div className="chat-container">
-                <Header
-                    user={user}
-                    roomName={user.roomName}
-                    userList={usersList}
-                    state={state}
-                    handleModal={handleModal}
-                    handlePasswordChange={handlePasswordChange}
-                    handleFile={handleFile}
-                    handleChange={handleChange}
-                    handleSubmit={handleSubmit}
-                    error={error}
-                />
-                <MessageContainer
-                    messages={messages}
-                />
-                <MessageForm
-                    message={message}
-                    roomName={user.roomName}
-                    setMessage={setMessage}
-                    handleKeyDown={handleKeyDown}
-                    handleKeyUp={handleKeyUp}
-                    sendData={sendData}
-                />
-            </div>
-        </div>
+        <ChatContainer
+            socket={socket}
+            messages={messages}
+            message={state.message}
+            setState={setState}
+            unreadMessages={state.unreadMessages}
+            user={user}
+            rooms={rooms}
+            usersList={state.usersList}
+            state={state}
+            error={state.error}
+        />
     )
 }
-
 export default withRouter(Chat)
 

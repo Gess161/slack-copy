@@ -3,6 +3,7 @@ import { bold, italic, link, clip, smile, sendMessage } from "../../../styleshee
 
 const MessageForm = (props) => {
     const { handleKeyDown, sendData, message, roomName, setMessage } = props;
+    
     return (
         <form id="form" className="client-form">
             <div className="client-form-chats">

@@ -1,5 +1,5 @@
 import React from "react"
-import { API_BASE_URL } from "../../../../../constants";
+import { API_BASE_URL } from "../../../constants"
 
 const ModalProfile = (props) => {
     const { user, error, state, handleFile, handleSubmit } = props;

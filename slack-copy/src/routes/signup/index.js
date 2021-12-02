@@ -10,6 +10,7 @@ function Signup(props) {
         confirmPassword: "",
     });
     const [error, setError] = useState(null)
+    
     const handleChange = (e) => {
         const { id, value } = e.target
         setState(prevState => ({

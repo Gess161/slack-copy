@@ -2,7 +2,7 @@ import React from "react"
 import ModalForm from "./ModalForm";
 import ModalProfile from "./ModalProfile";
 
-const OverflowModal = (props) => {
+const ModalContainer = (props) => {
     const {
         user,
         error,
@@ -14,7 +14,7 @@ const OverflowModal = (props) => {
         handlePasswordChange } = props;
     const display = state.overflow ? "flex" : "none"
     return (
-        <aside style={{ display: display }} className="modal-cover">
+        <div style={{ display: display }} className="modal-cover">
             <div className="modal-area">
                 <div className="modal-head">
                     <h4>Edit your profile</h4>
@@ -38,8 +38,8 @@ const OverflowModal = (props) => {
                     </div>
                 </div>
             </div>
-        </aside>
+        </div>
     )
 }
 
-export default OverflowModal;
+export default ModalContainer;

@@ -6,10 +6,8 @@ import LogIn from "./routes/login"
 import PrivateRoute from './utils/PrivateRoute';
 import Chat from "./routes/chat/index"
 import Page404 from './components/Page404';
-import { io } from "socket.io-client";
-import { WEB_SOCKET_URL } from './constants';
 
-const socket = io(WEB_SOCKET_URL)
+
 function App() {
   return (
     <div className="App">
@@ -22,7 +20,7 @@ function App() {
             <LogIn/>
           </Route>
           <PrivateRoute path="/chat">
-            <Chat socket={socket}/>
+            <Chat />
           </PrivateRoute>
           <Route exact path="*">
             <Page404 />

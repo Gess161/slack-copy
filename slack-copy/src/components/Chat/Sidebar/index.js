@@ -1,62 +1,91 @@
 import React from "react"
-import AddRoom from "./AddRoomBtn/index";
-import RoomList from "./RoomList/index";
-import ChatList from "./ChatList/index";
-import { app, bell, search } from "../../../stylesheets/icons/icons"
+import { useDispatch } from "react-redux";
+import SidebarContainer from "./SidebarContainer"
+import { setRoomId, setRoomName } from "../../../redux/actions/userSlice";
+import { addRoom } from "../../../redux/actions/roomSlice";
 
 const Sidebar = (props) => {
-    const { setAddRoomName, user, handleUserClick, addRoom, addRoomActive, usersList, handleAddRoomClick, handleRoomClick, rooms, unreadMessages } = props;
+    const dispatch = useDispatch()
+    const {
+        state, 
+        setState, 
+        user, 
+        addRoomActive, 
+        usersList, 
+        rooms, 
+        unreadMessages 
+    } = props;
+
     const socket = user.socket
     const currentChat = user.roomName
+
+    const handleRoomClick = (e) => {
+        const roomName = e.target.innerText
+        socket.emit('join-room', {
+            room: roomName,
+            roomId: roomName,
+        });
+        dispatch(setRoomName(roomName))
+        dispatch(setRoomId(roomName))
+        setState(prevState => ({
+            ...prevState,
+            unreadMessages: {
+                [roomName]: null,
+            }
+        }))
+    }
+    const handleUserClick = (e) => {
+        const roomId = e.target.socketId
+        const room = e.target.innerText
+        if (room !== user.roomName) {
+            socket.emit('join-room', {
+                user: user.user,
+                room: room,
+                roomId: roomId
+            });
+            dispatch(setRoomName(room))
+            dispatch(setRoomId(roomId))
+        }
+    }
+    const handleAddRoomClick = () => {
+        setState(prevState => ({
+            ...prevState,
+            "active": !state.active
+        }));
+    };
+    const addRoomFunction = e => {
+        const addRoomName = state.addRoomName
+        if (e.keyCode === 13) {
+            e.preventDefault()
+            if (rooms.includes(addRoomName)) return alert('This room already exists');
+            dispatch(addRoom(addRoomName));
+            dispatch(setRoomName(addRoomName))
+            dispatch(setRoomId(addRoomName))
+            socket.emit('add-room', addRoomName);
+            socket.emit('join-room', addRoomName);
+            setState(prevState => ({
+                ...prevState,
+                "active": !state.active,
+                addRoomName: ''
+            }));
+        };
+    };
+
     return (
-        <div className="client-panel">
-            <h2 className="client-panel-header ">
-                <div className="header">
-                    <div className="header-top">
-                        <div className="header-text-name">Hlack Mockup</div>
-                        <div className="client-panel-arrow"></div>
-                    </div>
-                    <div className="header-bottom">
-                        <div className="online-indicator"></div>
-                        <div className="header-bottom-user">{user.user}</div>
-                    </div>
-                </div>
-                <img alt="icon" src={bell} className="client-panel-bell" />
-            </h2>
-            <div className="jump-to">
-                <img alt="icon" className="search" src={search} />
-                <input placeholder="Jump to..." />
-            </div>
-            <div className="apps">
-                <img alt="icon" className="icon" src={app} />
-                <p>Apps</p>
-            </div>
-            <div className="channels-rooms channels" >
-                <p>Channels</p>
-                <AddRoom 
-                    active={addRoomActive} 
-                    setAddRoomName={setAddRoomName} 
-                    socket={socket} 
-                    addRoom={addRoom} 
-                    handleAddRoomClick={handleAddRoomClick} 
-                />
-            </div>
-            <RoomList 
-                unreadMessages={unreadMessages} 
-                handleRoomClick={handleRoomClick} 
-                rooms={rooms} 
-                socket={socket} 
-                activeChat={currentChat} 
-            />
-            <ChatList
-                unreadMessages={unreadMessages}
-                handleRoomClick={handleUserClick}
-                usersList={usersList}
-                me={user}
-                activeChat={currentChat}
-                socket={socket} 
-            />
-        </div>
+        <SidebarContainer
+            handleAddRoomClick={handleAddRoomClick}
+            usersList={usersList}
+            unreadMessages={unreadMessages}
+            handleUserClick={handleUserClick}
+            user={user} 
+            addRoomActive={addRoomActive}
+            setState={setState}
+            socket={socket}
+            rooms={rooms}
+            addRoom={addRoomFunction}
+            handleRoomClick={handleRoomClick}
+            currentChat={currentChat}
+        />
     )
 }
 
