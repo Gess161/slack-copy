@@ -3,7 +3,6 @@ import SignUpForm from './Form';
 
 function SignUp(props) {
     const { handleSubmit, handleChange, state, error, redirectToLogin } = props;
-    console.log(state)
     return (
         <div className="auth-container">
             <img className="logo" alt="Slack" src="https://a.slack-edge.com/bv1-9/slack_logo-ebd02d1.svg" />

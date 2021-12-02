@@ -2,7 +2,7 @@ import React from "react";
 import { bold, italic, link, clip, smile, sendMessage } from "../../../stylesheets/icons/icons"
 
 const MessageForm = (props) => {
-    const { handleKeyDown, sendData, message, roomName, setMessage } = props;
+    const { handleKeyDown, sendData, message, roomName, setState } = props;
     
     return (
         <form id="form" className="client-form">
@@ -10,7 +10,10 @@ const MessageForm = (props) => {
                 <div className="client-form-chats-top">
                     <textarea
                         placeholder={`Message #${roomName}`}
-                        onChange={(e) => setMessage(e.target.value)}
+                        onChange={e => setState(prevState => ({
+                            ...prevState,
+                            message: e.target.value,
+                        }))}
                         onKeyDown={handleKeyDown}
                         type="text"
                         id="textarea"

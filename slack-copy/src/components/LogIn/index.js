@@ -1,5 +1,5 @@
 import React from 'react';
-import LoginForm from './Form';
+import LoginForm from './Form'
 
 function LogIn(props) {
     const { state,  error, redirectToSignUp, handleChange,  handleSubmit } = props;
