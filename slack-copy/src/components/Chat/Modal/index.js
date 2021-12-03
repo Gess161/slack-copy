@@ -68,7 +68,6 @@ const Modal = (props) => {
             "overflow": !state.overflow
         }));
     }
-    const display = state.overflow ? "flex" : "none"
     return (
         <ModalContainer
             user={user}

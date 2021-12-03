@@ -7,7 +7,7 @@ const ChatPanelList = (props) => {
         <div className="channels">
             <p>Direct Messages</p>
             {Object.keys(usersList).map(key => {
-                if (key !== me.user)
+                if (key !== me.user) {
                     return (
                         <ChatItem
                             unreadMessages={unreadMessages}
@@ -19,6 +19,8 @@ const ChatPanelList = (props) => {
                             socketId={usersList[key]}
                         />
                     );
+                }
+                return null;
             })}
         </div>
     );

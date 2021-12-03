@@ -8,13 +8,13 @@ const Sidebar = (props) => {
     const dispatch = useDispatch()
     const {
         socket,
-        state, 
-        setState, 
-        user, 
-        addRoomActive, 
-        usersList, 
-        rooms, 
-        unreadMessages 
+        state,
+        setState,
+        user,
+        addRoomActive,
+        usersList,
+        rooms,
+        unreadMessages
     } = props;
     const currentChat = user.roomName
 
@@ -62,7 +62,11 @@ const Sidebar = (props) => {
             dispatch(setRoomName(addRoomName))
             dispatch(setRoomId(addRoomName))
             socket.emit('add-room', addRoomName);
-            socket.emit('join-room', addRoomName);
+            socket.emit('join-room', {
+                user: user.user,
+                room: addRoomName,
+                roomId: addRoomName
+            });
             setState(prevState => ({
                 ...prevState,
                 "active": !state.active,
@@ -77,7 +81,7 @@ const Sidebar = (props) => {
             usersList={usersList}
             unreadMessages={unreadMessages}
             handleUserClick={handleUserClick}
-            user={user} 
+            user={user}
             addRoomActive={addRoomActive}
             setState={setState}
             socket={socket}

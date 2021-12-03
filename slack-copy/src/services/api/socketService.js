@@ -3,6 +3,7 @@ import { setMessages, replaceMessages } from "../../redux/actions/messagesSlice"
 import { setRoomList } from "../../redux/actions/roomSlice"
 
 export default function socketService(socket, setState, state, user, dispatch) {
+    
     socket.on('initial-rooms', rooms => {
         dispatch(setRoomList(rooms));
     });
