@@ -1,9 +1,8 @@
 import React from "react"
-import { API_BASE_URL } from "../../../constants"
 
 const ModalProfile = (props) => {
     const { user, error, state, handleFile, handleSubmit } = props;
-    const defaultImage = API_BASE_URL + "/" + user.image;
+    const defaultImage = process.env.REACT_APP_API_BASE_URL + "/" + user.image;
     const chosenImage = state.image;
 
     const pic = chosenImage ? URL.createObjectURL(chosenImage) : defaultImage;

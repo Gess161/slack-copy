@@ -1,9 +1,8 @@
 import React from "react"
-import { API_BASE_URL } from "../../../constants";
 
 const Message = ({ message }) => {
     const time = message.time.slice(11, 16)
-    const image = API_BASE_URL + "/" + message.image
+    const image = process.env.REACT_APP_API_BASE_URL + "/" + message.image
     return (
         <div className="message-container" >
             <img alt='userPicture' src={image} />

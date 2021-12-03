@@ -35,6 +35,7 @@ export default function LoginContainer(props) {
         };
     };
     const handleSubmit = (e) => {
+        console.log('i worked')
         sendDetailsToServer();
     };
     return (
