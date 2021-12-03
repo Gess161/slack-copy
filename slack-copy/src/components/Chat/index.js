@@ -3,18 +3,18 @@ import Header from "./Header"
 import MessageContainer from "./MessageContainer"
 import MessageForm from "./MessageForm"
 import { useSelector, useDispatch } from "react-redux";
-import { useEffect, useState } from "react"
-import { setSocket, setRoomId, setRoomName } from "../../redux/actions/userSlice";
-import { setMessages, replaceMessages } from "../../redux/actions/messagesSlice";
-import { setRoomList } from "../../redux/actions/roomSlice"
+import { useEffect, useState } from "react";
+import { setSocket } from "../../redux/actions/userSlice";
 import { fetchUser } from "../../redux/thunk/fetchUser";
+import socketService from "../../services/api/socketService";
 
 export default function ChatContainer(props) {
-    const socket = props.socket
+    const socket = props.socket;
     const dispatch = useDispatch();
     const user = useSelector(state => state.user);
     const rooms = useSelector(state => state.room.roomList);
-    const messages = useSelector(state => state.message.messages);;
+    const messages = useSelector(state => state.message.messages);
+    
     const [state, setState] = useState({
         unreadMessages: {},
         addRoomName: '',
@@ -69,49 +69,14 @@ export default function ChatContainer(props) {
     };
 
     useEffect(() => {
-        socket.on('current-room', (room, roomId) => {
-            if (roomId === null) {
-                dispatch(setRoomId(room))
-            } else {
-                dispatch(setRoomId(roomId))
-            }
-            dispatch(setRoomName(room))
-        })
-    }, [socket, dispatch]);
-    useEffect(() => {
-        socket.on('room-joined', data => {
-            console.log(data)
-            dispatch(replaceMessages(data));
-        })
-        socket.on('initial-rooms', rooms => {      
-            dispatch(setRoomList(rooms));
-        });
-        socket.on(('room-added'), rooms => {
-            rooms.map(room => {
-                socket.emit('join-room', {
-                    room: room,
-                    roomId: room,
-                });
-            })
-            dispatch(setRoomList(rooms));
-        });
+        if (socket.connected) {
+            socket.emit('user-log-in', user.user, user.socket);
+            socketService(socket, setState, state, user, dispatch)
+        }
         return () => {
-            socket.removeAllListeners(['room-joined', 'initial-rooms', 'room-added'])
+            socket.removeAllListeners()
         };
-    }, []);
-    useEffect(() => {
-        socket.on('users-connected', users => setState(prevState => ({
-            ...prevState,
-            usersList: users
-        })))
-        socket.on('users-disconnected', users => setState(prevState => ({
-            ...prevState,
-            usersList: users
-        })))
-        return () => {
-            socket.removeAllListeners(['users-connected', 'users-disconnected'])
-        };
-    }, [state.usersList]);
+    }, [socket.connected, user.roomId])
     useEffect(() => {
         if (user.status === 'idle') {
             dispatch(fetchUser());
@@ -120,51 +85,7 @@ export default function ChatContainer(props) {
             dispatch(setSocket(socket.id));
         };
     }, [user.status])
-    useEffect(() => {
-        socket.on('get-message', (msg) => {
-            const room = msg.recipientName
-            if (room === user.roomName) {
-                dispatch(setMessages(msg));
-            } else if (state.unreadMessages[room] === undefined) {
-                setState(prevState => ({
-                    ...prevState,
-                    unreadMessages: { [room]: 1 },
-                }))
-            } else {
-                setState(prevState => ({
-                    ...prevState,
-                    unreadMessages: { [room]: prevState[room] + 1 },
-                }))
-            };
-        })
-        return () => {
-            socket.removeAllListeners(['get-message'])
-        };
-    }, [user.roomName, state.unreadMessages]);
-    useEffect(() => {
-        if (user.socket) socket.emit('user-log-in', user.user, user.socket);
-    }, [user.socket]);
-    useEffect(() => {
-        socket.on('get-private', (msg) => {
-            const room = msg.recipientName
-            if (user.roomName === msg.recipientName || user.roomName === msg.senderName) {
-                dispatch(setMessages(msg));
-            } else if (state.unreadMessages[room] === undefined) {
-                setState(prevState => ({
-                    ...prevState,
-                    unreadMessages: { [room]: 1 },
-                }))
-            } else {
-                setState(prevState => ({
-                    ...prevState,
-                    unreadMessages: { [room]: prevState[room] + 1 },
-                }))
-            };
-        });
-        return () => {
-            socket.removeAllListeners(['get-message'])
-        };
-    }, [user.roomName])
+
     useEffect(() => {
         const textarea = document.querySelector('textarea');
         textarea.addEventListener("keyup", handleKeyUp)

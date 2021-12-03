@@ -4,7 +4,6 @@ import uploadProfileData from "../../../services/api/uploadProfileData";
 import { useDispatch } from "react-redux";
 import { setUser } from "../../../redux/actions/userSlice";
 
-
 const Modal = (props) => {
     const dispatch = useDispatch()
     const {

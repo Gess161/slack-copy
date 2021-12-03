@@ -21,6 +21,7 @@ const Sidebar = (props) => {
     const handleRoomClick = (e) => {
         const roomName = e.target.innerText
         socket.emit('join-room', {
+            user: user.user,
             room: roomName,
             roomId: roomName,
         });

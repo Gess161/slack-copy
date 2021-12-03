@@ -2,7 +2,7 @@ import axios from "axios";
 import { API_BASE_URL, ACCESS_TOKEN_NAME } from "../../constants";
 
 export default async function SendLoginDetails(payload) {
-    const res = await axios.post(API_BASE_URL + "/user/login", payload)
+    return await axios.post(API_BASE_URL + "/user/login", payload)
         .then(response => {
             if (response.status === 200) {
                 localStorage.setItem(ACCESS_TOKEN_NAME, response.data.token);
@@ -16,5 +16,5 @@ export default async function SendLoginDetails(payload) {
         .catch(error => {
             return(error.response.data.errorMessage);
         });
-        return res;
+
 };
