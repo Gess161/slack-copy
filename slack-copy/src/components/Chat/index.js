@@ -6,15 +6,16 @@ import { useSelector, useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
 import { setSocket } from "../../redux/actions/userSlice";
 import { fetchUser } from "../../redux/thunk/fetchUser";
-import socketService from "../../services/api/socketService";
+import SocketService from "../../services/api/socket/socketService"
+import { setRoomList } from "../../redux/actions/roomSlice";
+import { setRoomId, setRoomName } from "../../redux/actions/userSlice";
+import { replaceMessages, setMessages } from "../../redux/actions/messagesSlice";
 
-export default function ChatContainer(props) {
-    const socket = props.socket;
+export default function ChatContainer() {
     const dispatch = useDispatch();
     const user = useSelector(state => state.user);
     const rooms = useSelector(state => state.room.roomList);
     const messages = useSelector(state => state.message.messages);
-    
     const [state, setState] = useState({
         unreadMessages: {},
         addRoomName: '',
@@ -27,29 +28,74 @@ export default function ChatContainer(props) {
         modal: false
     })
 
+    const chatCallbacks = {
+        initialRooms: (rooms) => {
+            dispatch(setRoomList(rooms));
+        },
+        currentRoom: ({ room, roomId }) => {
+            if (roomId === null) {
+                dispatch(setRoomId(room))
+            } else {
+                dispatch(setRoomId(roomId))
+            }
+            dispatch(setRoomName(room))
+        },
+        roomJoined: data => {
+            dispatch(replaceMessages(data));
+        },
+        roomAdded: rooms => {
+            rooms.map(room => {
+                
+            })
+            dispatch(setRoomList(rooms));
+        },
+        usersConnected: users => setState(prevState => ({
+            ...prevState,
+            usersList: users
+        })),
+        usersDisconnected: users => setState(prevState => ({
+            ...prevState,
+            usersList: users
+        })),
+        getMessage: (msg) => {
+            const room = msg.recipientName
+            if (room === user.roomName) {
+                dispatch(setMessages(msg));
+            } else if (state.unreadMessages[room] === undefined) {
+                setState(prevState => ({
+                    ...prevState,
+                    unreadMessages: { [room]: 1 },
+                }))
+            } else {
+                setState(prevState => ({
+                    ...prevState,
+                    unreadMessages: { [room]: prevState[room] + 1 },
+                }))
+            };
+        },
+        getPrivate: (msg) => {
+            const room = msg.recipientName
+            if (user.roomName === msg.recipientName || user.roomName === msg.senderName) {
+                dispatch(setMessages(msg));
+            } else if (state.unreadMessages[room] === undefined) {
+                setState(prevState => ({
+                    ...prevState,
+                    unreadMessages: { [room]: 1 },
+                }))
+            } else {
+                setState(prevState => ({
+                    ...prevState,
+                    unreadMessages: { [room]: prevState[room] + 1 },
+                }))
+            };
+        }
+    };
+    const Service = new SocketService(chatCallbacks);
+    const socket = Service.socket
+
     const sendData = () => {
         if (state.message === '') return;
-        if (user.roomName === user.roomId) {
-            const msg = {
-                image: user.image,
-                sender: socket.id,
-                senderName: user.user,
-                message: state.message,
-                recipient: user.roomId,
-                recipientName: user.roomName
-            }
-            socket.emit('message', msg);
-        } else {
-            const msg = {
-                image: user.image,
-                senderName: user.user,
-                recipientName: user.roomName,
-                message: state.message,
-                sender: socket.id,
-                recipient: user.roomId
-            }
-            socket.emit('private-message', msg)
-        }
+        Service.sendMessage(user, state)
         setState(prevState => ({
             ...prevState,
             message: "",
@@ -71,8 +117,8 @@ export default function ChatContainer(props) {
     useEffect(() => {
         if (socket.connected) {
             socket.emit('user-log-in', user.user, user.socket);
-            socketService(socket, setState, state, user, dispatch)
         }
+        Service.addListener(socket)
         return () => {
             socket.removeAllListeners()
         };
