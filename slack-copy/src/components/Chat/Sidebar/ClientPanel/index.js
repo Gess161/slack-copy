@@ -56,6 +56,7 @@ export default function ClientPanel(props) {
                 activeChat={user.room}
             />
             <ChatList
+                user={user}
                 unreadMessages={state.unreadMessages}
                 handleRoomClick={handleUserClick}
                 usersList={state.usersList}
