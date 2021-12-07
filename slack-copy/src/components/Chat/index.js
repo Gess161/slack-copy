@@ -10,8 +10,9 @@ import SocketService from "../../services/api/socket/socketService"
 import { setRoomList } from "../../redux/actions/roomSlice";
 import { setRoomId, setRoomName } from "../../redux/actions/userSlice";
 import { replaceMessages, setMessages } from "../../redux/actions/messagesSlice";
+import { roomAddedHandler } from "../../services/api/socket/addRoom";
 
-export default function ChatContainer() {
+export default function Chat() {
     const dispatch = useDispatch();
     const user = useSelector(state => state.user);
     const rooms = useSelector(state => state.room.roomList);
@@ -44,9 +45,7 @@ export default function ChatContainer() {
             dispatch(replaceMessages(data));
         },
         roomAdded: rooms => {
-            rooms.map(room => {
-                
-            })
+            roomAddedHandler(socket, user, rooms)
             dispatch(setRoomList(rooms));
         },
         usersConnected: users => setState(prevState => ({
@@ -92,6 +91,7 @@ export default function ChatContainer() {
     };
     const Service = new SocketService(chatCallbacks);
     const socket = Service.socket
+    Service.addListener(socket)
 
     const sendData = () => {
         if (state.message === '') return;
@@ -118,11 +118,8 @@ export default function ChatContainer() {
         if (socket.connected) {
             socket.emit('user-log-in', user.user, user.socket);
         }
-        Service.addListener(socket)
-        return () => {
-            socket.removeAllListeners()
-        };
     }, [socket.connected, user.roomId])
+
     useEffect(() => {
         if (user.status === 'idle') {
             dispatch(fetchUser());
