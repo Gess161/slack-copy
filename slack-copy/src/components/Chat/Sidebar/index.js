@@ -11,12 +11,8 @@ const Sidebar = (props) => {
         state,
         setState,
         user,
-        addRoomActive,
-        usersList,
         rooms,
-        unreadMessages
     } = props;
-    const currentChat = user.roomName
 
     const handleRoomClick = (e) => {
         const roomName = e.target.innerText
@@ -77,18 +73,15 @@ const Sidebar = (props) => {
 
     return (
         <SidebarContainer
+            state={state}
             handleAddRoomClick={handleAddRoomClick}
-            usersList={usersList}
-            unreadMessages={unreadMessages}
             handleUserClick={handleUserClick}
             user={user}
-            addRoomActive={addRoomActive}
             setState={setState}
             socket={socket}
             rooms={rooms}
             addRoom={addRoomFunction}
             handleRoomClick={handleRoomClick}
-            currentChat={currentChat}
         />
     )
 }

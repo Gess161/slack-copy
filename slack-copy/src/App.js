@@ -8,7 +8,6 @@ import Chat from "./pages/chat"
 import Page404 from './components/Page404';
 require('dotenv').config()
 
-console.log(process.env.REACT_APP_API_BASE_URL)
 function App() {
   return (
     <div className="App">

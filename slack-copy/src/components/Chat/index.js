@@ -120,23 +120,16 @@ export default function Chat() {
             <Sidebar
                 socket={socket}
                 state={state}
-                unreadMessages={state.unreadMessages}
                 user={user}
                 rooms={rooms}
-                usersList={state.usersList}
-                addRoomActive={state.active}
                 setState={setState}
             />
             <ChatContainer
                 sendData={sendData}
                 setState={setState}
                 user={user}
-                roomName={user.roomName}
-                userList={state.usersList}
                 state={state}
-                error={state.error}
                 messages={messages}
-                message={state.message}
             />
         </div>
     )

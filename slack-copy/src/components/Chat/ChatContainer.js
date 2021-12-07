@@ -7,12 +7,8 @@ export default function ChatContainer(props) {
     const {
         setState,
         user,
-        roomName,
-        userList,
         state,
-        error,
         messages,
-        message,
         sendData
     } = props;
 
@@ -22,7 +18,7 @@ export default function ChatContainer(props) {
         let scHeight = e.target.scrollHeight;
         textarea.style.height = `${scHeight}px`
     }
-    
+
     const handleKeyDown = e => {
         if (e.keyCode === 13 && !e.shiftKey) {
             e.preventDefault();
