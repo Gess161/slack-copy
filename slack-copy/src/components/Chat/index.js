@@ -1,7 +1,4 @@
 import Sidebar from "./Sidebar"
-import Header from "./Header"
-import MessageContainer from "./MessageContainer"
-import MessageForm from "./MessageForm"
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
 import { setSocket } from "../../redux/actions/userSlice";
@@ -11,6 +8,7 @@ import { setRoomList } from "../../redux/actions/roomSlice";
 import { setRoomId, setRoomName } from "../../redux/actions/userSlice";
 import { replaceMessages, setMessages } from "../../redux/actions/messagesSlice";
 import { roomAddedHandler } from "../../services/api/socket/addRoom";
+import ChatContainer from "./ChatContainer";
 
 export default function Chat() {
     const dispatch = useDispatch();
@@ -28,7 +26,6 @@ export default function Chat() {
         active: false,
         modal: false
     })
-
     const chatCallbacks = {
         initialRooms: (rooms) => {
             dispatch(setRoomList(rooms));
@@ -91,6 +88,7 @@ export default function Chat() {
     };
     const Service = new SocketService(chatCallbacks);
     const socket = Service.socket
+
     Service.addListener(socket)
 
     const sendData = () => {
@@ -100,18 +98,6 @@ export default function Chat() {
             ...prevState,
             message: "",
         }));;
-    };
-    const handleKeyUp = e => {
-        const textarea = document.querySelector('textarea');
-        textarea.style.height = `auto`
-        let scHeight = e.target.scrollHeight;
-        textarea.style.height = `${scHeight}px`
-    }
-    const handleKeyDown = e => {
-        if (e.keyCode === 13 && !e.shiftKey) {
-            e.preventDefault();
-            sendData();
-        }
     };
 
     useEffect(() => {
@@ -129,12 +115,6 @@ export default function Chat() {
         };
     }, [user.status])
 
-    useEffect(() => {
-        const textarea = document.querySelector('textarea');
-        textarea.addEventListener("keyup", handleKeyUp)
-        return () => textarea.removeEventListener("keyup", handleKeyUp)
-    })
-
     return (
         <div className="client">
             <Sidebar
@@ -147,27 +127,17 @@ export default function Chat() {
                 addRoomActive={state.active}
                 setState={setState}
             />
-            <div className="chat-container">
-                <Header
-                    setState={setState}
-                    user={user}
-                    roomName={user.roomName}
-                    userList={state.usersList}
-                    state={state}
-                    error={state.error}
-                />
-                <MessageContainer
-                    messages={messages}
-                />
-                <MessageForm
-                    message={state.message}
-                    roomName={user.roomName}
-                    setState={setState}
-                    handleKeyDown={handleKeyDown}
-                    handleKeyUp={handleKeyUp}
-                    sendData={sendData}
-                />
-            </div>
+            <ChatContainer
+                sendData={sendData}
+                setState={setState}
+                user={user}
+                roomName={user.roomName}
+                userList={state.usersList}
+                state={state}
+                error={state.error}
+                messages={messages}
+                message={state.message}
+            />
         </div>
     )
 }
