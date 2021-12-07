@@ -16,18 +16,12 @@ const events = {
 class SocketService {
     constructor(callbacks) {
         this.callbacks = callbacks
+        this.socket = socket
     }
-    // roomAdded(user, room){
-    //     socket.emit('join-room', {
-    //         user: user.user,
-    //         room: room,
-    //         roomId: room,
-    //     });
-    // }
     sendMessage(user, state) {
         sendData(user, this.socket, state)
     }
-    addListener(){
+    addListener() {
         const keys = Object.keys(this.callbacks)
         for (let i = 0; i < keys.length; i++) {
             socket.on(events[keys[i]], this.callbacks[keys[i]])
