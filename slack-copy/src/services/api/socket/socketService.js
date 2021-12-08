@@ -27,6 +27,12 @@ class SocketService {
             socket.on(events[keys[i]], this.callbacks[keys[i]])
         }
     }
+    connect(){
+        socket.connect()
+    }
+    disconnect() {
+        socket.disconnect()
+    }
 }
 
 

@@ -10,8 +10,9 @@ import { replaceMessages, setMessages } from "../../redux/actions/messagesSlice"
 import { roomAddedHandler } from "../../services/api/socket/addRoom";
 import ChatContainer from "./ChatContainer";
 
-export default function Chat() {
+export default function Chat(props) {
     const dispatch = useDispatch();
+    const location = props.history.location.pathname
     const user = useSelector(state => state.user);
     const rooms = useSelector(state => state.room.roomList);
     const messages = useSelector(state => state.message.messages);
@@ -88,7 +89,6 @@ export default function Chat() {
     };
     const Service = new SocketService(chatCallbacks);
     const socket = Service.socket
-
     Service.addListener(socket)
 
     const sendData = () => {
@@ -99,7 +99,9 @@ export default function Chat() {
             message: "",
         }));;
     };
-
+    useEffect(() => {
+        location !== "/chat" ? Service.disconnect() : Service.connect()
+    }, [location])
     useEffect(() => {
         if (socket.connected) {
             socket.emit('user-log-in', user.user, user.socket);
