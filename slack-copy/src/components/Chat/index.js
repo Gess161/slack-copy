@@ -15,6 +15,7 @@ export default function Chat(props) {
     const location = props.history.location.pathname
     const user = useSelector(state => state.user);
     const rooms = useSelector(state => state.room.roomList);
+    console.log(user)
     const messages = useSelector(state => state.message.messages);
     const [state, setState] = useState({
         unreadMessages: {},
@@ -25,8 +26,27 @@ export default function Chat(props) {
         user: user.user,
         email: user.email,
         active: false,
-        modal: false
+        modal: false,
     })
+
+    const getMessage = (msg) => {
+        console.log(user.roomId, state)
+        const room = msg.recipientName
+        if (room === user.roomName) {
+            dispatch(setMessages(msg));
+        } else if (state.unreadMessages[room] === undefined) {
+            setState(prevState => ({
+                ...prevState,
+                unreadMessages: { [room]: 1 },
+            }))
+        } else {
+            setState(prevState => ({
+                ...prevState,
+                unreadMessages: { [room]: prevState[room] + 1 },
+            }))
+        };
+    }
+
     const chatCallbacks = {
         initialRooms: (rooms) => {
             dispatch(setRoomList(rooms));
@@ -55,6 +75,7 @@ export default function Chat(props) {
             usersList: users
         })),
         getMessage: (msg) => {
+            console.log(user.roomId)
             const room = msg.recipientName
             if (room === user.roomName) {
                 dispatch(setMessages(msg));
@@ -87,9 +108,9 @@ export default function Chat(props) {
             };
         }
     };
-    const Service = new SocketService(chatCallbacks);
+    const Service = new SocketService({ getMessage }, user);
+
     const socket = Service.socket
-    Service.addListener(socket)
 
     const sendData = () => {
         if (state.message === '') return;
@@ -97,26 +118,38 @@ export default function Chat(props) {
         setState(prevState => ({
             ...prevState,
             message: "",
-        }));;
+        }));
     };
+
+    useEffect(() => {
+        Service.addListener(socket);
+    }, [])
+
     useEffect(() => {
         location !== "/chat" ? Service.disconnect() : Service.connect()
     }, [location])
+
     useEffect(() => {
         if (socket.connected) {
             socket.emit('user-log-in', user.user, user.socket);
         }
-    }, [socket.connected, user.roomId])
+    }, [socket.connected])
 
-    useEffect(() => {
+    useEffect(async () => {
         if (user.status === 'idle') {
-            dispatch(fetchUser());
+            await dispatch(fetchUser());
         };
         if (user.status === 'succeeded') {
             dispatch(setSocket(socket.id));
         };
-    }, [user.status])
+        setState(prevState => ({
+            ...prevState,
+            user: user.user,
+            email: user.email,
+            currentRoom: user.currentRoom
+        }))
 
+    }, [user])
     return (
         <div className="client">
             <Sidebar

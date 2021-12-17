@@ -44,6 +44,7 @@ const Sidebar = (props) => {
         }
     }
     const handleAddRoomClick = () => {
+        console.log(1)
         setState(prevState => ({
             ...prevState,
             "active": !state.active

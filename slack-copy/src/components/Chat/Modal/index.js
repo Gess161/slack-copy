@@ -39,7 +39,8 @@ const Modal = (props) => {
         const { id, value } = e.target
         setState(prevState => ({
             ...prevState,
-            [id]: value
+            [id]: value,
+            "previousName": user.user
         }));
     };
     const handleSubmit = async () => {
@@ -65,7 +66,7 @@ const Modal = (props) => {
     const handleModal = e => {
         setState(prevState => ({
             ...prevState,
-            "overflow": !state.overflow
+            modal: !prevState.modal
         }));
     }
     return (

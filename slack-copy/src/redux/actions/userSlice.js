@@ -21,10 +21,16 @@ const slice = createSlice({
             state.status = action.payload
         },
         setRoomId: (state, action) => {
-            state.roomId = action.payload
+            return state = {
+                ...state,
+                roomId: action.payload
+            }
         },
         setRoomName: (state, action) => {
-            state.roomName = action.payload
+            return state = {
+                ...state,
+                roomName: action.payload
+            }
         },
         setSocket: (state, action) => {
             state.socket = action.payload
@@ -42,10 +48,14 @@ const slice = createSlice({
                 state.status = 'loading'
             })
             .addCase(fetchUser.fulfilled, (state, action) => {
-                state.status = 'succeeded'
-                state.user = action.payload.username
-                state.email = action.payload.email
-                state.image = action.payload.image
+                return state = {
+                    ...state,
+                    status: 'succeeded',
+                    user: action.payload.username,
+                    email: action.payload.email,
+                    image: action.payload.image,
+                }
+
             })
             .addCase(fetchUser.rejected, (state, action) => {
                 state.status = 'failed'

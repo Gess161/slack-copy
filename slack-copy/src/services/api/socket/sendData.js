@@ -1,4 +1,5 @@
 export const sendData = (user, socket, state) => {
+    let message;
     if (user.roomName === user.roomId) {
         const msg = {
             image: user.image,
@@ -9,6 +10,7 @@ export const sendData = (user, socket, state) => {
             recipientName: user.roomName
         }
         socket.emit('message', msg);
+        message = msg
     } else {
         const msg = {
             image: user.image,
@@ -19,5 +21,7 @@ export const sendData = (user, socket, state) => {
             recipient: user.roomId
         }
         socket.emit('private-message', msg)
+        message = msg
     }
+    return message;
 }

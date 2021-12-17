@@ -1,6 +1,7 @@
 import axios from "axios";
 
 export default async function uploadProfileData(payload) {
+   console.log(payload)
    const data = await axios.post(process.env.REACT_APP_API_BASE_URL + "/user/upload", payload)
       .then(response => {
          if (response.status === 200) {

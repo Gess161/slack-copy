@@ -41,7 +41,7 @@ export default function ClientPanel(props) {
             <div className="channels-rooms channels" >
                 <p>Channels</p>
                 <AddRoom
-                    active={state.addRoomActive}
+                    active={state.active}
                     setState={setState}
                     socket={socket}
                     addRoom={addRoom}

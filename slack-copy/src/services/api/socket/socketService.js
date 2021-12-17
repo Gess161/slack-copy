@@ -3,6 +3,7 @@ import { io } from "socket.io-client";
 
 const socket = io(process.env.REACT_APP_WEB_SOCKET_URL)
 const events = {
+
     getPrivate: "get-private",
     getMessage: "get-message",
     usersDisconnected: "users-disconnected",
@@ -12,14 +13,14 @@ const events = {
     currentRoom: "current-room",
     initialRooms: "initial-rooms"
 }
-
 class SocketService {
-    constructor(callbacks) {
-        this.callbacks = callbacks
-        this.socket = socket
+    constructor(callbacks, user) {
+        this.callbacks = callbacks;
+        this.socket = socket;
+        this.user = user;
     }
     sendMessage(user, state) {
-        sendData(user, this.socket, state)
+        return (sendData(user, this.socket, state))
     }
     addListener() {
         const keys = Object.keys(this.callbacks)
@@ -27,14 +28,12 @@ class SocketService {
             socket.on(events[keys[i]], this.callbacks[keys[i]])
         }
     }
-    connect(){
+    connect() {
         socket.connect()
     }
     disconnect() {
         socket.disconnect()
     }
 }
-
-
 
 export default SocketService;
