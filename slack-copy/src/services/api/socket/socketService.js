@@ -19,7 +19,7 @@ class SocketService {
         this.socket = socket;
         this.user = user;
     }
-    roomAdded(){
+    roomAdded() {
         socket.on("room-added", (rooms) => {
             roomAddedHandler(socket, this.user, rooms)
         })
@@ -33,9 +33,9 @@ class SocketService {
             socket.on(events[keys[i]], this.callbacks[keys[i]])
         }
     }
-    removeListener(){
+    removeListener() {
         const keys = Object.keys(events)
-        for (let i = 0; i < keys.length; i++){
+        for (let i = 0; i < keys.length; i++) {
             socket.removeAllListeners(events[keys[i]])
         }
     }

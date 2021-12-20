@@ -21,16 +21,10 @@ const slice = createSlice({
             state.status = action.payload
         },
         setRoomId: (state, action) => {
-            return state = {
-                ...state,
-                roomId: action.payload
-            }
+            state.roomId = action.payload
         },
         setRoomName: (state, action) => {
-            return state = {
-                ...state,
-                roomName: action.payload
-            }
+            state.roomName = action.payload
         },
         setSocket: (state, action) => {
             state.socket = action.payload

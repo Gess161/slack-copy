@@ -3,7 +3,7 @@ import { bold, italic, link, clip, smile, sendMessage } from "../../../styleshee
 
 const MessageForm = (props) => {
     const { handleKeyDown, sendData, message, roomName, setState } = props;
-    
+
     return (
         <form id="form" className="client-form">
             <div className="client-form-chats">
@@ -21,7 +21,7 @@ const MessageForm = (props) => {
                 </div>
                 <div className="client-form-chats-bottom">
                     <div className="bottom-left">
-                        <img alt="bold" className="buttons-icon" src={bold}  />
+                        <img alt="bold" className="buttons-icon" src={bold} />
                         <img alt="italic" className="buttons-icon" src={italic} />
                         <img alt="link" className="buttons-icon buttons-icon-link" src={link} />
                     </div>

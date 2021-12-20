@@ -6,7 +6,6 @@ import LogIn from "./pages/login"
 import PrivateRoute from './utils/PrivateRoute';
 import Chat from "./pages/chat"
 import Page404 from './components/Page404';
-require('dotenv').config()
 
 function App() {
   return (

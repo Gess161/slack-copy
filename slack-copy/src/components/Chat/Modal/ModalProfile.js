@@ -4,8 +4,8 @@ const ModalProfile = (props) => {
     const { user, error, state, handleFile, handleSubmit, handleModal } = props;
     const defaultImage = process.env.REACT_APP_API_BASE_URL + "/" + user.image;
     const chosenImage = state.image;
-
     const pic = chosenImage ? URL.createObjectURL(chosenImage) : defaultImage;
+    
     return (
         <div className="form-label form-label-modal">
             <div className="profile-header">Profile photo</div>

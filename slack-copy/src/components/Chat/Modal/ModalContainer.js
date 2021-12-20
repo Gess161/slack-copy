@@ -13,6 +13,7 @@ const ModalContainer = (props) => {
         handleFile,
         handlePasswordChange } = props;
     const display = state.modal ? "flex" : "none"
+    
     return (
         <div style={{ display: display }} className="modal-cover">
             <div className="modal-area">
