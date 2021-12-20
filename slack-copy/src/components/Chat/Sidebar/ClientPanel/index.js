@@ -4,6 +4,7 @@ import ChatList from "../ChatList"
 import { app, bell, search } from "../../../../stylesheets/icons/icons";
 
 export default function ClientPanel(props) {
+    
     const {
         state,
         handleAddRoomClick,
@@ -15,6 +16,7 @@ export default function ClientPanel(props) {
         addRoom,
         handleRoomClick,
     } = props;
+
     return (
         <div className="client-panel">
             <h2 className="client-panel-header ">

@@ -2,7 +2,6 @@ import React from "react"
 import RoomItem from "./RoomListItem";
 const RoomList = (props) => {
     const { unreadMessages, handleRoomClick, activeChat, socket, rooms } = props;
-    console.log(props)
     return (
         <div className="chat-panel-list">
             <RoomItem name='general' unreadMessages={unreadMessages} handleRoomClick={handleRoomClick} active={activeChat} socket={socket} />
