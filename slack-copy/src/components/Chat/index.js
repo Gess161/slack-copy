@@ -13,7 +13,7 @@ export default function Chat(props) {
     const user = useSelector(state => state.user);
     const rooms = useSelector(state => state.room.roomList);
     const messages = useSelector(state => state.message.messages);
-    
+
     const [state, setState] = useState({
         unreadMessages: {},
         addRoomName: '',
@@ -55,7 +55,7 @@ export default function Chat(props) {
         }
     }, [socket.connected])
 
-    useEffect( () => {
+    useEffect(() => {
         if (user.status === 'idle') {
             dispatch(fetchUser());
         };

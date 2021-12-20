@@ -10,7 +10,8 @@ const ChatHeader = (props) => {
         state,
         roomName,
         userList,
-} = props;
+    } = props;
+    
     return (
         <div className="chat-header">
             <div className="chat-header-left">

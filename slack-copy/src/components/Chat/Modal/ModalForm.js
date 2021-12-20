@@ -34,7 +34,7 @@ const ModalForm = (props) => {
                 className="form-button form-button-modal"
                 onClick={handlePasswordChange}
             >
-                {active ? "Discard changes" : "Change password" }
+                {active ? "Discard changes" : "Change password"}
             </button>
             <div className="form-part form-part-modal" style={{ display: display }}>
                 <label className="form-label form-label-modal" htmlFor="displayName">Enter your password</label>
