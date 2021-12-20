@@ -13,6 +13,7 @@ export default function Chat(props) {
     const user = useSelector(state => state.user);
     const rooms = useSelector(state => state.room.roomList);
     const messages = useSelector(state => state.message.messages);
+    
     const [state, setState] = useState({
         unreadMessages: {},
         addRoomName: '',
@@ -38,6 +39,13 @@ export default function Chat(props) {
     };
 
     useEffect(() => {
+        Service.addListener(socket);
+        return () => {
+            Service.removeListener(socket)
+        }
+    }, [user, socket])
+
+    useEffect(() => {
         location !== "/chat" ? Service.disconnect() : Service.connect()
     }, [location])
 
@@ -53,13 +61,14 @@ export default function Chat(props) {
         };
         if (user.status === 'succeeded') {
             dispatch(setSocket(socket.id));
-            Service.addListener(socket);
+            setState(prevState => ({
+                ...prevState,
+                user: user.user,
+                email: user.email
+            }))
         };
-        return () => {
-            Service.removeListener(socket)
-        }
-    }, [user, socket])
-    
+    }, [user.status, user.email, user.user, socket])
+
     return (
         <div className="client">
             <Sidebar

@@ -1,10 +1,9 @@
 import React from "react"
 
 const ModalProfile = (props) => {
-    const { user, error, state, handleFile, handleSubmit } = props;
+    const { user, error, state, handleFile, handleSubmit, handleModal } = props;
     const defaultImage = process.env.REACT_APP_API_BASE_URL + "/" + user.image;
     const chosenImage = state.image;
-
     const pic = chosenImage ? URL.createObjectURL(chosenImage) : defaultImage;
     return (
         <div className="form-label form-label-modal">
@@ -15,7 +14,7 @@ const ModalProfile = (props) => {
                 <input accept="image/*" onChange={handleFile} aria-hidden="true" type="file" />
             </div>
             <div className="modal-buttons">
-                <button className="buttons-modal">Cancel</button>
+                <button onClick={handleModal}className="buttons-modal">Cancel</button>
                 <button onClick={handleSubmit} className="buttons-modal buttons-modal-save">Save Changes</button>
             </div>
             <div className="alert alert-danger mt-1" style={{ display: error ? 'block' : 'none' }} role="alert">

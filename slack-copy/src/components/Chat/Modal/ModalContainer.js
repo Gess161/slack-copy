@@ -30,6 +30,7 @@ const ModalContainer = (props) => {
                     </div>
                     <div className="modal-content-right">
                         <ModalProfile
+                            handleModal={handleModal}
                             user={user}
                             handleSubmit={handleSubmit}
                             error={error}

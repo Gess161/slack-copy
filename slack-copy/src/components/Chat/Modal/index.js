@@ -66,7 +66,8 @@ const Modal = (props) => {
     const handleModal = e => {
         setState(prevState => ({
             ...prevState,
-            modal: !prevState.modal
+            modal: !prevState.modal,
+            active: false
         }));
     }
     return (
